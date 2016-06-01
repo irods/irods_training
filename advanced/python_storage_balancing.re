@@ -18,14 +18,12 @@ findBytesUsed(*INST_ID, *OUT) {
             *TEMP = *TEMP + int(*ROW2.DATA_SIZE)
         }
         *OUT = "*TEMP"
-        writeLine('serverLog', 'XXXXX Printing bytesUsed *OUT');
     }
 }
 
 findContextString(*INST_NAME, *OUT) {
     foreach ( *ROW in SELECT RESC_CONTEXT WHERE RESC_NAME = '*INST_NAME' ) {
         *OUT = *ROW.RESC_CONTEXT;
-        writeLine('serverLog', 'XXXXX Printing contextString *OUT');
     }
 }
 
