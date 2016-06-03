@@ -126,7 +126,7 @@ extern "C" {
         const std::string& ) { // _context
         // =-=-=-=-=-=-=-
         // create a api def object
-        irods::apidef_t def = { 1300,             // api number
+        irods::apidef_t def = { 1310,             // api number
                                 RODS_API_VERSION, // api version
                                 NO_USER_AUTH,     // client auth
                                 NO_USER_AUTH,     // proxy auth

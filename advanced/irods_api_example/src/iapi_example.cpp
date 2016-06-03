@@ -78,7 +78,7 @@ main( int, char** ) {
     strncpy( inp._that, "hello, world.", 64 );
 
     void *tmp_out = NULL;
-    status = procApiRequest( conn, 1300, &inp, NULL,
+    status = procApiRequest( conn, 1310, &inp, NULL,
                              &tmp_out, NULL );
     if ( status < 0 ) {
         printf( "\n\nERROR - failed to call our api\n\n\n" );
