@@ -1,5 +1,4 @@
-
-
+# training.re
 
 acPostProcForPut() {
     if("ufs_cache" == $rescName ) {
@@ -85,18 +84,11 @@ pep_resource_resolve_hierarchy_pre(
     }
 }
 
+getSessionVar(*name, *output) {
+    *output = eval("str($"++*name++")");
+}
+
 add_metadata_to_objpath(*str, *objpath, *objtype) {
     msiString2KeyValPair(*str, *kvp);
     msiAssociateKeyValuePairsToObj(*kvp, *objpath, *objtype);
 }
-
-
-
-
-
-
-
-
-
-
-
