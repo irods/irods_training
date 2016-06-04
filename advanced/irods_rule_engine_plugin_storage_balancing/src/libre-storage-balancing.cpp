@@ -238,10 +238,11 @@ irods::error exec_rule(
         const uint64_t bytes_used_by_children{get_bytes_used_by_all_children(arg_resource_name, *rei.rsComm)};
         const uint64_t bytes_required_for_new_data_object{get_bytes_of_incoming_data_object(arg_plugin_context)};
         const uint64_t hypothetical_bytes_used{bytes_used_by_children + bytes_required_for_new_data_object};
-        const double write_weight{1.0 - (static_cast<double>(hypothetical_bytes_used) / *max_bytes)};
+        const double percent_used{std::max(0.0, std::min(1.0, static_cast<double>(hypothetical_bytes_used) / *max_bytes))};
+        const double write_weight{1.0 - percent_used};
         const std::string write_weight_string{boost::lexical_cast<std::string>(write_weight)};
         std::stringstream out_stream;
-        out_stream << "read=1.0;write=" << write_weight_string.substr(0,5);
+        out_stream << "read=1.0;write=" << write_weight_string;
         arg_out = out_stream.str();
         return SUCCESS();
     } catch (const irods::exception& e) {
