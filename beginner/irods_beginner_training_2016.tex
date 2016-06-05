@@ -5,7 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[english]{isodate}
-\usepackage{graphicx} 
+\usepackage{graphicx}
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage{listings}
 \usepackage{verbatimbox}
@@ -22,23 +22,23 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{codebgcolor}{rgb}{0.95,0.95,0.95}
- 
+
 \lstdefinestyle{mycodeblock}{
-    backgroundcolor=\color{codebgcolor},   
+    backgroundcolor=\color{codebgcolor},
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\small\ttfamily,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    showspaces=false,
     showstringspaces=false,
-    showtabs=false,              
+    showtabs=false,
     frame=lines,
-    framesep=1mm,    
+    framesep=1mm,
     tabsize=4,
     xleftmargin=5mm,
     xrightmargin=0mm
@@ -88,14 +88,14 @@
 
 \section{Welcome!}
 
-This course is designed for those who are new to iRODS or who have limited experience with iRODS but want to learn more. Experience with the Unix command line and familiarity with the basic constructs of programming languages (e.g., variables, strings, loops) will be helpful to training participants. 
+This course is designed for those who are new to iRODS or who have limited experience with iRODS but want to learn more. Experience with the Unix command line and familiarity with the basic constructs of programming languages (e.g., variables, strings, loops) will be helpful to training participants.
 
 In this course, you will implement an iRODS Zone (i.e., deployment) to satisfy the requirements of a hypothetical organization and set of users. The case study for this hypothetical organization will enable participants to become familiar with core iRODS functions. Through discussion and hands-on practice, you will:
 
 \begin{itemize}
   \item Gain an understanding of how iRODS is designed and works, and how it provides users with capabilities for virtualization, data discovery, workflow automation, and secure collaboration;
-  \item Analyze user needs and determine how they can be operationalized in an iRODS deployment; 
-  \item Learn how to install and configure iRODS; 
+  \item Analyze user needs and determine how they can be operationalized in an iRODS deployment;
+  \item Learn how to install and configure iRODS;
   \item Gain an understanding of virtualization in iRODS, including how to create a tree of resources to hold data;
   \item Gain an understanding of how data discovery can be improved with the use of metadata, and how iRODS handles metadata; and
   \item Gain an understanding of how workflows can be automated in iRODS through the use of rules and microservices.
@@ -109,29 +109,29 @@ You will leave this training with a foundational understanding of the overall te
 
 The iRODS story began in 1995 with a data management project known as Storage Resource Broker (SRB), led by Reagan Moore of the San Diego Supercomputer Center (SDSC). SRB is data grid middleware with a logical distributed file system, based on a client-server architecture that presents users with a single, global, logical namespace (i.e., file hierarchy). It was developed through the cooperative efforts of General Atomics, the Data Intensive Cyber Environments (DICE) group, and the SDSC at the University of California, San Diego (UCSD) with the support of the National Science Foundation (NSF).
 
-The integrated Rule-Oriented Data System (iRODS), developed by the DICE group beginning in 2006, is SRB's successor. iRODS is based on SRB concepts, but was completely re-written to be fully open source and include a configurable rule engine. 
+The integrated Rule-Oriented Data System (iRODS), developed by the DICE group beginning in 2006, is SRB's successor. iRODS is based on SRB concepts, but was completely re-written to be fully open source and include a configurable rule engine.
 
 In 2008, the DICE group expanded geographically, with some members accepting joint appointments in the School of Information \& Library Science (SILS) and the Renaissance Computing Institute (RENCI) at the University of North Carolina at Chapel Hill (UNC). RENCI became progressively more involved in iRODS, culminating with the formation of a dedicated iRODS development team devoted to advancing iRODS to enterprise-grade quality. In 2013, RENCI founded the iRODS Consortium to further the mission and sustainability of iRODS technology.
 
 \section{About the iRODS Consortium}
 
-The iRODS Consortium is a group of organizations formally committed to iRODS' success through support for the development and release of iRODS-based, data management, middleware technologies, promoting advances in iRODS, collaboration with iRODS developers and the iRODS open source community, attendance at iRODS events, and of course, membership dues. 
+The iRODS Consortium is a group of organizations formally committed to iRODS' success through support for the development and release of iRODS-based, data management, middleware technologies, promoting advances in iRODS, collaboration with iRODS developers and the iRODS open source community, attendance at iRODS events, and of course, membership dues.
 
 The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC, in partnership with the DICE Center. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, ontributes decision-making and development time to the project. Current Consortium members include RENCI, DICE, Seagate, Bayer, DataDirect Networks, HGST, Novartis, Panasas, IBM, Wellcome Trust Sanger Institute, Cleversafe, Complete Genomics, National Institute for Computational Sciences (NICS), University College London, EMC, and NASA's Atmospheric Science Data Center. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
 
-Consortium members receive a variety of benefits, including prioritized access to support, training, and consulting; and the opportunity to influence the developmental roadmap of future software releases. 
+Consortium members receive a variety of benefits, including prioritized access to support, training, and consulting; and the opportunity to influence the developmental roadmap of future software releases.
 
 
 \newpage
 \section{Acknowledgements}
 
-In addition to the organizations and funding agencies listed below, the Consortium would like to specifically acknowledge Reagan Moore, Arcot Rajasekar, DICE, and RENCI. 
+In addition to the organizations and funding agencies listed below, the Consortium would like to specifically acknowledge Reagan Moore, Arcot Rajasekar, DICE, and RENCI.
 
 Funded projects that supported the development of iRODS technology:
 
 
 \begin{center}
-\begin{tabular}{ |l|c|c| } 
+\begin{tabular}{ |l|c|c| }
  \hline
  HydroShare & NSF & 7/1/2012 - 6/30/2017 \\
  EarthCube Layered Architecture & NSF & 4/1/2012 - 3/31/2013 \\
@@ -179,7 +179,7 @@ Funded projects that supported the development of iRODS technology:
 
 \chapter{What is iRODS?}
 
-iRODS is open-source, data management middleware that enables users to: 
+iRODS is open-source, data management middleware that enables users to:
 
 \begin{itemize}
  \item access, manage, and share data across any type or number of storage systems located anywhere, while maintaining redundancy and security, and
@@ -189,7 +189,7 @@ iRODS is open-source, data management middleware that enables users to:
 iRODS empowers users by supporting:
 
 \begin{itemize}
- \item \textbf{Virtualization}, which provides a one-stop shop for all data regardless of the heterogeneity of storage devices. Whether data is stored on a local hard drive, a remote Ceph cluster, or Amazon's S3 object store, iRODS' virtualization layer presents data resources in the classic files and folders format, within a single namespace. 
+ \item \textbf{Virtualization}, which provides a one-stop shop for all data regardless of the heterogeneity of storage devices. Whether data is stored on a local hard drive, a remote Ceph cluster, or Amazon's S3 object store, iRODS' virtualization layer presents data resources in the classic files and folders format, within a single namespace.
  \item \textbf{Data Discovery} through the use of descriptive metadata,
  \item \textbf{Workflow Automation} through rules and microservices, and
  \item \textbf{Secure Collaboration} and data sharing between collaborating or distributed teams.
@@ -201,21 +201,21 @@ Open source software---such as iRODS---provides several benefits to users. First
 
 \section{iRODS is Middleware}
 
-iRODS is a layer that sits above the file systems that contain data, and below domain-specific applications. Because iRODS has a plugin framework and is technology-agnostic, it provides insulation from vendor lock-in. System administrators can slide iRODS on top of an existing heterogeneous data infrastructure and construct a flexible data grid. As middleware, iRODS allows administrators to track and control access to the data under their care; and through Zone Reports (i.e., snapshots of an iRODS zone accessed via the izonereport iCommand), administrators can also monitor the status of the Zone (i.e., iRODS deployment). 
+iRODS is a layer that sits above the file systems that contain data, and below domain-specific applications. Because iRODS has a plugin framework and is technology-agnostic, it provides insulation from vendor lock-in. System administrators can slide iRODS on top of an existing heterogeneous data infrastructure and construct a flexible data grid. As middleware, iRODS allows administrators to track and control access to the data under their care; and through Zone Reports (i.e., snapshots of an iRODS zone accessed via the izonereport iCommand), administrators can also monitor the status of the Zone (i.e., iRODS deployment).
 
 
 \section{An iRODS Zone}
 
-Each iRODS deployment---or Zone---is composed of an iRODS Metadata Catalog (iCAT) database, a Catalog Provider, and optional Catalog Consumers. The iCAT is a relational database that holds all the information about your data, users, and zone that the iRODS servers need to facilitate the management and sharing of your data. The iCAT contains the information about 
+Each iRODS deployment---or Zone---is composed of an iRODS Metadata Catalog (iCAT) database, a Catalog Provider, and optional Catalog Consumers. The iCAT is a relational database that holds all the information about your data, users, and zone that the iRODS servers need to facilitate the management and sharing of your data. The iCAT contains the information about
  \begin{itemize}
- \item the zone for the purposes of sharing across zones, 
- \item data and their metadata, 
- \item the virtual file system, 
- \item resource configuration, and 
+ \item the zone for the purposes of sharing across zones,
+ \item data and their metadata,
+ \item the virtual file system,
+ \item resource configuration, and
  \item user information.
  \end{itemize}
 
-Currently, PostgreSQL, MySQL, and Oracle are the database technologies that may be used to implement an iCAT database. 
+Currently, PostgreSQL, MySQL, and Oracle are the database technologies that may be used to implement an iCAT database.
 
 All iRODS servers in a Zone run the same core code and are peers. Each server may have its own set of policies, rules, and plugins. However, the Catalog Provider holds the connection to and communicates with the iCAT database. Consumer servers must communicate with the database by connecting through the Catalog Provider. A zone may have as many Consumer servers as needed. Using multiple Consumer servers can enhance the performance, security, and resilience of a Zone by providing redundancy, both within a single location and distributed geographically.
 
@@ -232,21 +232,21 @@ iRODS contains a virtual file system which maps logical directory paths stored i
 
 \subsection{Secure Collaboration}
 
-With iRODS, organizations can share data, or federate, by simply adding a few bits of networking information to their iRODS configuration. Organizations are not required to coordinate the configuration of their respective iRODS zones. Each organization in a collaborative partnership retains autonomous control over its data collections, including maintaining security and data management policies distinct from fellow collaborators. 
+With iRODS, organizations can share data, or federate, by simply adding a few bits of networking information to their iRODS configuration. Organizations are not required to coordinate the configuration of their respective iRODS zones. Each organization in a collaborative partnership retains autonomous control over its data collections, including maintaining security and data management policies distinct from fellow collaborators.
 
 \section{iRODS Rules}
 
-Your organization may have defined, formally or informally, policies and procedures for access control, backup, data migration, data preparation, metadata extraction, and more. These organizational policies can be implemented in iRODS through the use of rules, which can help you customize and automate related data management tasks. 
+Your organization may have defined, formally or informally, policies and procedures for access control, backup, data migration, data preparation, metadata extraction, and more. These organizational policies can be implemented in iRODS through the use of rules, which can help you customize and automate related data management tasks.
 
 Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages, if a rule engine plugin exists for that language.  As of the time of publication, there are rule engine plugins for the iRODS Rule Language, C++, Python, and Javascript.
 
 Rules are executed based on conditions or, in iRODS parlance, Policy Enforcement Points (PEPs). Consider, for example, a rule to transfer ownership of data objects to the project manager when a user is deleted; the trigger---or PEP---is the deletion of the user. Similarly, rules could be written to extract metadata or pre-process data whenever a file is uploaded to a storage device. Or, upon access to particular data objects, a rule can create a log of the event, send an email notification to the project manager, or perform some other task you need to occur as a result of the data's access.
 
-Rules are carried out by an iRODS rule engine plugin---a built-in interpreter for the rule language being used. The rule engine governs the sequence of data management actions in your iRODS zone. The Catalog Provider and each Consumer server run an instance of the rule engine. Out of the box, the rule engine comes loaded with an array of basic actions (e.g., error reporting, login protocols) to get you up and running. As you begin to dig into iRODS, you can add rules of your own to tailor a data management program that works for you. 
+Rules are carried out by an iRODS rule engine plugin---a built-in interpreter for the rule language being used. The rule engine governs the sequence of data management actions in your iRODS zone. The Catalog Provider and each Consumer server run an instance of the rule engine. Out of the box, the rule engine comes loaded with an array of basic actions (e.g., error reporting, login protocols) to get you up and running. As you begin to dig into iRODS, you can add rules of your own to tailor a data management program that works for you.
 
 \section{iRODS Plugins}
 
-We've already discussed one type of plugin: Composable Resources; but there are many more. Plugins---like rules---allow for the customization of an iRODS installation. Plugins are used to implement core iRODS functions, such as authentication, communication over the Internet, communication with storage devices, and more. The use of plugins enables zone administrators to tailor iRODS to their needs, without having to recompile core code. Plugins also make it possible to upgrade small portions of iRODS without interfering with core functions.  
+We've already discussed one type of plugin: Composable Resources; but there are many more. Plugins---like rules---allow for the customization of an iRODS installation. Plugins are used to implement core iRODS functions, such as authentication, communication over the Internet, communication with storage devices, and more. The use of plugins enables zone administrators to tailor iRODS to their needs, without having to recompile core code. Plugins also make it possible to upgrade small portions of iRODS without interfering with core functions.
 
 \chapter{Case Study: stockphotosite.com (SPS)}
 
@@ -260,7 +260,7 @@ You need to support search and preservation of the images; so you need to gather
 
 You need to determine who can access the site and whether they are employees, photographers, or subscribers.
 
-To ensure your site can grow over time, you will need to determine if and when data should be archived or deleted, and when expanding your storage configuration will be necessary. You can't afford downtime; you are expecting to have subscribers accessing the site 24/7 from around the world. 
+To ensure your site can grow over time, you will need to determine if and when data should be archived or deleted, and when expanding your storage configuration will be necessary. You can't afford downtime; you are expecting to have subscribers accessing the site 24/7 from around the world.
 
 Disk failures occur, so you will want to keep at least two copies of the data, located on separate disks, at all times.
 
@@ -268,7 +268,7 @@ Disk failures occur, so you will want to keep at least two copies of the data, l
 
 How would you address SPS' needs in the case study above?
 
-Get together in pairs or small groups and discuss the questions below. The answers to some of the questions below cannot be found in the above scenario. So you'll have to use your imagination and flesh out the scenario some more. 
+Get together in pairs or small groups and discuss the questions below. The answers to some of the questions below cannot be found in the above scenario. So you'll have to use your imagination and flesh out the scenario some more.
 
 \subsection{Data}
 
@@ -308,7 +308,7 @@ Get together in pairs or small groups and discuss the questions below. The answe
 
 \begin{itemize}
  \item What kinds of users will need access to the data? What types of access or privileges will they need?
- \item How many users does SPS anticipate? Is this a stable quantity or could it increase over time? 
+ \item How many users does SPS anticipate? Is this a stable quantity or could it increase over time?
  \item Where are the users located? What time zone? Are they located near the data or somewhere else?
 \end{itemize}
 
@@ -325,11 +325,11 @@ The questions above can serve as an inventory-taking template for your own perso
 
 As SPS' Data Center Administrator, you need to consider the questions above and decide how these requirements can be operationalized in an iRODS deployment.
 
-Get together in pairs or small groups and discuss your requirements. You may need to scan later chapters of the workbook. 
+Get together in pairs or small groups and discuss your requirements. You may need to scan later chapters of the workbook.
 
 \subsection{Data, Network, Resource, and Organizational Needs}
 
-Start by considering the requirements you identified when reviewing the questions related to Data, Network, Resources, and Organizational needs. For example, if SPS data is distributed across storage devices, you may need multiple resource servers and a robust tree of composable resources. If you think SPS will need multiple copies of data objects, you may want to look into iRODS' capabilities for replication: take a look at the \hyperref[sec:coordinating_resources]{Coordinating Resources table} in the Virtualization chapter of this workbook. If you are pro-open-source but your organization is unfamiliar with the concept, how can you educate them on the benefits to ensure adoption of iRODS? 
+Start by considering the requirements you identified when reviewing the questions related to Data, Network, Resources, and Organizational needs. For example, if SPS data is distributed across storage devices, you may need multiple resource servers and a robust tree of composable resources. If you think SPS will need multiple copies of data objects, you may want to look into iRODS' capabilities for replication: take a look at the \hyperref[sec:coordinating_resources]{Coordinating Resources table} in the Virtualization chapter of this workbook. If you are pro-open-source but your organization is unfamiliar with the concept, how can you educate them on the benefits to ensure adoption of iRODS?
 
 \subsection{Users Needs}
 
@@ -341,7 +341,7 @@ Throughout the training, you will be assuming different user roles to interact w
 
 \begin{center}
 \def\arraystretch{1.7}%  1 is the default
-\begin{tabular}{ |l|l|p{11cm}| } 
+\begin{tabular}{ |l|l|p{11cm}| }
 \hline
 Role & \makecell[c]{Linux, \\ iRODS, \\ or Postgres?} & Role Definition \\
 \hline
@@ -364,10 +364,10 @@ Before installing iRODS, we first need to install and configure a database.
 iRODS stores most of its information (e.g. user names, file names and locations, metadata) in the iCAT. iRODS assumes this database is created and managed by a third party. Therefore, before installing iRODS, we have to create and configure the database iRODS will be using.
 
 
-For this training, we will be using PostgreSQL for our iRODS database. First let's update Ubuntu's apt repository. 
+For this training, we will be using PostgreSQL for our iRODS database. First let's update Ubuntu's apt repository.
 
 \begin{lstlisting}
-$ sudo apt-get update 
+$ sudo apt-get update
 \end{lstlisting}
 
 Then let's install the PostgreSQL server software.
@@ -390,7 +390,7 @@ $ psql
 
 \newpage
 
-Now we are in PostgreSQL, so we will switch to database query language. 
+Now we are in PostgreSQL, so we will switch to database query language.
 
 Let's create the database to be used by iRODS:
 
@@ -539,7 +539,7 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 Once \texttt{setup\_irods.py} has received all of its input, it will complete the setup.
 
 A successful setup will end with the following text:
- 
+
 \begin{lstlisting}
 +---------------------+
 | Attempting test put |
@@ -557,26 +557,26 @@ Success.
 
 \chapter{Using iCommands}
 
-iCommands are Unix utilities that give iRODS users a command-line interface to operate on data in the iRODS system. iCommands provide client-side communication with iRODS servers to provide administrative, data management, and metadata management functions. There are over 50 iCommands; and in this course, we will cover most of the basic iCommands. 
+iCommands are Unix utilities that give iRODS users a command-line interface to operate on data in the iRODS system. iCommands provide client-side communication with iRODS servers to provide administrative, data management, and metadata management functions. There are over 50 iCommands; and in this course, we will cover most of the basic iCommands.
 
-All iCommands accept command line options (e.g., -a for all, -e for echo, -h for help) that extend the command's capabilities. However, a specific iCommand accepts only a subset of these options. The options that an iCommand accepts are listed in its help entry. 
+All iCommands accept command line options (e.g., -a for all, -e for echo, -h for help) that extend the command's capabilities. However, a specific iCommand accepts only a subset of these options. The options that an iCommand accepts are listed in its help entry.
 
-To get help on a specific iCommand (such as \texttt{ils} for listing the contents of a collection), you may 
+To get help on a specific iCommand (such as \texttt{ils} for listing the contents of a collection), you may
 \begin{itemize}
  \item visit this webpage: \url{https://docs.irods.org/master/icommands/user/}
  \item use the -h option with the command (e.g., \texttt{ils -h}), or
- \item use the \texttt{ihelp} command as the argument with the command you'd like to learn more 
+ \item use the \texttt{ihelp} command as the argument with the command you'd like to learn more
          about (e.g., \texttt{ihelp ils}).
 \end{itemize}
 
 \section{Administrative Operations}
-In this workshop, you are interacting with iRODS through a Linux shell session. The session needs many settings and other details to determine iRODS behavior and access to iRODS resources. One way the shell manages these settings and details is through an area it maintains called the environment. The shell builds the environment every time it starts a session by accessing the settings and details that are contained in an environment file. 
+In this workshop, you are interacting with iRODS through a Linux shell session. The session needs many settings and other details to determine iRODS behavior and access to iRODS resources. One way the shell manages these settings and details is through an area it maintains called the environment. The shell builds the environment every time it starts a session by accessing the settings and details that are contained in an environment file.
 
 So to connect to an iRODS server using the rods administrator account, we will need to execute the \texttt{iinit} command which will create the iRODS environment file \texttt{irods\_environment.json}, in the \texttt{.irods} subdirectory of your Linux home directory (e.g., \texttt{/home/ubuntu/.irods/irods\_environment.json}).
 
 \newpage
 
-You will need to have the following information handy when you run \texttt{iinit}: 
+You will need to have the following information handy when you run \texttt{iinit}:
 \begin{itemize}
  \item the hostname of the iRODS server (either a catalog provider or catalog consumer) you wish to log into: \texttt{ec2-\#-\#-\#-\#.compute-1.amazonaws.com}
  \item the network port number of the iRODS server: \texttt{1247}
@@ -584,7 +584,7 @@ You will need to have the following information handy when you run \texttt{iinit
  \item the name of the iRODS zone: \texttt{tempZone}
 \end{itemize}
 
-Execute \texttt{iinit}. 
+Execute \texttt{iinit}.
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iinit
@@ -628,14 +628,14 @@ $ iadmin moduser alice password passWORD
 
 If you wanted Alice to be an iRODS administrator, you would use \texttt{rodsadmin} in place of \texttt{rodsuser}. An administrator with a rodsadmin account---such as rods---has permission to run \texttt{iadmin} and perform other administrative activities. For now, leave Alice as \texttt{rodsuser}.
 
-Let's create one more regular user account for Bobby with the same password we gave Alice. 
+Let's create one more regular user account for Bobby with the same password we gave Alice.
 
 \begin{lstlisting}
 $ iadmin mkuser bobby rodsuser
 $ iadmin moduser bobby password passWORD
 \end{lstlisting}
 
-Let's create a storage resource so that Alice can try out iCommands in the next subsection. When we installed iRODS, the setup script created an initial iRODS storage resource, \texttt{demoResc}. 
+Let's create a storage resource so that Alice can try out iCommands in the next subsection. When we installed iRODS, the setup script created an initial iRODS storage resource, \texttt{demoResc}.
 
 \textcolor{red}{\textbf{Please Note} - demoResc is not for production use, but we will use it for training purposes.}
 
@@ -647,7 +647,7 @@ $ iadmin mkresc newResc unixfilesystem `hostname`:/var/lib/irods/new_vault
 
 The iadmin command can also be used to remove a user (using rmuser as the argument) or remove a resource (using rmresc as the argument). Use iadmin -h to learn more.
 
-Now that we're done with administrative commands, let's log out of iRODS. 
+Now that we're done with administrative commands, let's log out of iRODS.
 
 \begin{lstlisting}
 $ iexit full
@@ -662,9 +662,9 @@ $ rm ~/.irods/irods_environment.json
 \section{Logging In with Alice}
 \label{sec:logging_in_with_alice}
 
-Now, using the \texttt{iinit} command, let's log in as Alice and change her password. 
+Now, using the \texttt{iinit} command, let's log in as Alice and change her password.
 
-Execute \texttt{iinit}. 
+Execute \texttt{iinit}.
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iinit
@@ -714,18 +714,18 @@ $ ipwd
 \end{lstlisting}
 
 Now, let's change to another collection using the \texttt{icd} command. To change the collection to \\ \texttt{/tempZone/home/public}, you would use \texttt{icd} with an absolute path:
- 
+
 \begin{lstlisting}
 $ icd /tempZone/home/public
 \end{lstlisting}
 
-Or you could use a relative path: 
+Or you could use a relative path:
 
 \begin{lstlisting}
 $ icd ../public
 \end{lstlisting}
 
-To list the data objects and subcollections stored in a collection, we could use the \texttt{ils} (meaning list) command. If executed with no arguments, it will list the objects in the present collection. 
+To list the data objects and subcollections stored in a collection, we could use the \texttt{ils} (meaning list) command. If executed with no arguments, it will list the objects in the present collection.
 
 \begin{lstlisting}
 $ ils
@@ -750,13 +750,13 @@ $ icd ../alice
 Suppose Alice would like to copy her photos---or data objects---from a local directory to an iRODS collection. For this, use the \texttt{iput} command:
 
 \begin{lstlisting}
-$ iput -r /home/ubuntu/training_jpgs 
+$ iput -r /home/ubuntu/training_jpgs
 \end{lstlisting}
 
 If Alice wanted to copy \texttt{lemur.jpg} from an iRODS collection to her local directory, she would use \texttt{iget}:
 
 \begin{lstlisting}
-$ iget /tempZone/home/alice/training_jpgs/lemur.jpg 
+$ iget /tempZone/home/alice/training_jpgs/lemur.jpg
 \end{lstlisting}
 
 Using the \texttt{-} command line option at the end will print the contents to stdout but will not create a local copy.
@@ -771,36 +771,36 @@ Let's give Bobby access to \texttt{mouse.jpg}, but first we need to give Bobby r
 \begin{lstlisting}
 $ ils -A -r
 /tempZone/home/alice:
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
        Inheritance - Disabled
  C- /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
        Inheritance - Disabled
  beans.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  coffee.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  eggs.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  grapes.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  lemur.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  mouse.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  peanuts.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  platter.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  scooter.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  seal.jpg
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  sources.txt
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
  waffle.jpg
-       ACL - alice#tempZone:own  
+       ACL - alice#tempZone:own
 \end{lstlisting}
 
 Bobby does not have access to \texttt{training\_jpgs}. Alice owns the \texttt{/tempZone/home/alice/training\_jpgs} collection. Her ownership permission allows her to grant permissions to others. So as Alice, let's give Bobby write permissions using the \texttt{ichmod} command followed by the \texttt{-r} command line option to apply the new permission recursively.
@@ -816,39 +816,39 @@ Let's make sure that it worked. We'll use \texttt{ils} again to review the permi
 \begin{lstlisting}
 ils -A -r
 /tempZone/home/alice:
-       ACL - alice#tempZone:own   
+       ACL - alice#tempZone:own
        Inheritance - Disabled
  C- /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
-       ACL - alice#tempZone:own   bobby#tempZone:read object   
+       ACL - alice#tempZone:own   bobby#tempZone:read object
        Inheritance - Disabled
  beans.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  coffee.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  eggs.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  grapes.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  lemur.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  mouse.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  peanuts.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  platter.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  scooter.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  seal.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  sources.txt
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
  waffle.jpg
-       ACL - bobby#tempZone:read object   alice#tempZone:own   
+       ACL - bobby#tempZone:read object   alice#tempZone:own
 \end{lstlisting}
 
-If we want to remove a data object from a collection, the \texttt{irm} command will do that. By default, \texttt{irm} moves the data object to a separate trash collection at \texttt{/tempZone/trash}. 
+If we want to remove a data object from a collection, the \texttt{irm} command will do that. By default, \texttt{irm} moves the data object to a separate trash collection at \texttt{/tempZone/trash}.
 
 \begin{lstlisting}
 $ irm /tempZone/home/alice/training_jpgs/peanuts.jpg
@@ -856,7 +856,7 @@ $ irm /tempZone/home/alice/training_jpgs/peanuts.jpg
 
 To empty the trash, we could use \texttt{irmtrash}. Using the \texttt{-f} command line option with irm will remove the data object permanently. It cannot be recovered if you use \texttt{-f}.
 
-Suppose you did not intend to throw \texttt{peanuts.jpg} away. Thankfully you did not use the 
+Suppose you did not intend to throw \texttt{peanuts.jpg} away. Thankfully you did not use the
 \texttt{-f} option, so you can use the \texttt{imv} command to recover the data object from the trash and move it back to Alice's collection.
 
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
@@ -870,7 +870,7 @@ $ ils /tempZone/home/alice/training_jpgs/peanuts.jpg
 \end{lstlisting}
 
 
-Now, let's create a Replica (i.e., an identical, physical copy of a data object) using the \texttt{irepl} command. First, let's use ils to take a look at what's inside \texttt{/tempZone/home/alice/training\_jpgs} and we'll use the \texttt{-L} option to determine if there are any replicas already in existence. Using the \texttt{-L} command line option (meaning very long) with \texttt{ils} will show you where data objects are physically stored and if replicas exist. 
+Now, let's create a Replica (i.e., an identical, physical copy of a data object) using the \texttt{irepl} command. First, let's use ils to take a look at what's inside \texttt{/tempZone/home/alice/training\_jpgs} and we'll use the \texttt{-L} option to determine if there are any replicas already in existence. Using the \texttt{-L} command line option (meaning very long) with \texttt{ils} will show you where data objects are physically stored and if replicas exist.
 
 \begin{lstlisting}[basicstyle=\tiny]
 $ ils -L /tempZone/home/alice/training_jpgs
@@ -940,7 +940,7 @@ $ ils -L training_jpgs
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
 \end{lstlisting}
 
-Suppose you wish to remove a replica. The \texttt{itrim} command is suited to the job. Let's remove the replica of \texttt{peanuts.jpg} from \texttt{demoResc}. If we add the \texttt{-N} command line option, we can specify the number of replicas to keep. To keep only 1 replica, follow \texttt{-N} with number 1. To keep 3, follow it with 3, and so on. If you do not specify a number, iRODS will trim replicas down to 2 by default. 
+Suppose you wish to remove a replica. The \texttt{itrim} command is suited to the job. Let's remove the replica of \texttt{peanuts.jpg} from \texttt{demoResc}. If we add the \texttt{-N} command line option, we can specify the number of replicas to keep. To keep only 1 replica, follow \texttt{-N} with number 1. To keep 3, follow it with 3, and so on. If you do not specify a number, iRODS will trim replicas down to 2 by default.
 
 
 Currently, we have two replicas of \texttt{peanuts.jpg}---one on \texttt{demoResc} and one on \texttt{newResc}. To specify that we wish the replica to be trimmed from \texttt{demoResc}, we will need to use the \texttt{-S} option followed by \texttt{demoResc}. The \texttt{-S} option specifies the resources of the replica to be trimmed.
@@ -1016,8 +1016,8 @@ You can learn more about any iCommand using the \texttt{-h} command line option,
 \chapter{Virtualization}
 
 In computer science, virtualization is the process of providing one abstract interface---or virtual access point---through which multiple services or entities communicate. These services or entities can include servers, storage devices, networks, and operating systems.
- 
-iRODS has a modular architecture with 7 pluggable interfaces that allow different services (i.e., iRODS plugins) to communicate with iRODS core code. Because these plugins are separate from core code, new functionality can be added without having to edit or recompile core code. 
+
+iRODS has a modular architecture with 7 pluggable interfaces that allow different services (i.e., iRODS plugins) to communicate with iRODS core code. Because these plugins are separate from core code, new functionality can be added without having to edit or recompile core code.
 
 Through these interfaces, chiefly composable resources, iRODS users can take advantage of storage virtualization. iRODS users are provided with a uniform interface that supports the implementation of consistent data management policies and practices regardless of different types or numbers of storage. For example, data could be stored on Amazon S3, a Unix file system, and Web Object Scaler (DataDirect Network's block storage appliance), yet data retrieval, sharing, and replication could be handled in the same way regardless of device differences.
 
@@ -1050,11 +1050,11 @@ Recall that Composable Resources are plugins that allow you to create rich decis
 \subsection{Coordinating Resources}
 \label{sec:coordinating_resources}
 
-A Coordinating Resource manages the flow of data to and from Storage Resources. In the iCAT database, they are composed of three parts: (a) the name you give the resource, (b) the resource type (e.g., Replication), and (c) a plugin-specific context string (e.g., in the case of a Passthru resource, the read and write weights---see below). 
+A Coordinating Resource manages the flow of data to and from Storage Resources. In the iCAT database, they are composed of three parts: (a) the name you give the resource, (b) the resource type (e.g., Replication), and (c) a plugin-specific context string (e.g., in the case of a Passthru resource, the read and write weights---see below).
 
 \begin{center}
 \def\arraystretch{1.5}%  1 is the default
-\begin{tabular}{ |l|p{10cm}| } 
+\begin{tabular}{ |l|p{10cm}| }
 \hline
 Replication & A replication resource keeps its children in sync with identical copies---or replicas---of data objects. \\
 Round Robin & A round robin resource will rotate through its children for each upload to the system. \\
@@ -1069,11 +1069,11 @@ Passthru & The passthru resource allows administrators to prioritize one or more
 
 \subsection{Storage Resources}
 
-Storage Resources are the logical representations of---or pointers to---physical storage devices. They are composed of five parts: (a) the name you give the resource, (b) a host name (e.g., host.example.org), (c) a directory path---or Vault---to the exact location on the storage device (e.g., \texttt{/full/path/to/storage}), (d) the resource type (e.g., Amazon S3), and (e) a plugin-specific context string (e.g., the name of the file containing access credentials or any persistent information the plugin may require). 
+Storage Resources are the logical representations of---or pointers to---physical storage devices. They are composed of five parts: (a) the name you give the resource, (b) a host name (e.g., host.example.org), (c) a directory path---or Vault---to the exact location on the storage device (e.g., \texttt{/full/path/to/storage}), (d) the resource type (e.g., Amazon S3), and (e) a plugin-specific context string (e.g., the name of the file containing access credentials or any persistent information the plugin may require).
 
 \begin{center}
 \def\arraystretch{1.5}%  1 is the default
-\begin{tabular}{ |l|p{10cm}| } 
+\begin{tabular}{ |l|p{10cm}| }
 \hline
 unixfilesystem & This type of storage resource communicates with a storage device through the standard POSIX interface \\
 S3* & Amazon's or any other S3-compatible storage service \\
@@ -1089,13 +1089,13 @@ Universal Mass Storage & For use with Compound resources, such as tape-based arc
 
 \section{How Composable Resources Communicate}
 
-When a request for data is made, each storage resource communicates with its parent coordinating resource about whether it is able to provide the requested data. The coordinating resource then decides which particular storage resource is the best option for serving up the data. This is determined based on the nature of the coordinating resource. 
+When a request for data is made, each storage resource communicates with its parent coordinating resource about whether it is able to provide the requested data. The coordinating resource then decides which particular storage resource is the best option for serving up the data. This is determined based on the nature of the coordinating resource.
 
 For example, the Replication Coordinating Resource weights a vote from a storage resource more heavily if it possesses a local copy. The replication coordinating resource is designed to honor ``locality of reference," and then point the client to the closest data.
 
 \section{Building a Tree}
 
-Recall, that we created a unixfilesystem storage resource called \texttt{newResc} for Alice to play with. Now we're going to set up automatic replication between \texttt{newResc} and two other resources, which will be named \texttt{storageResc1} and \texttt{storageResc2}. 
+Recall, that we created a unixfilesystem storage resource called \texttt{newResc} for Alice to play with. Now we're going to set up automatic replication between \texttt{newResc} and two other resources, which will be named \texttt{storageResc1} and \texttt{storageResc2}.
 
 To set up automatic replication, we will need to use the \texttt{iadmin} command, so we will need to \texttt{iexit full} out of Alice's account and log in as \texttt{rods}, the administrator account.
 
@@ -1148,27 +1148,27 @@ $ iadmin mkresc storageResc2 unixfilesystem `hostname`:/var/lib/irods/storageVau
 \end{lstlisting}
 
 Now we will create a replication coordinating resource named \texttt{replResc}.
- 
+
 \begin{lstlisting}
 $ iadmin mkresc replResc replication
 \end{lstlisting}
- 
+
 Once \texttt{replResc} exists, we need to connect \texttt{newResc}, \texttt{storageResc1}, and \texttt{storageResc2} as children of \texttt{replResc}.
- 
+
 \begin{lstlisting}
 $ iadmin addchildtoresc replResc newResc
 $ iadmin addchildtoresc replResc storageResc1
 $ iadmin addchildtoresc replResc storageResc2
 \end{lstlisting}
- 
+
 When writing data (usually via an \texttt{iput}), the default replication coordinating resource populates one of the children resources with the data object, and then replicates the data object to the remaining children.
 
 \section{Seeing the Tree}
 
 The composable resources can always be visualized with the ilsresc command.
- 
+
 \begin{lstlisting}
-$ ilsresc 
+$ ilsresc
 demoResc
 replResc:replication
 |-- newResc
@@ -1186,7 +1186,7 @@ $ iadmin modresc replResc rebalance
 
 \section{Decommissioning Storage}
 As our needs change, we may wish to decommission storage resources to use for other purposes. The following commands will remove \texttt{storageResc1} from the resource tree so it can be repurposed.
- 
+
 \begin{lstlisting}
 $ iadmin rmchildfromresc replResc storageResc1
 $ itrim -M -r -S storageResc1 /tempZone
@@ -1206,19 +1206,19 @@ Once there is no data stored on \texttt{storageResc1}, it can be safely removed 
 \chapter{Data Discovery}
 
 iRODS employs a metadata catalog---iCAT---that permits users and administrators to access and contribute descriptive information about their data. This descriptive information---or metadata---improves search and therefore better enables data discovery. Users can search for data objects using metadata descriptors as search terms. This allows for browsing and serendipitous discovery, rather than relegating users to a targeted search for a file name they may not know.
- 
+
 Both automatic, system-generated metadata and user-created metadata are supported in iRODS. For example, iRODS can automatically derive the data object's creation date, modification date, the last date it was accessed, etc.; and an individual user can contextualize her data by providing the creator's name, subject or topic of the data, project name, etc. Once that metadata is affiliated with any of the data objects, users can search on it.
- 
+
 \section{What is Metadata?}
 
 ``Metadata is often called data about data or information about information" [1, p. 1]. It describes the data in some way, such as providing information about the content, context of its origin or use, quality, condition, and associations to other data and objects in the world [2].
- 
+
 Unlike a hodgepodge of tags, metadata is structured [1, 3]. When metadata is employed, an applicable scheme is also usually employed that defines descriptive elements and their ontological associations. For example, some data repositories use Dublin Core, a metadata scheme developed to describe web-based documents. Dublin Core elements include abstract, language, license, subject, creator, date, format, and publisher.
- 
+
 ``Metadata can describe resources at any level of aggregation. It can describe a collection, a single resource, or a component part of a larger resource (for example, a photograph in an article)" [1]. Metadata can be embedded in a data object, or stored in a database and linked to the object it describes.
- 
+
 Metadata is used to facilitate data discovery---to improve search and retrieval. For example, suppose you upload a dataset to an online data repository for the purpose of sharing it with other professionals with similar research interests. If the system you upload it to doesn't support metadata, you can't include vital information about the creator of the dataset, the date when it was created, its purpose, its subject, any papers or findings associated with the data, any revisions made to the data, etc. Instead, users wishing to obtain your data will have to know the file name in order to search for it. If they don't know what you named it, they won't find your data. Someone browsing a variety of datasets and hoping to find one that covers the same subject as your dataset, or wishing to locate the data based on a paper they read that used the data, or hoping to find a dataset similar to theirs, but created more recently than theirs, will be out of luck. However, if you upload the data to a repository that supports metadata---as iRODS does---then users will be able to browse for or conduct a more targeted search for data like your own.
- 
+
 \section{Types of Metadata}
 
 Metadata scholars often classify metadata into three categories: descriptive, structural, and administrative [1].
@@ -1226,19 +1226,19 @@ Descriptive metadata is intended to support data discovery and identification. E
 Structural metadata describes the structure of the data object. For example, elements may allow metadata authors to describe components of the data object such as its title page, chapters, errata, how pages are ordered, number of pages, etc.
 Administrative metadata is intended to facilitate management and processing of the data.
 Elements could allow for identifying how the data was created, its file type, resolution, copyright information, licensing information, access privileges, etc.
- 
+
 Cornell University Library provides a nice chart describing these classifications of metadata: \\ \url{https://www.library.cornell.edu/preservation/tutorial/metadata/table5-1.html}.
 
-Other classifications of metadata exist. Gilliland [4, p. 9] includes additional categories of preservation, use, and technical. 
- 
+Other classifications of metadata exist. Gilliland [4, p. 9] includes additional categories of preservation, use, and technical.
+
 \section{Why Metadata?}
 
-In addition to supporting data discovery, metadata also organizes and provides contextual and historical information about data objects, identifies structural relationships within and between data objects [4], identifies semantic relationships or differences between objects, ``certifies the authenticity and degree of completeness of the content" [4, p. 6], distinguishes between different versions of data objects, provides legal support in the form of rights management, licensing, and reproduction information, enables users to assess authoritativeness and trustworthiness of the data through elements created to identify provenance, and facilitates interoperability, legacy resource integration, lineage tracking, and identification of persistent digital identifiers (e.g., Digital Object Identifiers, DOIs) to support preservation and archiving [1, p.1] 
+In addition to supporting data discovery, metadata also organizes and provides contextual and historical information about data objects, identifies structural relationships within and between data objects [4], identifies semantic relationships or differences between objects, ``certifies the authenticity and degree of completeness of the content" [4, p. 6], distinguishes between different versions of data objects, provides legal support in the form of rights management, licensing, and reproduction information, enables users to assess authoritativeness and trustworthiness of the data through elements created to identify provenance, and facilitates interoperability, legacy resource integration, lineage tracking, and identification of persistent digital identifiers (e.g., Digital Object Identifiers, DOIs) to support preservation and archiving [1, p.1]
 
 \section{Metadata Generation and Storage}
 
-Metadata can be generated manually or automatically. In the case of manual generation, usually content contributors, librarians, or other information professionals create metadata for data objects. Manually generated metadata may be richer because manual methods exploit human understanding and judgment. For example, if a photographer is uploading her photos to a photo sharing website, she may be better at generating a rich description of the contents of the photo than a machine. She knows the story behind the photo, what objects within the photo are important to highlight, and how the photo fits into a larger context. A computer would have a harder time determining these things. However, manual generation is more time consuming than autogenerated metadata. It may be more costly if a librarian or other information professional is kept on staff to handle metadata. If busy data creators are expected to create metadata, it may be difficult to get them to adopt the practice and follow a standard scheme. Humans also make errors, such as typos and misspellings. 
- 
+Metadata can be generated manually or automatically. In the case of manual generation, usually content contributors, librarians, or other information professionals create metadata for data objects. Manually generated metadata may be richer because manual methods exploit human understanding and judgment. For example, if a photographer is uploading her photos to a photo sharing website, she may be better at generating a rich description of the contents of the photo than a machine. She knows the story behind the photo, what objects within the photo are important to highlight, and how the photo fits into a larger context. A computer would have a harder time determining these things. However, manual generation is more time consuming than autogenerated metadata. It may be more costly if a librarian or other information professional is kept on staff to handle metadata. If busy data creators are expected to create metadata, it may be difficult to get them to adopt the practice and follow a standard scheme. Humans also make errors, such as typos and misspellings.
+
 Automatically generated metadata is derived, extracted, or harvested.
 
 \textbf{Derived:} The system knows certain things about any file it stores, such as creation date, file size, etc. This information is derived from the system and applied to the data object as metadata.
@@ -1246,9 +1246,9 @@ Automatically generated metadata is derived, extracted, or harvested.
 \textbf{Extracted:} In the case of extracted metadata, an indexing algorithm is used to pull information contained within the data object such as term frequency, subject/topic, noun phrases for author or title, etc. For example, if the data object is a journal article, the algorithm can employ natural language processing techniques to count the terms, identify co-located terms to suggest a subject or topic, or extract named entities such as the author's name.
 
 \textbf{Harvested:} Metadata is aggregated from other sources, such as a metadata registry (e.g., Open Metadata Registry), database (e.g., The OAIster Database), or resource header (i.e., META tags) [3].
- 
+
 Automatic metadata generation also provides several benefits: speedy ingestion/extraction, costs incurred may be far less expensive (i.e., the cost of a few hours of a programmer's time), and no need to corral people into creating metadata and adhering to a standard. There are also drawbacks: computers don't possess human understanding or judgment beyond that written into the program, algorithms are designed to handle typical cases and may not be well suited to handle unusual cases, and computers make errors too (e.g., the determination of subject or topic is at best an estimation that one hopes reflects the truth).
- 
+
 \section{Metadata Schemes}
 
 Metadata schemes are ``sets of metadata elements designed for a specific purpose" [1, p. 2]. In addition to specifying metadata elements, schemes may also specify:
@@ -1274,10 +1274,10 @@ Available: http://www.lic.wisc.edu/metadata/metaprim.htm.
 
 \section{Using Metadata in iRODS}
 
-In iRODS, metadata can be used to describe data objects, collections, resources, and users. Metadata is stored as strings in the form of attribute-value-unit (AVU) triples, similar to those found in Resource Description Format (RDF). AVU triples are used for both derived metadata and user-defined metadata. For example, the photos in Alice's collection already have some metadata associated with them---metadata that could be extracted from the data object and stored as an AVU triple. Let's look at seal.jpg. The size of the file is 354 KB. Its dimensions are 1,664 X 1,664 pixels.  
+In iRODS, metadata can be used to describe data objects, collections, resources, and users. Metadata is stored as strings in the form of attribute-value-unit (AVU) triples, similar to those found in Resource Description Format (RDF). AVU triples are used for both derived metadata and user-defined metadata. For example, the photos in Alice's collection already have some metadata associated with them---metadata that could be extracted from the data object and stored as an AVU triple. Let's look at seal.jpg. The size of the file is 354 KB. Its dimensions are 1,664 X 1,664 pixels.
 
 \begin{center}
-\begin{tabular}{ |l|c|c| } 
+\begin{tabular}{ |l|c|c| }
  \hline
 Attribute & Value & Unit \\
 \hline
@@ -1290,7 +1290,7 @@ dimensions & 1,664 x 1,664 & pixels \\
 User-defined metadata about the contents of seal.jpg might look something like this:
 
 \begin{center}
-\begin{tabular}{ |l|c|c| } 
+\begin{tabular}{ |l|c|c| }
  \hline
 Attribute & Value & Unit \\
 \hline
@@ -1306,20 +1306,20 @@ In many metadata schemes, metadata attributes are defined by name-value pairs, s
 The imeta Command
 In iRODS, the main command line utility for handling metadata is \texttt{imeta}. It is used to determine, modify, list, search by, and delete iRODS metadata. Let's use \texttt{imeta} with Alice's account, because she needs to add metadata to her photos. So \texttt{iexit full} from the \texttt{rods} account, delete the rods environment file, and \texttt{iinit} for Alice. Do you remember how to do this on your own? Give it a try. If you get stuck, take a look at \hyperref[sec:logging_in_with_alice]{Logging In with Alice in Chapter 5: Using iCommands}.
 
-Let's add an AVU to the collection \texttt{training\_jpgs} that we created earlier with a recursive put. To create metadata for this collection we'll use the add subcommand and the \texttt{-C} option, which signifies that we are adding metadata to a collection. (The \texttt{-d} option is used for adding metadata to a data object, \texttt{-R} for resources, and \texttt{-u} for users.) 
+Let's add an AVU to the collection \texttt{training\_jpgs} that we created earlier with a recursive put. To create metadata for this collection we'll use the add subcommand and the \texttt{-C} option, which signifies that we are adding metadata to a collection. (The \texttt{-d} option is used for adding metadata to a data object, \texttt{-R} for resources, and \texttt{-u} for users.)
 
 \begin{lstlisting}
 $ imeta add -C training_jpgs collection_type jpg_photos
 \end{lstlisting}
 
-Order matters: Attributes are first, values second, and units third. So in the above example, the attribute we're adding is \texttt{collection\_type} and the value we're adding is \texttt{jpg\_photos}. We are not adding a unit. 
+Order matters: Attributes are first, values second, and units third. So in the above example, the attribute we're adding is \texttt{collection\_type} and the value we're adding is \texttt{jpg\_photos}. We are not adding a unit.
 
 Now, let's list the metadata using the \texttt{ls} subcommand for \texttt{training\_jpgs} to see if \texttt{collection\_type} and \texttt{jpg\_photos} were added correctly.
 
 \begin{lstlisting}
 $ imeta ls -C training_jpgs
 AVUs defined for collection training_jpgs:
-attribute: collection_type 
+attribute: collection_type
 value: jpg_photos
 units:
 \end{lstlisting}
@@ -1368,7 +1368,7 @@ dataObj: seal.jpg
 
 The data object that has AJones listed as the author is \texttt{seal.jpg} in the \texttt{training\_jpgs} collection.
 
-Let's add metadata to another photo:  
+Let's add metadata to another photo:
 
 \begin{lstlisting}
 $ imeta add -d grapes.jpg subject food
@@ -1385,10 +1385,10 @@ collection: /tempZone/home/alice/training_jpgs
 dataObj: grapes.jpg
 ----
 collection: /tempZone/home/alice/training_jpgs
-dataObj: seal.jpg 
+dataObj: seal.jpg
 \end{lstlisting}
 
-From this search, two data objects were returned: \texttt{grapes.jpg} and \texttt{seal.jpg}. Both have an author attribute. 
+From this search, two data objects were returned: \texttt{grapes.jpg} and \texttt{seal.jpg}. Both have an author attribute.
 
 We can also search for collections based on their metadata. Let's search for collections that have an attribute of \texttt{collection\_type}. Remember, for this we need to use the \texttt{-C} option.
 
@@ -1397,7 +1397,7 @@ $ imeta qu -C collection_type like '%'
 collection: /tempZone/home/alice/training_jpgs
 \end{lstlisting}
 
-To modify a data object's AVU with \texttt{imeta}, we must specify the object's name, the attribute name, the attribute's associated value, and the desired new value. To change the author attribute from AJones to BSmith for \texttt{grapes.jpg}, we'll use the \texttt{mod} subcommand and the \texttt{v:} prefix for changing the value of author. 
+To modify a data object's AVU with \texttt{imeta}, we must specify the object's name, the attribute name, the attribute's associated value, and the desired new value. To change the author attribute from AJones to BSmith for \texttt{grapes.jpg}, we'll use the \texttt{mod} subcommand and the \texttt{v:} prefix for changing the value of author.
 
 \begin{lstlisting}
 $ imeta mod -d grapes.jpg author AJones v:BSmith
@@ -1410,11 +1410,11 @@ $ imeta ls -d grapes.jpg
 AVUs defined for dataObj grapes.jpg:
 attribute: subject
 value: food
-units: 
+units:
 ----
 attribute: color_bw
 value: color
-units: 
+units:
 ----
 attribute: author
 value: BSmith
@@ -1435,10 +1435,10 @@ HelloWorld {
 }
 \end{lstlisting}
 
-Rules are executed by the iRODS rule engine---a built-in interpreter for the iRODS rule language. They may be triggered by 
+Rules are executed by the iRODS rule engine---a built-in interpreter for the iRODS rule language. They may be triggered by
 \begin{itemize}
- \item the irule command, 
- \item Policy Enforcement Points (PEPs), or 
+ \item the irule command,
+ \item Policy Enforcement Points (PEPs), or
  \item invoking the \texttt{delay} directive in the case of Delayed Execution Rules.
 \end{itemize}
 
@@ -1448,7 +1448,7 @@ A user may manually execute a rule that operates on data that she has access to 
 
 \subsection{Policy Enforcement Points}
 
-Policy Enforcement Points are special types of rules that invoke an interpreted rule script only when certain criteria are met within the iRODS Agent (i.e., an instance of a process that handles API requests), such as when a data object is successfully placed within iRODS management. A PEP may launch rules that reside in the default rulebase, known as \texttt{core.re}, and are referenced by the name of the PEP, such as \texttt{acPostProcForPut}, which we will cover later in this section. 
+Policy Enforcement Points are special types of rules that invoke an interpreted rule script only when certain criteria are met within the iRODS Agent (i.e., an instance of a process that handles API requests), such as when a data object is successfully placed within iRODS management. A PEP may launch rules that reside in the default rulebase, known as \texttt{core.re}, and are referenced by the name of the PEP, such as \texttt{acPostProcForPut}, which we will cover later in this section.
 
 \subsection{The \texttt{delay} Directive}
 
@@ -1456,9 +1456,9 @@ Delayed Execution Rules are those rules that invoke the \texttt{delay} keyword (
 
 \section{Microservices}
 
-Rules may be extended by calling microservices. A microservice is the invocation of a plugin containing a C++ function which performs an advanced operation, such as accessing external libraries that are not available in the rule language like curl (used to access an HTTP resource), or performing operations that are computationally intensive such as image processing. Examples of microservices may include metadata extraction, image analysis, or the validation and verification of data at rest.   
+Rules may be extended by calling microservices. A microservice is the invocation of a plugin containing a C++ function which performs an advanced operation, such as accessing external libraries that are not available in the rule language like curl (used to access an HTTP resource), or performing operations that are computationally intensive such as image processing. Examples of microservices may include metadata extraction, image analysis, or the validation and verification of data at rest.
 
-A hypothetical rule \texttt{HelloWorld2} that invokes a hypothetical microservice (\texttt{msihello\_world}) is shown below:  
+A hypothetical rule \texttt{HelloWorld2} that invokes a hypothetical microservice (\texttt{msihello\_world}) is shown below:
 
 \begin{lstlisting}
 HelloWorld2 {
@@ -1471,7 +1471,7 @@ OUTPUT ruleExecOut
 Microservices come in two forms:
 \begin{itemize}
  \item a packaged form such as an rpm (i.e., RedHat Linux's package management sytem), or
- \item a raw, shared object which may have been custom built. 
+ \item a raw, shared object which may have been custom built.
 \end{itemize}
 
 The process for installing microservices and the location of the install depend on the type of microservice and the type of iRODS installation.
@@ -1499,8 +1499,8 @@ We will configure this new rule engine as part of the following metadata harvest
 
 \section{The Example Rule: Harvesting and Applying Metadata with the Python Rule Engine}
 
-The example rulebases below (\texttt{training.re} and \texttt{core.py}) work together to harvest and apply metadata to any data object at rest, owned by any user. This rule could help Alice save time by automating metadata annotation for her. We will use this pair of rulebases to demonstrate the power of the rule engine plugin system. 
- 
+The example rulebases below (\texttt{training.re} and \texttt{core.py}) work together to harvest and apply metadata to any data object at rest, owned by any user. This rule could help Alice save time by automating metadata annotation for her. We will use this pair of rulebases to demonstrate the power of the rule engine plugin system.
+
 \vspace{5mm}
 \begin{lstlisting}[language=Python]
 # training.re
@@ -1534,18 +1534,18 @@ def acPostProcForPut(rule_args, callback):
     callback.writeLine('serverLog', 'PYTHON - acPostProcForPut() complete')
 \end{lstlisting}
 
-An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supercede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users. 
+An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supercede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
 There are two ways to insert the new PEP's behavior into iRODS.
 \begin{enumerate}
- \item The file \texttt{/etc/irods/core.re} could be edited with the new behavior (but this is inadvisable: \texttt{core.re} may change from release to release, so it might be overwritten during an upgrade.  Also, we're using Python for this example and \texttt{core.re} is in the wrong rule language!), or 
+ \item The file \texttt{/etc/irods/core.re} could be edited with the new behavior (but this is inadvisable: \texttt{core.re} may change from release to release, so it might be overwritten during an upgrade.  Also, we're using Python for this example and \texttt{core.re} is in the wrong rule language!), or
  \item We can write the rule into an accessory rulebase (i.e., a file that contains a rule or rules but is not \texttt{core.re}) in \texttt{/etc/irods} and then tell iRODS to read this file by editing the \\ \texttt{/etc/irods/server\_config.json} file. When we do this, the rules in our accessory rulebases (\texttt{training.re} and \texttt{core.py}), will combine to take precedence over the existing PEP in \texttt{core.re}.
 \end{enumerate}
 
 Let's try the second approach.
 
 \begin{lstlisting}
-$ sudo nano /etc/irods/server_config.json 
+$ sudo nano /etc/irods/server_config.json
 \end{lstlisting}
 
 Add a new python rule engine stanza within ``rule\_engines" just before the ``re-irods-instance" stanza:
@@ -1587,49 +1587,49 @@ $ imeta ls -d stickers.jpg
 AVUs defined for dataObj stickers.jpg:
 attribute: Image Orientation
 value: Horizontal (normal)
-units: 
+units:
 ----
 attribute: EXIF ColorSpace
 value: sRGB
-units: 
+units:
 ----
 attribute: EXIF SubjectArea
 value: [2015, 1511, 2217, 1330]
-units: 
+units:
 ----
 attribute: GPS GPSDestBearingRef
 value: T
-units: 
+units:
 ----
 attribute: EXIF FNumber
 value: 11/5
-units: 
+units:
 ----
 <snip>
 ----
 attribute: EXIF SceneType
 value: Directly Photographed
-units: 
+units:
 ----
 attribute: Thumbnail JPEGInterchangeFormatLength
 value: 9289
-units: 
+units:
 ----
 attribute: EXIF SubSecTimeOriginal
 value: 738
-units: 
+units:
 ----
 attribute: Image ExifOffset
 value: 204
-units: 
+units:
 ----
 attribute: Image YCbCrPositioning
 value: Centered
-units: 
+units:
 ----
 attribute: EXIF ExifImageWidth
 value: 4032
-units: 
+units:
 \end{lstlisting}
 
 
@@ -1669,10 +1669,10 @@ An iRODS server in a Zone that is not a Catalog Service Provider.  There can be 
 The iRODS server in a Zone that holds the connection to the (possibly remote) iCAT. There is one Catalog Service Provider in a Zone.
 
 \item [Collection]
-A Collection is the logical representations of physical containers, similar to directories or folders that are found in a file system. A Collection can have sub-collections, and hence provides a hierarchical structure. 
+A Collection is the logical representations of physical containers, similar to directories or folders that are found in a file system. A Collection can have sub-collections, and hence provides a hierarchical structure.
 
 \item [Composable Resources]
-Composable Resources are plugins that allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage. 
+Composable Resources are plugins that allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage.
 
 \item [Control Plane]
 The control plane receives status updates from all servers, and issues commands to servers to pause, resume, shut down, etc.
@@ -1693,16 +1693,16 @@ The hardware, operating system, and other machinery that supports a Zone.
 The iCAT, or iRODS Metadata Catalog, is a database (e.g. PostgreSQL, MySQL, Oracle) that stores metadata about the Data Objects in an iRODS Zone. There is one iCAT per iRODS Zone.
 
 \item [iCommands]
-iCommands are Unix utilities that give users a command-line interface to operate on data in iRODS. 
+iCommands are Unix utilities that give users a command-line interface to operate on data in iRODS.
 
 \item [Microservice]
-A microservice is a small, well-defined procedure that performs a server-side task and is either compiled into the iRODS server code or packaged independently as a shared object. Rules invoke Microservices to implement data management policies. 
+A microservice is a small, well-defined procedure that performs a server-side task and is either compiled into the iRODS server code or packaged independently as a shared object. Rules invoke Microservices to implement data management policies.
 
 \item [Policy Enforcement Point (PEP)]
 A hook within the code of the iRODS Agent that invokes an interpreted rule script via the iRODS rule engine for the purpose of influencing a data management operation.
 
 \item [Replica]
-An identical, physical copy of a Data Object. 
+An identical, physical copy of a Data Object.
 
 \item [Storage Resource]
 A Storage Resource is the logical representation of---or pointer to---a physical storage device. They include the hostname and the directory path to the location of the Data Object on the storage device.
