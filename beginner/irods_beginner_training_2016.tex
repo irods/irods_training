@@ -27,6 +27,8 @@
 
 \newsavebox\lstPythonRulebase
 \newsavebox\lstTrainingRuleBase
+\newsavebox\lstServerConfigA
+\newsavebox\lstServerConfigB
 
 \lstdefinestyle{mycodeblock}{
     backgroundcolor=\color{codebgcolor},
@@ -1549,6 +1551,7 @@ $ sudo nano /etc/irods/server_config.json
 
 Add a new python rule engine stanza within ``rule\_engines" just before the ``re-irods-instance" stanza:
 
+\begin{lrbox}{\lstServerConfigA}
 \begin{lstlisting}
         {
             "instance_name": "rule-engine-plugin-python-instance",
@@ -1556,9 +1559,12 @@ Add a new python rule engine stanza within ``rule\_engines" just before the ``re
             "plugin_specific_configuration": {}
         },
 \end{lstlisting}
+\end{lrbox}
+\href{https://github.com/irods/irods_training/blob/ugm2016/beginner/server_config.json#L58-L62}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
+\begin{lrbox}{\lstServerConfigB}
 \begin{lstlisting}
                 "re_rulebase_set": [
                     {
@@ -1569,6 +1575,8 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
                     }
                 ]
 \end{lstlisting}
+\end{lrbox}
+\href{https://github.com/irods/irods_training/blob/ugm2016/beginner/server_config.json#L78-L80}{\usebox{\lstServerConfigB}}
 
 Save the file and the new rulebases will be activated!  Let's upload a new file to our home collection:
 
