@@ -18,11 +18,15 @@
 \usepackage{makecell}
 \usepackage{hyperref}
 \usepackage{xcolor}
+\usepackage{hyperref}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{codebgcolor}{rgb}{0.95,0.95,0.95}
+
+\newsavebox\lstPythonRulebase
+\newsavebox\lstTrainingRuleBase
 
 \lstdefinestyle{mycodeblock}{
     backgroundcolor=\color{codebgcolor},
@@ -444,7 +448,7 @@ To install the RENCI repository that hosts the iRODS software, execute the \text
 $ wget -qO - https://unstable.irods.org/irods-unstable-signing-key.asc | \
 	sudo apt-key add -
 $ echo "deb [arch=amd64] https://unstable.irods.org/apt/ \
-	@\$@(lsb_release -sc) main" | sudo tee \
+	@\char36@(lsb_release -sc) main" | sudo tee \
 	/etc/apt/sources.list.d/renci-irods-unstable.list
 $ sudo apt-get update
 \end{lstlisting}
@@ -497,7 +501,7 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 \ugmbullet Database Server's Port & \colorbox{gray!70}{5432} The database server listens for notifications from other applications on this port. The default value is correct for PostgreSQL installations. \\
 \ugmbullet Database Name & \colorbox{gray!70}{ICAT} This is the name of the database that we created in PostgreSQL during the iCAT database installation. \\
 \ugmbullet Database User & \colorbox{gray!70}{irods} This must match the irods Linux account name to authenticate into Postgres without changing Postgres settings. \\
-\ugmbullet Database Password & Enter \texttt{testpassword}. This is the same password we set for during the iCAT database installation. \\
+\ugmbullet Database Password & Enter \texttt{testpassword} . This is the same password we set for during the iCAT database installation. \\
 \ugmbullet Stored Passwords Salt & This obfuscates the passwords stored in the database, making your installation unique.  For production use, don't leave this empty. \\
 \hline
 
@@ -833,7 +837,7 @@ Write permissions in iRODS include read permissions; however, you can grant read
 Let's make sure that it worked. We'll use \texttt{ils} again to review the permissions:
 
 \begin{lstlisting}
-ils -A -r
+$ ils -A -r
 /tempZone/home/alice:
        ACL - alice#tempZone:own
        Inheritance - Disabled
@@ -893,7 +897,7 @@ $ ils /tempZone/home/alice/training_jpgs/peanuts.jpg
 Now, let's create a Replica (i.e., an identical, physical copy of a data object) using the \texttt{irepl} command. First, let's use ils to take a look at what's inside \texttt{/tempZone/home/alice/training\_jpgs} and we'll use the \texttt{-L} option to determine if there are any replicas already in existence. Using the \texttt{-L} command line option (meaning very long) with \texttt{ils} will show you where data objects are physically stored and if replicas exist.
 
 \begin{lstlisting}[basicstyle=\tiny]
-$ ils -L /tempZone/home/alice/training_jpgs
+$ ils @\char45@L /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
  alice             0 demoResc      1128069 2016-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
@@ -932,7 +936,7 @@ $ irepl -R newResc training_jpgs/peanuts.jpg
 Now, let's verify that the replica was created (now numbered \texttt{1} on \texttt{newResc}):
 
 \begin{lstlisting}[basicstyle=\tiny\rmfamily]
-$ ils -L training_jpgs
+$ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
  alice             0 demoResc      1128069 2016-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
@@ -972,7 +976,7 @@ $ itrim -N 1 -S demoResc training_jpgs/peanuts.jpg
 Now let's verify that the replica of \texttt{peanuts.jpg} on \texttt{demoResc} has been successfully trimmed by using \texttt{ils -L} again.
 
 \begin{lstlisting}[basicstyle=\tiny\rmfamily]
-$ ils -L training_jpgs
+$ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
  alice             0 demoResc      1128069 2016-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
@@ -1492,7 +1496,7 @@ A hypothetical rule \texttt{HelloWorld2} that invokes a hypothetical microservic
 
 \begin{lstlisting}
 HelloWorld2 {
-	msihello_world( *msg );
+  msihello_world(*msg);
 }
 \end{lstlisting}
 
@@ -1518,37 +1522,16 @@ We will configure this new rule engine as part of the following metadata harvest
 The example rulebases below (\texttt{training.re} and \texttt{core.py}) work together to harvest and apply metadata to any data object at rest, owned by any user. This rule could help Alice save time by automating metadata annotation for her. We will use this pair of rulebases to demonstrate the power of the rule engine plugin system.
 
 \vspace{5mm}
-\begin{lstlisting}[language=Python]
-# training.re
-getSessionVar(*name, *output) {
-    *output = eval("str($"++*name++")");
-}
-add_metadata_to_objpath(*str, *objpath, *objtype) {
-    msiString2KeyValPair(*str, *kvp);
-    msiAssociateKeyValuePairsToObj(*kvp, *objpath, *objtype);
-}
-\end{lstlisting}
+\begin{lrbox}{\lstTrainingRuleBase}
+\lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
+\end{lrbox}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2016/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
-\begin{lstlisting}[language=Python,basicstyle=\scriptsize\ttfamily]
-# core.py
-import os
-import sys
-import EXIF
-def acPostProcForPut(rule_args, callback):
-    phypath = callback.getSessionVar('filePath', 'dummy')[PYTHON_RE_RET_OUTPUT][1]
-    objpath = callback.getSessionVar('objPath', 'dummy')[PYTHON_RE_RET_OUTPUT][1]
-    exiflist = []
-    with open(phypath, 'rb') as f:
-        tags = EXIF.process_file(f, details=False)
-        for (k, v) in tags.iteritems():
-            if k not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
-                exifpair = '{0}={1}'.format(k, v)
-                exiflist.append(exifpair)
-    exifstring = '%'.join(exiflist)
-    callback.add_metadata_to_objpath(exifstring, objpath, '-d')
-    callback.writeLine('serverLog', 'PYTHON - acPostProcForPut() complete')
-\end{lstlisting}
+\begin{lrbox}{\lstPythonRulebase}
+\lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
+\end{lrbox}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2016/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supercede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
