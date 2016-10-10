@@ -12,7 +12,7 @@ set(
 add_library(
   ${PLUGIN}
   MODULE
-  ${CMAKE_SOURCE_DIR}/src/libre-storage-balancing.cpp
+  ${CMAKE_SOURCE_DIR}/src/libirods_rule_engine_plugin-cpp-storage-balancing.cpp
   )
 
 target_include_directories(
