@@ -20,15 +20,17 @@ set(
 
 set(
   IRODS_API_PLUGIN_LINK_LIBRARIES_api_example_server
+  irods_client
   irods_server
-  irods_clerver
+  irods_common
+  irods_plugin_dependencies
   )
 
 set(
   IRODS_API_PLUGIN_LINK_LIBRARIES_api_example_client
-  irods_client_api_table
-  irods_client_core
-  irods_client_plugins
+  irods_client
+  irods_common
+  irods_plugin_dependencies
   )
 
 set(
@@ -57,8 +59,6 @@ foreach(PLUGIN ${IRODS_API_PLUGINS})
     ${PLUGIN}
     PRIVATE
     ${IRODS_API_PLUGIN_LINK_LIBRARIES_${PLUGIN}}
-    irods_plugin_dependencies
-    irods_common
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_filesystem.so
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_system.so
     ${IRODS_EXTERNALS_FULLPATH_ARCHIVE}/lib/libarchive.so

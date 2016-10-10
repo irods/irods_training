@@ -15,6 +15,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/optional.hpp>
 
+int rsGenQuery(rsComm_t*, genQueryInp_t*, genQueryOut_t**);
 
 namespace {
     class GenQueryInpManager {

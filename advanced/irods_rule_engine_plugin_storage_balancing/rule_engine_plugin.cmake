@@ -27,7 +27,6 @@ target_link_libraries(
   ${PLUGIN}
   PRIVATE
   irods_server
-  irods_clerver
   irods_common
   ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_coroutine.so
   ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_system.so

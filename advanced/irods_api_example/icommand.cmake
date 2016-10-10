@@ -5,11 +5,9 @@ add_executable(
 target_link_libraries(
   iapi_example
   PRIVATE
-  irods_client_core
-  irods_client_plugins
-  irods_client_api_table
-  irods_plugin_dependencies
+  irods_client
   irods_common
+  irods_plugin_dependencies
   ${IRODS_EXTERNALS_FULLPATH_AVRO}/lib/libavrocpp.so
   ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_filesystem.so
   ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_program_options.so
