@@ -4,6 +4,7 @@
 #include "irods_plugin_context.hpp"
 #include "irods_re_plugin.hpp"
 #include "irods_re_serialization.hpp"
+#include "irods_re_ruleexistshelper.hpp"
 
 #include <map>
 #include <string>
@@ -190,6 +191,7 @@ namespace {
 }
 
 irods::error start(irods::default_re_ctx&, const std::string&) {
+    RuleExistsHelper::Instance()->registerRuleRegex( "[^ ]*pep_resource_resolve_hierarchy_pre" );
     return SUCCESS();
 }
 
