@@ -99,7 +99,7 @@ pep_resource_resolve_hierarchy_pre(
 acPostProcForPut() {
 
     microservice_example("XXXX - test string", 314, 123.4);
-    if("ufs_cache" == $rescName) {
+    if("ufs_cache" == $KVPairs.rescName) {
 
         delay("<PLUSET>1s</PLUSET><EF>1h DOUBLE UNTIL SUCCESS OR 6 TIMES</EF>") {
 
