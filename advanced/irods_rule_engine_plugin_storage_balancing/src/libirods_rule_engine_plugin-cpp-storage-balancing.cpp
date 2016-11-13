@@ -205,7 +205,8 @@ irods::error rule_exists(irods::default_re_ctx&, std::string _rule_name, bool& _
 }
 
 irods::error list_rules( irods::default_re_ctx&, std::vector<std::string>& rule_vec ) {
-       rule_vec.push_back("pep_resource_resolve_hierarchy_pre");
+    rule_vec.push_back("pep_resource_resolve_hierarchy_pre");
+    return SUCCESS();
 }
 
 irods::error exec_rule(
