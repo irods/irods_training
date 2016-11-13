@@ -204,6 +204,10 @@ irods::error rule_exists(irods::default_re_ctx&, std::string _rule_name, bool& _
     return SUCCESS();
 }
 
+irods::error list_rules( irods::default_re_ctx&, std::vector<std::string>& rule_vec ) {
+       rule_vec.push_back("pep_resource_resolve_hierarchy_pre");
+}
+
 irods::error exec_rule(
     irods::default_re_ctx&,
     std::string            _rule_name,
@@ -276,6 +280,9 @@ irods::pluggable_rule_engine<irods::default_re_ctx>* plugin_factory(const std::s
     re->add_operation<irods::default_re_ctx&, std::string, bool&>(
             "rule_exists",
             std::function<irods::error(irods::default_re_ctx&, std::string, bool&)>(rule_exists));
+    re->add_operation<irods::default_re_ctx&, std::vector<std::string>&>(
+            "list_rules",
+            std::function<irods::error(irods::default_re_ctx&,std::vector<std::string>&)>( list_rules ) );
     re->add_operation<irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback>(
             "exec_rule",
             std::function<irods::error(irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback)>(exec_rule));
