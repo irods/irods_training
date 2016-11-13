@@ -39,5 +39,5 @@ install(
   TARGETS
   ${PLUGIN}
   LIBRARY
-  DESTINATION var/lib/irods/plugins/rule_engines
+  DESTINATION usr/lib/irods/plugins/rule_engines
   )
