@@ -1,0 +1,5 @@
+
+  executable     = /usr/bin/jeb
+  universe       = vanilla 
+
+  queue

@@ -19,12 +19,20 @@ submit_thumbnail_job(
     *src_phy_path,
     *dst_phy_path ) {
     remote(*server_host, "") {
-	    *cmd_opt = 'convert -thumbnail *size_str *src_phy_path *dst_phy_path'
-	    *err = errormsg(msiExecCmd("submit_job.sh", *cmd_opt, "", "", "", *std_out_err), *msg);
-	    if(*err != 0) {
+	    *cmd_opt = '/usr/bin/convert -thumbnail *size_str *src_phy_path *dst_phy_path'
+	    *err = errormsg(msiExecCmd("submit_thumbnail_job.sh", *cmd_opt, "null", "null", "null", *std_out_err), *msg);
+
+            msiGetStdoutInExecCmdOut(*std_out_err,*std_out);
+            writeLine("serverLog", "XXXX - STDOUT [*std_out]")
+
+            msiGetStderrInExecCmdOut(*std_out_err,*std_err);
+            writeLine("serverLog", "XXXX - STDERR [*std_err]")
+
+            if(*err != 0) {
 		writeLine( "serverLog", "FAILED: [*cmd_opt] [*err] [*msg]" );
 		failmsg(*err,*cmd_opt)
 	    }
+
     } # remote
 }
 
@@ -41,7 +49,7 @@ get_thumbnail_physical_path(*dst_dir, *thumb_name, *phy_path) {
 }
 
 get_thumbnail_name(*file_name, *size, *thumb_name) {
-    # triim the extension
+    # trim the extension
     *fn = trimr(*file_name, ".")
     *ext = substr(*file_name, strlen(*fn)+1, strlen(*file_name)) 
     *thumb_name = *fn ++ "_thumbnail_" ++ *size ++ "." ++ *ext

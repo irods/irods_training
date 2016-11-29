@@ -238,6 +238,35 @@ create_thumbnail_impl(
     
 }
 
+get_list_of_thumbnails(
+    *src_obj_path,
+    *thumbnail_list ) {
+
+    *thumbnail_list = list()
+    split_path(*src_obj_path, "/", *col_name, *obj_name)
+
+    # derive a collection name from the logical path
+    *thumb_coll_name = "NULL"
+    get_thumbnail_collection_name(*col_name, *obj_name, *thumb_coll_name);
+    writeLine( "serverLog", "XXXX - get_list_of_thumbnails :: thumb_coll_name [*thumb_coll_name]" )
+
+    # get the list of possible sizes
+    get_thumbnail_sizes(*thumb_sizes)
+    foreach( *sz in *thumb_sizes ) {
+        get_thumbnail_name(*obj_name, *sz, *thumbnail_name);
+        *dst_obj_path = *thumb_coll_name ++ "/" ++ *thumbnail_name
+        writeLine( "serverLog", "XXXX - get_list_of_thumbnails :: [*src_obj_path] [*sz] [*thumbnail_name] [*dst_obj_path]" )
+
+        # does the thumbnail exist
+        *err = errormsg(msiObjStat(*dst_obj_path,*obj_stat), *msg);
+        if( 0 == *err ) {
+            # it does exist, add it to the list
+            *thumbnail_list = cons(*dst_obj_path, *thumbnail_list)
+        }
+    }
+}
+
+
 create_thumbnail(
     *src_obj_path,
     *dst_obj_path,
