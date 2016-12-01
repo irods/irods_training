@@ -1,0 +1,15 @@
+if [ -f /etc/irods/service_account.config ] ; then
+  source /etc/irods/service_account.config 2> /dev/null
+else
+  IRODS_SERVICE_ACCOUNT_NAME=`stat --format "%U" /var/lib/irods`
+  IRODS_SERVICE_GROUP_NAME=`stat --format "%G" /var/lib/irods`
+fi
+
+
+chown $IRODS_SERVICE_ACCOUNT_NAME:$IRODS_SERVICE_GROUP_NAME /etc/irods/thumbnail.re
+chown $IRODS_SERVICE_ACCOUNT_NAME:$IRODS_SERVICE_GROUP_NAME /etc/irods/thumbnail_configuration.re
+chown $IRODS_SERVICE_ACCOUNT_NAME:$IRODS_SERVICE_GROUP_NAME /var/lib/irods/create_thumbnails.r
+chown $IRODS_SERVICE_ACCOUNT_NAME:$IRODS_SERVICE_GROUP_NAME /var/lib/irods/find_thumbnails.r
+chown $IRODS_SERVICE_ACCOUNT_NAME:$IRODS_SERVICE_GROUP_NAME /var/lib/irods/msiExecCmd_bin/submit_thumbnail_job.sh
+chown $IRODS_SERVICE_ACCOUNT_NAME:$IRODS_SERVICE_GROUP_NAME /var/lib/irods/msiExecCmd_bin/thumbnail.submit_thumbnail_job.sh
+
