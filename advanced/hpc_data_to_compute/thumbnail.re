@@ -87,6 +87,7 @@ replicate_object_to_image_node(
     }
 
     # "Take the Data to the Compute" - replicate to an image compute node
+    *out_param = 0
     *err = errormsg(msiDataObjRepl(
 		   *src_obj_path,
 		   "destRescName=*img_resc_name",
@@ -152,9 +153,9 @@ create_thumbnail_impl(
     writeLine("serverLog", "image_compute_type [*image_compute_type]")
 
     *lts_compute_type = "NULL"
-    get_long_term_resc_type(*lts_compute_type)
+    get_long_term_storage_type(*lts_compute_type)
     if("NULL" == *lts_compute_type) {
-	failmsg(-1,"get_long_term_resc_type failed")
+	failmsg(-1,"get_long_term_storage_type failed")
     }
     writeLine("serverLog", "lts_compute_type [*lts_compute_type]")
 

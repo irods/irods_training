@@ -9,7 +9,7 @@ get_image_compute_type(*t) {
     *t = "IMAGE_PROCESSING"
 }
 
-get_long_term_resc_type(*t) {
+get_long_term_storage_type(*t) {
     *t = "LONG_TERM_STORAGE"
 }
 
