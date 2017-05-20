@@ -73,10 +73,10 @@
 \textbf{Part of the iRODS User Group Meeting}
 
 \vspace{10mm}
-\textbf{Chapel Hill, NC}
+\textbf{Utrecht, Netherlands}
 
 \vspace{10mm}
-\textbf{June 7, 2016}
+\textbf{June 13, 2017}
 
 \end{center}
 
@@ -444,14 +444,14 @@ iRODS software can be installed via the native operating system's package manage
 
 For Ubuntu, this is named apt.
 
-To install the RENCI repository that hosts the iRODS software, execute the \textbf{APT} instructions located at \url{https://unstable.irods.org}:
+To install the RENCI repository that hosts the iRODS software, execute the \textbf{APT} instructions located at \url{https://packages.irods.org}:
 
 \begin{lstlisting}
-$ wget -qO - https://unstable.irods.org/irods-unstable-signing-key.asc | \
+$ wget -qO - https://packages.irods.org/irods-signing-key.asc | \
 	sudo apt-key add -
-$ echo "deb [arch=amd64] https://unstable.irods.org/apt/ \
+$ echo "deb [arch=amd64] https://packages.irods.org/apt/ \
 	@\char36@(lsb_release -sc) main" | sudo tee \
-	/etc/apt/sources.list.d/renci-irods-unstable.list
+	/etc/apt/sources.list.d/renci-irods.list
 $ sudo apt-get update
 \end{lstlisting}
 
@@ -513,7 +513,7 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 \ugmbullet Parallel Port Range (Begin) & \colorbox{gray!70}{20000} The beginning of the port range used when transferring large files. \\
 \ugmbullet Parallel Port Range (End) & \colorbox{gray!70}{20199} The end of the port range used when transferring large files. \\
 \ugmbullet Control Plane Port & \colorbox{gray!70}{1248} The port used for the control plane. The control plane receives status updates from all servers, and issues commands to servers to pause, resume, shutdown, etc. \\
-\makecell[l]{\ugmbullet Schema Validation \\ \hspace{8.5mm}Base URI} & \colorbox{gray!70}{https://schemas.irods.org/configuration} The location of the schema files used to validate the server's configuration files. \\
+\makecell[l]{\ugmbullet Schema Validation \\ \hspace{8.5mm}Base URI} & \colorbox{gray!70}{file:///var/lib/irods/configuration\_schemas} The location of the schema files used to validate the server's configuration files. \\
 \makecell[l]{\ugmbullet iRODS Administrator \\ \hspace{8.5mm}Username} & \colorbox{gray!70}{rods} The name of the iRODS administration account that will be created during setup. \\
 \hline
 
@@ -574,7 +574,7 @@ So to connect to an iRODS server using the rods administrator account, we will n
 
 You will need to have the following information handy when you run \texttt{iinit}:
 \begin{itemize}
- \item the hostname of the iRODS server (either a catalog provider or catalog consumer) you wish to log into: \texttt{ec2-\#-\#-\#-\#.compute-1.amazonaws.com}
+ \item the hostname of the iRODS server (either a catalog provider or catalog consumer) you wish to log into: \texttt{X.X.X.X}
  \item the network port number of the iRODS server: \texttt{1247}
  \item the name and password of the iRODS user: \texttt{rods}
  \item the name of the iRODS zone: \texttt{tempZone}
@@ -582,7 +582,7 @@ You will need to have the following information handy when you run \texttt{iinit
 
 Execute \texttt{iinit}.
 
-On the same line, after the colon, enter: \texttt{ec2-\#-\#-\#-\#.compute-1.amazonaws.com}
+On the same line, after the colon, enter: \texttt{X.X.X.X}
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iinit
@@ -645,7 +645,7 @@ Let's create a storage resource so that Alice can try out iCommands in the next 
 
 \textcolor{red}{\textbf{Please Note} - demoResc is not for production use, but we will use it for training purposes.}
 
-Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the host \texttt{ec2-\#-\#-\#-\#.compute-1.amazonaws.com}, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen
+Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the host \texttt{X.X.X.X}, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iadmin mkresc newResc unixfilesystem @\`{}@hostname@\`{}@:/var/lib/irods/new_vault
@@ -672,7 +672,7 @@ Now, using the \texttt{iinit} command, let's log in as Alice and change her pass
 
 Execute \texttt{iinit}.
 
-On the same line, after the colon, enter: \texttt{ec2-\#-\#-\#-\#.compute-1.amazonaws.com}
+On the same line, after the colon, enter: \texttt{X.X.X.X}
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iinit
@@ -767,7 +767,7 @@ $ icd ../alice
 For this training, we will be using a set of images. To prepare your home directory for the following exercises, do the following:
 
 \begin{lstlisting}
-$ wget ftp://ftp.renci.org/pub/irods/training/training_jpgs.zip
+$ wget https://github.com/irods/irods_training/raw/ugm2017/beginner/training_jpgs.zip
 $ sudo apt-get -y install unzip
 $ unzip training_jpgs.zip
 \end{lstlisting}
@@ -1056,7 +1056,7 @@ In iRODS version 4.3, the iRODS team hopes to add pluggable data transport as th
 \hline
 Interface & Plugins \\
 \hline
-Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ OSAuth \\ Pluggable Authentication Module (PAM) \\ LDAP via PAM \\Kerberos* \\ Grid Security Infrastructure (GSI)*} \\
+Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM) \\ LDAP via PAM \\Kerberos* \\ Grid Security Infrastructure (GSI)*} \\
 Network & \makecell[l]{Transmission Control Protocol (TCP) \\ Secure Socket Layer (SSL)} \\
 Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MySQL*} \\
 Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)* \\ Javascript*} \\
@@ -1139,7 +1139,7 @@ Now let's log in to the rods account:
 
 Execute \texttt{iinit}.
 
-On the same line, after the colon, enter: \texttt{ec2-\#-\#-\#-\#.compute-1.amazonaws.com}
+On the same line, after the colon, enter: \texttt{X.X.X.X}
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iinit
@@ -1515,7 +1515,7 @@ To install the Python rule engine plugin (and a Python EXIF library we'll use):
 $ sudo apt-get -y install irods-rule-engine-plugin-python python-exif
 \end{lstlisting}
 
-This rule engine package installs a single compiled library (shared object): \\ \texttt{/var/lib/irods/plugins/rule\_engines/librule-engine-plugin-python.so}
+This rule engine package installs a single compiled library (shared object): \\ \texttt{/usr/lib/irods/plugins/rule\_engines/librule-engine-plugin-python.so}
 
 We will configure this new rule engine as part of the following metadata harvesting example.
 
@@ -1527,13 +1527,13 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstTrainingRuleBase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2016/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2017/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2016/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2017/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supercede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
@@ -1549,39 +1549,35 @@ Let's try the second approach.
 $ sudo nano /etc/irods/server_config.json
 \end{lstlisting}
 
-Add a new python rule engine stanza within ``rule\_engines" just before the ``re-irods-instance" stanza:
+Add a new python rule engine stanza within ``rule\_engines" just before the ``irods\_rule\_engine\_plugin-irods\_rule\_language-instance" stanza:
 
 \begin{lrbox}{\lstServerConfigA}
 \begin{lstlisting}
         {
-            "instance_name": "rule-engine-plugin-python-instance",
-            "plugin_name": "rule-engine-plugin-python",
+            "instance_name": "irods_rule_engine_plugin-python-instance",
+            "plugin_name": "irods_rule_engine_plugin-python",
             "plugin_specific_configuration": {}
         },
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2016/beginner/server_config.json#L58-L62}{\usebox{\lstServerConfigA}}
+\href{https://github.com/irods/irods_training/blob/ugm2017/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
 \begin{lrbox}{\lstServerConfigB}
 \begin{lstlisting}
                 "re_rulebase_set": [
-                    {
-                         "filename": "training"
-                    },
-                    {
-                         "filename": "core"
-                    }
-                ]
+                    "training",
+                    "core"
+                ],
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2016/beginner/server_config.json#L78-L80}{\usebox{\lstServerConfigB}}
+\href{https://github.com/irods/irods_training/blob/ugm2017/beginner/server_config.json#L78-L80}{\usebox{\lstServerConfigB}}
 
 Save the file and the new rulebases will be activated!  Let's upload a new file to our home collection:
 
 \begin{lstlisting}
-$ wget ftp://ftp.renci.org/pub/irods/training/stickers.jpg
+$ wget https://github.com/irods/irods_training/raw/ugm2017/stickers.jpg
 $ iput stickers.jpg
 \end{lstlisting}
 
@@ -1649,12 +1645,11 @@ This simple example demonstrates automated metadata harvesting, use of multiple 
 \chapter{iRODS Resources}
 
 \begin{itemize}
- \item irods.org --- \url{http://irods.org/}
- \item iRODS download page  --- \url{http://irods.org/download/}
- \item iRODS github site ---  \url{https://github.com/irods}
- \item iRODS documentation --- \url{http://docs.irods.org/}
- \item iRODS blog --- \url{http://irods.org/controlyourdata/}
- \item iRODS articles --- \url{http://irods.org/documentation/articles/}
+ \item irods.org --- \url{https://irods.org/}
+ \item iRODS overview  --- \url{https://irods.org/documentation/}
+ \item iRODS download page  --- \url{https://irods.org/download/}
+ \item iRODS GitHub site ---  \url{https://github.com/irods}
+ \item iRODS documentation --- \url{https://docs.irods.org/}
  \item iRODS LinkedIn Group --- \url{https://www.linkedin.com/groups?gid=8162245}
  \item iRODS Twitter --- \url{https://twitter.com/irods}
 \end{itemize}
@@ -1676,7 +1671,7 @@ An iRODS server in a Zone that is not a Catalog Service Provider.  There can be 
 The iRODS server in a Zone that holds the connection to the (possibly remote) iCAT. There is one Catalog Service Provider in a Zone.
 
 \item [Collection]
-A Collection is the logical representations of physical containers, similar to directories or folders that are found in a file system. A Collection can have sub-collections, and hence provides a hierarchical structure.
+A Collection is the logical representation of physical containers, similar to directories or folders that are found in a file system. A Collection can have sub-collections, and hence provides a hierarchical structure.
 
 \item [Composable Resources]
 Composable Resources are plugins that allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage.
@@ -1688,7 +1683,7 @@ The control plane receives status updates from all servers, and issues commands 
 A Coordinating Resource is a type of Composable Resource that actively makes decisions about which physical storage device will receive or serve up a Data Object.
 
 \item [Data Object]
-A Data Object is the logical representation of data that maps to one or more physical instances of the data at rest in Storage Resources.
+A Data Object is the logical representation of data that maps to one or more physical instances (Replicas) of the data at rest in Storage Resources.
 
 \item [Delayed Execution Rule]
 A Delayed Execution Rule is a rule that invokes the delay keyword (i.e., a reserved word), which places the rule script in the delayed execution queue rather than immediately executing the rule.
@@ -1697,7 +1692,7 @@ A Delayed Execution Rule is a rule that invokes the delay keyword (i.e., a reser
 The hardware, operating system, and other machinery that supports a Zone.
 
 \item [iCAT]
-The iCAT, or iRODS Metadata Catalog, is a database (e.g. PostgreSQL, MySQL, Oracle) that stores metadata about the Data Objects in an iRODS Zone. There is one iCAT per iRODS Zone.
+The iCAT, or iRODS Metadata Catalog, is a database (e.g. PostgreSQL, MySQL, Oracle) that stores metadata about the Data Objects, Collections, Users, and Groups in an iRODS Zone. There is one iCAT per iRODS Zone.
 
 \item [iCommands]
 iCommands are Unix utilities that give users a command-line interface to operate on data in iRODS.

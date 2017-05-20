@@ -1,5 +1,6 @@
 {
     "advanced_settings": {
+        "default_log_rotation_in_days": 5,
         "default_number_of_transfer_threads": 4,
         "default_temporary_password_lifetime_in_seconds": 120,
         "maximum_number_of_concurrent_rule_engine_server_processes": 4,
@@ -10,84 +11,72 @@
         "transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
         "transfer_chunk_size_for_parallel_transfer_in_megabytes": 40
     },
+    "catalog_provider_hosts": [
+        "localhost"
+    ],
     "catalog_service_role": "provider",
     "default_dir_mode": "0750",
     "default_file_mode": "0600",
     "default_hash_scheme": "SHA256",
-    "default_resource_directory": "/var/lib/irods/Vault",
     "default_resource_name": "demoResc",
-    "default_rule_engine_instance": "re-irods-instance",
     "environment_variables": {},
     "federation": [],
-    "icat_host": "localhost",
     "match_hash_policy": "compatible",
     "negotiation_key": "32_byte_server_negotiation_key__",
-    "re_data_variable_mapping_set": [
-        {
-            "filename": "core"
-        }
-    ],
-    "re_function_name_mapping_set": [
-        {
-            "filename": "core"
-        }
-    ],
-    "re_rulebase_set": [
-        {
-            "filename": "core"
-        }
-    ],
-    "rule_engines": [
-        {
-            "instance_name": "re-instance",
-            "plugin_name": "re",
-            "plugin_specific_configuration": {
-                "namespaces": [
-                    {
-                        "namespace": ""
-                    },
-                    {
-                        "namespace": "audit_"
-                    },
-                    {
-                        "namespace": "indexing_"
-                    }
-                ]
+    "plugin_configuration": {
+        "authentication": {},
+        "database": {
+            "postgres": {
+                "db_host": "localhost",
+                "db_name": "ICAT",
+                "db_odbc_driver": "PostgreSQL ANSI",
+                "db_password": "testpassword",
+                "db_port": 5432,
+                "db_username": "irods"
             }
         },
-        {
-            "instance_name": "rule-engine-plugin-python-instance",
-            "plugin_name": "rule-engine-plugin-python",
-            "plugin_specific_configuration": {}
-        },
-        {
-            "instance_name": "re-irods-instance",
-            "plugin_name": "re-irods",
-            "plugin_specific_configuration": {
-                "re_data_variable_mapping_set": [
-                    {
-                        "filename": "core"
-                    }
-                ],
-                "re_function_name_mapping_set": [
-                    {
-                        "filename": "core"
-                    }
-                ],
-                "re_rulebase_set": [
-                    {
-                        "filename": "training"
-                    },
-                    {
-                        "filename": "core"
-                    }
-                ]
+        "network": {},
+        "resource": {},
+        "rule_engines": [
+            {
+                "instance_name": "irods_rule_engine_plugin-python-instance",
+                "plugin_name": "irods_rule_engine_plugin-python",
+                "plugin_specific_configuration": {}
             },
-            "shared_memory_instance": "legacy_re"
-        }
+            {
+                "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
+                "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
+                "plugin_specific_configuration": {
+                    "re_data_variable_mapping_set": [
+                        "core"
+                    ],
+                    "re_function_name_mapping_set": [
+                        "core"
+                    ],
+                    "re_rulebase_set": [
+                        "training",
+                        "core"
+                    ],
+                    "regexes_for_supported_peps": [
+                        "ac[^ ]*",
+                        "msi[^ ]*",
+                        "[^ ]*pep_[^ ]*_(pre|post)"
+                    ]
+                },
+                "shared_memory_instance": "irods_rule_language_rule_engine"
+            },
+            {
+                "instance_name": "irods_rule_engine_plugin-cpp_default_policy-instance",
+                "plugin_name": "irods_rule_engine_plugin-cpp_default_policy",
+                "plugin_specific_configuration": {}
+            }
+        ]
+    },
+    "rule_engine_namespaces": [
+        ""
     ],
     "schema_name": "server_config",
-    "schema_validation_base_uri": "https://schemas.irods.org/configuration",
+    "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
     "schema_version": "v3",
     "server_control_plane_encryption_algorithm": "AES-256-CBC",
     "server_control_plane_encryption_num_hash_rounds": 16,
