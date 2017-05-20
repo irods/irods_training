@@ -5,37 +5,15 @@ project(irods_hpc_compute_to_data_example C CXX)
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/launch_compute.r
-  DESTINATION var/lib/irods
+  DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/launch_compute_container.re
-  ${CMAKE_SOURCE_DIR}/set_default_resourcethumbnail_configuration.re
+  ${CMAKE_SOURCE_DIR}/set_default_resource.re
   DESTINATION etc/irods
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-  )
-
-install(
-  FILES
-  ${CMAKE_SOURCE_DIR}/create_thumbnails.r
-  ${CMAKE_SOURCE_DIR}/find_thumbnails.r
-  DESTINATION ${IRODS_HOME_DIRECTORY}
-  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-  )
-
-install(
-  FILES
-  ${CMAKE_SOURCE_DIR}/thumbnail.submit
-  DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
-  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-  )
-
-install(
-  FILES
-  ${CMAKE_SOURCE_DIR}/submit_thumbnail_job.sh
-  DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
-  PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ WORLD_READ
   )
 
 if (NOT CPACK_PACKAGING_INSTALL_PREFIX)
