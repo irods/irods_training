@@ -6,24 +6,20 @@ launch_thumbnail_compute(
     # TODO - ensure image is on image compute resource
 
 
-
-
     split_path(*src_obj_path, "/", *col_name, *obj_name)
-
-
 
     *thumb_coll_name = "NULL"
     get_thumbnail_collection_name(*col_name, *obj_name, *thumb_coll_name);
 
-    *err = errormsg(msiCollCreate(*thumb_coll_name, 1, *out), *msg)
-    if( *err < 0 ) {
-        writeLine("serverLog", "msiCollCreate failed: [*err] [*msg] [*out]")
-        failmsg(*err, *msg)
-    }
+    #*err = errormsg(msiCollCreate(*thumb_coll_name, 1, *out), *msg)
+    #if( *err < 0 ) {
+    #    writeLine("serverLog", "msiCollCreate failed: [*err] [*msg] [*out]")
+    #    failmsg(*err, *msg)
+    #}
 
     *guid_str = "NULL"
     msiget_uuid(*guid_str)
-    *dst_dir_name = "/tmp/" ++ *obj_name ++ "-" ++ *guid
+    *dst_dir_name = "/tmp/" ++ *obj_name ++ "-" ++ *guid_str
 
     # capture configuration parameters
     *image_compute_type = "NULL"
@@ -88,19 +84,20 @@ launch_thumbnail_compute(
 writeLine( "serverLog", "XXXX - [*src_obj_path] [*sz] [*thumbnail_name] [*dst_obj_path]" )
 
         *sz_str = str(*sz)
-        *docker_options = "-v " ++ *src_dir_name ++ ":/src -v " ++ *dst_dir_name 
-        *docker_options = *docker_options ++ ":/dst -e SIZE=" ++ *sz_str
-        *docker_options = *docker_options ++ " -e SOURCE_IMAGE=" ++ *src_file_name 
-        *docker_options = *docker_options ++ " -e DESTINATION_IMAGE=" ++ *thumbnail_name
+        *docker_options = " run -v \"" ++ *src_dir_name ++ ":/src\" -v \"" ++ *dst_dir_name 
+        *docker_options = *docker_options ++ ":/dst\" -e \"SIZE=" ++ *sz_str ++ "\""
+        *docker_options = *docker_options ++ " -e \"SOURCE_IMAGE=" ++ *src_file_name ++ "\""
+        *docker_options = *docker_options ++ " -e \"DESTINATION_IMAGE=" ++ *thumbnail_name ++ "\" "
 
 writeLine( "serverLog", "XXXX - docker_options [*docker_options]")
 
         launch_compute_container(
             *server_host,
+            "1247",
             *guid_str,
             *dst_dir_name,
             *dst_obj_path,
-            *thumbnail,
+            "thumbnail",
             *docker_options)
 
     } # for
@@ -109,10 +106,11 @@ writeLine( "serverLog", "XXXX - docker_options [*docker_options]")
 
 launch_compute_container(
     *host_name,
+    *port_str,
     *guid_str,
     *src_phy_path,
     *dst_log_path,
-    *containter_name,
+    *container_name,
     *user_docker_options) {
 
     # following the template method pattern we call the
@@ -137,24 +135,21 @@ launch_compute_container(
     remote(*host_name, "null") {
         # possible future pre-processing here
 
-        # build source and destination mounts for user container
-        *src_mnt = "-v " + *src_phy_path + ":/var/input"
- 
-        *dst_path = "/tmp/"+*guid_str
-        errormsg(msiExecCmd("mkdir -p ", *dst_path, "null", "null", "null", *std_out_err), *msg);
-
-        *dst_mnt = "-v " + *dst_path + ":/dst"
-
-
         # build the full docker option string
-        *cmd_opt = *options + " " + *_container_name
-
+        *cmd_opt = *user_docker_options ++ " " ++ *container_name
   
         # call the users provided container
         *msg = ""
-        errormsg(msiExecCmd("docker run", *cmd_opt, "null", "null", "null", *std_out_err), *msg);
+        errormsg(msiExecCmd("docker", *cmd_opt, "null", "null", "null", *std_out_err), *msg);
 
+
+        # build option string for Moarlock
+        split_path(*dst_log_path, "/", *dst_col_name, *dst_obj_name)
+        *moar_opts = " run -v \"" ++ *src_phy_path ++ ":/var/input\" -e \"host=" ++ *host_name ++ "\" -e \"zone=tempZone\" -e \"port=" ++ *port_str ++ "\" -e \"user=rods\" -e \"passwd=rods\" -e \"irodsout=" ++ *dst_col_name ++ "\" -e \"guid=" ++ *guid_str ++ "\" diceunc/moarlock:1.0"
+
+writeLine("serverLog", "MOAR_OPTS [*moar_opts]")
         # post-processing with  Moarlock
+        errormsg(msiExecCmd("docker", *moar_opts, "null", "null", "null", *std_out_err), *msg);
 
     } # remote
 } # launch_compute_container
