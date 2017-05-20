@@ -16,14 +16,10 @@ int msiget_uuid(
     msParam_t*      _string_param,
     ruleExecInfo_t* _rei ) {
 
-    char *string_param = parseMspForStr( _string_param );
-    if( !string_param ) {
-        std::cout << "null _string_param" << std::endl;
-        return SYS_INVALID_INPUT_PARAM;
-    }
-
     boost::uuids::uuid u;
     std::string us = boost::uuids::to_string(u);
+
+    fillMsParam( _string_param, NULL, STR_MS_T, (void*)us.c_str(), NULL );
 
     return 0;
 }
