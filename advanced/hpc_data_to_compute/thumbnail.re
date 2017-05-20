@@ -49,13 +49,13 @@ get_resc_id_for_data_object_reside_on_image_node(
     *image_compute_type,
     *src_resc_id) {
     *src_resc_id = "NULL"
-    
-    *image_resc_id = "NOT_FOUND"
+
+    #*image_resc_id = "NOT_FOUND"
     foreach(*row in SELECT DATA_RESC_ID WHERE DATA_NAME = '*obj_name' AND COLL_NAME = '*col_name') {
         *id = *row.DATA_RESC_ID
         foreach(*v in SELECT META_RESC_ATTR_VALUE WHERE RESC_ID = '*id' and META_RESC_ATTR_NAME = '*compute_resc_role_attr' ) {
             if(*image_compute_type == *v.META_RESC_ATTR_VALUE) {
-                *image_resc_id = *id
+                *src_resc_id = *id
                 break
             }
         } # values
@@ -67,6 +67,7 @@ get_phy_path_for_object_on_resc_id(
     *resc_id,
     *phy_path ) {
     *phy_path = "NULL"
+writeLine("serverLog", "XXXX - obj_name [*obj_name] resc_id [*resc_id]")
     foreach(*row in SELECT DATA_PATH WHERE DATA_NAME = '*obj_name' AND RESC_ID = '*resc_id') {
         *phy_path = *row.DATA_PATH;
     }
