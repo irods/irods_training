@@ -69,7 +69,7 @@ launch_thumbnail_compute(
             *guid_str,
             *dst_dir_name,
             *dst_obj_path,
-            "thumbnail",
+            "irods/thumbnail_image",
             *docker_options)
 
     } # for
