@@ -277,13 +277,14 @@ create_thumbnail(
     *err = errormsg(msiObjStat(*dst_obj_path,*obj_stat), *msg);
     if(0 != *err) {
         writeLine("serverLog", "msiObjStat failed for [*dst_obj_path] [*err]")
+    }
+    else {
         create_thumbnail_impl(
             *src_obj_path,
             *dst_obj_path,
             *dst_phy_path,
             *size_str );
     }
-
 } # thumbnail
 
 create_thumbnail_collection(
