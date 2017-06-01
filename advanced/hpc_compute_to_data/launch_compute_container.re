@@ -62,6 +62,7 @@ launch_thumbnail_compute(
         *docker_options = *docker_options ++ ":/dst\" -e \"SIZE=" ++ *sz_str ++ "\""
         *docker_options = *docker_options ++ " -e \"SOURCE_IMAGE=" ++ *src_file_name ++ "\""
         *docker_options = *docker_options ++ " -e \"DESTINATION_IMAGE=" ++ *thumbnail_name ++ "\" "
+        *docker_options = *docker_options ++ " -e \"DESTINATION_COLLECTION=" ++ *thumb_coll_name ++ "\" "
 
         launch_compute_container(
             *server_host,
