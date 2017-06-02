@@ -1,28 +1,27 @@
-def pep_resource_resolve_hierarchy_pre(rule_args, callback):
+import re
+from rule_engine_constants import PYTHON_RE_RET_ARGUMENTS
+
+def pep_resource_resolve_hierarchy_pre(rule_args, callback, rei):
     if rule_args[3] == 'CREATE':
-        resc_type = ''
-        ret = callback.findRescType(rule_args[0], resc_type)
-        resc_type = str(ret[PYTHON_RE_RET_OUTPUT][1])
+        ret = callback.findRescType(rule_args[0], '')
+        resc_type = ret[PYTHON_RE_RET_ARGUMENTS][1]
         if (resc_type == 'passthru'):
-            inst_id = ''
-            ret = callback.findInstId(rule_args[0], inst_id)
-            inst_id = str(ret[PYTHON_RE_RET_OUTPUT][1])
+            ret = callback.findInstId(rule_args[0], '')
+            inst_id = ret[PYTHON_RE_RET_ARGUMENTS][1]
 
-            bytes_used = ''
-            ret = callback.findBytesUsed(inst_id, bytes_used)
-            bytes_used = str(ret[PYTHON_RE_RET_OUTPUT][1])
+            ret = callback.findBytesUsed(inst_id, '')
+            bytes_used = ret[PYTHON_RE_RET_ARGUMENTS][1]
 
-            max_bytes = -1.0
-            context_string = ''
-            ret = callback.findContextString(rule_args[0], context_string)
-            context_string = str(ret[PYTHON_RE_RET_OUTPUT][1])
+            ret = callback.findContextString(rule_args[0], '')
+            context_string = ret[PYTHON_RE_RET_ARGUMENTS][1]
 
+            max_bytes = -1
             max_bytes_index = context_string.find('max_bytes')
             if max_bytes_index != -1:
                 max_bytes_re = 'max_bytes=(\d+)'
                 max_bytes_search = re.search(max_bytes_re, context_string)
                 max_bytes_str = max_bytes_search.group(1)
-                max_bytes = float(max_bytes_str)
+                max_bytes = max_bytes_str
 
             percent_full = 0.0
             if max_bytes == -1:
