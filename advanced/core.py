@@ -1,7 +1,6 @@
 import EXIF
 
 import python_storage_balancing
-from rule_engine_constants import PYTHON_RE_RET_ARGUMENTS
 import session_vars
 
 #def pep_resource_resolve_hierarchy_pre(rule_args, callback, rei):

@@ -1,19 +1,18 @@
 import re
-from rule_engine_constants import PYTHON_RE_RET_ARGUMENTS
 
 def pep_resource_resolve_hierarchy_pre(rule_args, callback, rei):
     if rule_args[3] == 'CREATE':
         ret = callback.findRescType(rule_args[0], '')
-        resc_type = ret[PYTHON_RE_RET_ARGUMENTS][1]
+        resc_type = ret['arguments'][1]
         if (resc_type == 'passthru'):
             ret = callback.findInstId(rule_args[0], '')
-            inst_id = ret[PYTHON_RE_RET_ARGUMENTS][1]
+            inst_id = ret['arguments'][1]
 
             ret = callback.findBytesUsed(inst_id, '')
-            bytes_used = ret[PYTHON_RE_RET_ARGUMENTS][1]
+            bytes_used = ret['arguments'][1]
 
             ret = callback.findContextString(rule_args[0], '')
-            context_string = ret[PYTHON_RE_RET_ARGUMENTS][1]
+            context_string = ret['arguments'][1]
 
             max_bytes = -1
             max_bytes_index = context_string.find('max_bytes')
