@@ -58,11 +58,11 @@ launch_thumbnail_compute(
         *dst_obj_path = *thumb_coll_name ++ "/" ++ *thumbnail_name
 
         *sz_str = str(*sz)
-        *docker_options = " run -v \"" ++ *src_dir_name ++ ":/src\" -v \"" ++ *dst_dir_name 
-        *docker_options = *docker_options ++ ":/dst\" -e \"SIZE=" ++ *sz_str ++ "\""
-        *docker_options = *docker_options ++ " -e \"SOURCE_IMAGE=" ++ *src_file_name ++ "\""
-        *docker_options = *docker_options ++ " -e \"DESTINATION_IMAGE=" ++ *thumbnail_name ++ "\" "
-        *docker_options = *docker_options ++ " -e \"DESTINATION_COLLECTION=" ++ *thumb_coll_name ++ "\" "
+        *docker_options = "\" -v " ++ *src_dir_name ++ ":/src -v " ++ *dst_dir_name 
+        *docker_options = *docker_options ++ ":/dst -e SIZE=" ++ *sz_str
+        *docker_options = *docker_options ++ " -e SOURCE_IMAGE=" ++ *src_file_name
+        *docker_options = *docker_options ++ " -e DESTINATION_IMAGE=" ++ *thumbnail_name
+        *docker_options = *docker_options ++ " -e DESTINATION_COLLECTION=" ++ *thumb_coll_name ++ " "
 
         launch_compute_container(
             *server_host,
@@ -110,17 +110,17 @@ launch_compute_container(
     remote(*host_name, "null") {
         # possible future pre-processing here
         # build the full docker option string
-        *cmd_opt = *user_docker_options ++ " " ++ *container_name
+        *cmd_opt = *user_docker_options ++ " " ++ *container_name ++ "\""
   
         # call the users provided container
-        msiExecCmd("docker", *cmd_opt, "null", "null", "null", *std_out_err)
+        msiExecCmd("docker_run.sh", *cmd_opt, "null", "null", "null", *std_out_err)
 
         # build option string for Moarlock
         split_path(*dst_log_path, "/", *dst_col_name, *dst_obj_name)
-        *moar_opts = " run -v \"" ++ *src_phy_path ++ ":/var/input\" -e \"host=" ++ *host_name ++ "\" -e \"zone=tempZone\" -e \"port=" ++ *port_str ++ "\" -e \"user=rods\" -e \"passwd=rods\" -e \"irodsout=" ++ *dst_col_name ++ "\" -e \"guid=" ++ *guid_str ++ "\" diceunc/moarlock:1.0"
+        *moar_opts = "\" -v " ++ *src_phy_path ++ ":/var/input -e host=" ++ *host_name ++ " -e zone=tempZone -e port=" ++ *port_str ++ " -e user=rods -e passwd=rods -e irodsout=" ++ *dst_col_name ++ " -e guid=" ++ *guid_str ++ " diceunc/moarlock:1.0\""
 
         # post-processing with  Moarlock
-        msiExecCmd("docker", *moar_opts, "null", "null", "null", *std_out_err)
+        msiExecCmd("docker_run.sh", *moar_opts, "null", "null", "null", *std_out_err)
 
     } # remote
 } # launch_compute_container

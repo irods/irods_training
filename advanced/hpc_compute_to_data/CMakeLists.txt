@@ -5,9 +5,18 @@ project(irods_hpc_compute_to_data_example C CXX)
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/launch_compute.r
+  ${CMAKE_SOURCE_DIR}/docker_run.sh
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
+
+install(
+  FILES
+  ${CMAKE_SOURCE_DIR}/docker_run.sh
+  DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
+  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
+  )
+
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/launch_compute_container.re
