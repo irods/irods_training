@@ -28,7 +28,7 @@ def pep_resource_resolve_hierarchy_pre(rule_args, callback, rei):
             elif max_bytes == 0:
                 percent_full = 1.0
             else:
-                percent_full = float(bytes_used)/max_bytes
+                percent_full = float(bytes_used)/float(max_bytes)
 
             write_weight = 1.0 - percent_full
             rule_args[2] = 'read=1.0;write=' + str(write_weight)
