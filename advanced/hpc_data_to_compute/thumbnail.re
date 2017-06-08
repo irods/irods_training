@@ -67,7 +67,7 @@ get_phy_path_for_object_on_resc_id(
     *resc_id,
     *phy_path ) {
     *phy_path = "NULL"
-writeLine("serverLog", "XXXX - obj_name [*obj_name] resc_id [*resc_id]")
+    #writeLine("serverLog", "XXXX - obj_name [*obj_name] resc_id [*resc_id]")
     foreach(*row in SELECT DATA_PATH WHERE DATA_NAME = '*obj_name' AND RESC_ID = '*resc_id') {
         *phy_path = *row.DATA_PATH;
     }
@@ -250,14 +250,14 @@ get_list_of_thumbnails(
     # derive a collection name from the logical path
     *thumb_coll_name = "NULL"
     get_thumbnail_collection_name(*col_name, *obj_name, *thumb_coll_name);
-    writeLine( "serverLog", "XXXX - get_list_of_thumbnails :: thumb_coll_name [*thumb_coll_name]" )
+    #writeLine( "serverLog", "XXXX - get_list_of_thumbnails :: thumb_coll_name [*thumb_coll_name]" )
 
     # get the list of possible sizes
     get_thumbnail_sizes(*thumb_sizes)
     foreach( *sz in *thumb_sizes ) {
         get_thumbnail_name(*obj_name, *sz, *thumbnail_name);
         *dst_obj_path = *thumb_coll_name ++ "/" ++ *thumbnail_name
-        writeLine( "serverLog", "XXXX - get_list_of_thumbnails :: [*src_obj_path] [*sz] [*thumbnail_name] [*dst_obj_path]" )
+        #writeLine( "serverLog", "XXXX - get_list_of_thumbnails :: [*src_obj_path] [*sz] [*thumbnail_name] [*dst_obj_path]" )
 
         # does the thumbnail exist
         *err = errormsg(msiObjStat(*dst_obj_path,*obj_stat), *msg);
@@ -275,10 +275,11 @@ create_thumbnail(
     *dst_phy_path,
     *size_str) {
     *err = errormsg(msiObjStat(*dst_obj_path,*obj_stat), *msg);
-    if(0 != *err) {
-        writeLine("serverLog", "msiObjStat failed for [*dst_obj_path] [*err]")
+    if(0 == *err) {
+        writeLine("serverLog", "Thumbnail exists for [*dst_obj_path]")
     }
     else {
+        writeLine( "serverLog", "Create Thumbnail [*src_obj_path] [*dst_obj_path] [*size_str]" )
         create_thumbnail_impl(
             *src_obj_path,
             *dst_obj_path,
@@ -295,7 +296,7 @@ create_thumbnail_collection(
 
     *thumb_coll_name = "NULL"
     get_thumbnail_collection_name(*col_name, *obj_name, *thumb_coll_name);
-    writeLine( "serverLog", "XXXX - thumb_coll_name [*thumb_coll_name]" )
+    #writeLine( "serverLog", "XXXX - thumb_coll_name [*thumb_coll_name]" )
 
     *err = errormsg(msiCollCreate(*thumb_coll_name, 1, *out), *msg)
     if( *err < 0 ) {
@@ -307,7 +308,6 @@ create_thumbnail_collection(
     foreach( *sz in *thumb_sizes ) {
         get_thumbnail_name(*obj_name, *sz, *thumbnail_name);
         *dst_obj_path = *thumb_coll_name ++ "/" ++ *thumbnail_name
-        writeLine( "serverLog", "XXXX - [*src_obj_path] [*sz] [*thumbnail_name] [*dst_obj_path]" )
 
         *dst_phy_path = "NULL"
         get_thumbnail_physical_path(*dst_phy_dir, *thumbnail_name, *dst_phy_path)
