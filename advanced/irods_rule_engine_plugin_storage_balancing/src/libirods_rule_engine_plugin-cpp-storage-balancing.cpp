@@ -199,7 +199,7 @@ irods::error stop(irods::default_re_ctx&, const std::string&) {
     return SUCCESS();
 }
 
-irods::error rule_exists(irods::default_re_ctx&, std::string _rule_name, bool& _ret) {
+irods::error rule_exists(irods::default_re_ctx&, const std::string& _rule_name, bool& _ret) {
     _ret = _rule_name == "pep_resource_resolve_hierarchy_pre";
     return SUCCESS();
 }
@@ -211,7 +211,7 @@ irods::error list_rules( irods::default_re_ctx&, std::vector<std::string>& rule_
 
 irods::error exec_rule(
     irods::default_re_ctx&,
-    std::string            _rule_name,
+    const std::string&     _rule_name,
     std::list<boost::any>& _rule_arguments,
     irods::callback        _effect_handler) {
     try {
@@ -260,11 +260,11 @@ irods::error exec_rule(
     return SUCCESS();
 }
 
-irods::error exec_rule_text(irods::default_re_ctx&, std::string _rule_text, std::list<boost::any>& _rule_arguments, irods::callback _effect_handler) {
+irods::error exec_rule_text(irods::default_re_ctx&, const std::string& _rule_text, std::list<boost::any>& _rule_arguments, irods::callback _effect_handler) {
     return ERROR(SYS_NOT_SUPPORTED, "not supported");
 }
 
-irods::error exec_rule_expression(irods::default_re_ctx&, std::string _rule_text, std::list<boost::any>& _rule_arguments, irods::callback _effect_handler) {
+irods::error exec_rule_expression(irods::default_re_ctx&, const std::string& _rule_text, std::list<boost::any>& _rule_arguments, irods::callback _effect_handler) {
     return ERROR(SYS_NOT_SUPPORTED, "not supported");
 }
 
@@ -278,20 +278,20 @@ irods::pluggable_rule_engine<irods::default_re_ctx>* plugin_factory(const std::s
     re->add_operation<irods::default_re_ctx&, const std::string&>(
             "stop",
             std::function<irods::error(irods::default_re_ctx&, const std::string&)>(stop));
-    re->add_operation<irods::default_re_ctx&, std::string, bool&>(
+    re->add_operation<irods::default_re_ctx&, const std::string&, bool&>(
             "rule_exists",
-            std::function<irods::error(irods::default_re_ctx&, std::string, bool&)>(rule_exists));
+            std::function<irods::error(irods::default_re_ctx&, const std::string&, bool&)>(rule_exists));
     re->add_operation<irods::default_re_ctx&, std::vector<std::string>&>(
             "list_rules",
             std::function<irods::error(irods::default_re_ctx&,std::vector<std::string>&)>( list_rules ) );
-    re->add_operation<irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback>(
+    re->add_operation<irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback>(
             "exec_rule",
-            std::function<irods::error(irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback)>(exec_rule));
-    re->add_operation<irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback>(
+            std::function<irods::error(irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback)>(exec_rule));
+    re->add_operation<irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback>(
             "exec_rule_text",
-            std::function<irods::error(irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback)>(exec_rule_text));
-    re->add_operation<irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback>(
+            std::function<irods::error(irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback)>(exec_rule_text));
+    re->add_operation<irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback>(
             "exec_rule_expression",
-            std::function<irods::error(irods::default_re_ctx&, std::string, std::list<boost::any>&, irods::callback)>(exec_rule_expression));
+            std::function<irods::error(irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback)>(exec_rule_expression));
     return re;
 }
