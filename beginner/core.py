@@ -3,7 +3,7 @@ import os
 import session_vars
 import sys
 import EXIF
-def acPostProcForPut(rule_args, callback):
+def acPostProcForPut(rule_args, callback, rei):
     sv = session_vars.get_map(rei)
     phypath = sv['data_object']['file_path']
     objpath = sv['data_object']['object_path']
