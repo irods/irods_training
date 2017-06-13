@@ -1,8 +1,10 @@
 # core.py
 import os
+import session_vars
 import sys
 import EXIF
 def acPostProcForPut(rule_args, callback):
+    sv = session_vars.get_map(rei)
     phypath = sv['data_object']['file_path']
     objpath = sv['data_object']['object_path']
     exiflist = []
