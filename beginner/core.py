@@ -3,8 +3,8 @@ import os
 import sys
 import EXIF
 def acPostProcForPut(rule_args, callback):
-    phypath = callback.getSessionVar('filePath', 'dummy')[PYTHON_RE_RET_OUTPUT][1]
-    objpath = callback.getSessionVar('objPath', 'dummy')[PYTHON_RE_RET_OUTPUT][1]
+    phypath = sv['data_object']['file_path']
+    objpath = sv['data_object']['object_path']
     exiflist = []
     with open(phypath, 'rb') as f:
         tags = EXIF.process_file(f, details=False)
