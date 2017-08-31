@@ -75,7 +75,19 @@ get_resource_data_tier_time(*resc, *time) {
     }
 }
 
-find_violating_data_objects(*resc_name, *time_offset, *query_iterator) {
+get_resource_data_tier_query(*resc, *query) {
+    *time_attr = ""
+    *err = errormsg(get_data_tiering_query(*query_attr), *msg)
+    if(*err < 0) {
+        failmsg(*err, *msg)
+    }
+
+    foreach(*t in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = '*query_attr' and RESC_NAME = '*resc') {
+        *query = *t.META_RESC_ATTR_VALUE
+    }
+}
+
+find_violating_data_objects_by_access_time(*resc_name, *time_offset, *query_iterator) {
     *msg = ""
     *err = errormsg(msiGetSystemTime(*time_now, ""), *msg)
     if(*err < 0) {
@@ -92,6 +104,21 @@ find_violating_data_objects(*resc_name, *time_offset, *query_iterator) {
     *time_check_str = str(*time_check)
     #writeLine("serverLog", "        now [*time_now] offset [*time_offset] time check [*time_check_str]")
     *query_iterator = select META_DATA_ATTR_VALUE, DATA_NAME, COLL_NAME where RESC_NAME = '*resc_name' and META_DATA_ATTR_NAME = '*atime_attr' and META_DATA_ATTR_VALUE < '*time_check_str'
+}
+
+find_violating_data_objects(*resc_name, *time_offset, *query_iterator) {
+
+    *query = ""
+    *err = errormsg(get_resource_data_tier_query(*resc_name, *query), *msg)
+    if("" != *query) {
+        *err = eval(*query ++ ``(*resc_name, *time_offset, *query_iterator)``)
+    }
+    else {
+        *err = errormsg(find_violating_data_objects_by_access_time(*resc_name, *time_offset, *query_iterator), *msg)
+        if(*err < 0) {
+            failmsg(*err, *msg)
+        }
+    }
 }
 
 get_replica_number_for_resource(*obj_path, *resc_name, *repl_num) {
