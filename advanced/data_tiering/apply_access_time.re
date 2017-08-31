@@ -16,36 +16,5 @@ update_access_time_for_data_object(*_logical_path) {
         writeLine("serverLog", "msiset_avu :: [*err] [*msg]")
         failmsg(*err, *msg)
     }
-
-    writeLine("serverLog", "XXXX - update_access_time_for_data_object --- [*time] --- *_logical_path");
 }
-
-pep_api_data_obj_close_post(*INST, *COMM, *INP) {
-    writeLine("serverLog", "XXXX - *INP")
-    *err = errormsg(update_access_time_for_data_object(*INP.obj_path), *msg)
-    if(0 != *err) {
-        writeLine("serverLog", "pep_api_data_obj_close_post :: [*err] [*msg]")
-        failmsg(*err, *msg)
-    }
-}
-
-pep_api_data_obj_put_post(*INST, *COMM, *INP, *BUFF, *OPR_OUT) {
-    writeLine("serverLog", "XXXX - *INP")
-    *err = errormsg(update_access_time_for_data_object(*INP.obj_path), *msg)
-    if(0 != *err) {
-        writeLine("serverLog", "pep_api_data_obj_close_post :: [*err] [*msg]")
-        failmsg(*err, *msg)
-    }
-}
-
-pep_api_data_obj_get_post(*INST, *COMM, *INP, *BUFF, *OPR_OUT) {
-    writeLine("serverLog", "XXXX - *INP")
-    *err = errormsg(update_access_time_for_data_object(*INP.obj_path), *msg)
-    if(0 != *err) {
-        writeLine("serverLog", "pep_api_data_obj_close_post :: [*err] [*msg]")
-        failmsg(*err, *msg)
-    }
-}
-
-
 

@@ -1,8 +1,12 @@
 
-test_fcn() {
-writeLine("serverLog", "XXXXXXXXXXXXXXXXXX")
+split_path(*p,*tok,*col,*obj) {
+    *col = trimr(*p, *tok)
+    if(strlen(*col) == strlen(*p)) {
+        *obj = *col
+    } else {
+        *obj = substr(*p, strlen(*col)+1, strlen(*p)) 
+    }
 }
-
 
 
 append(*a, *b) =
@@ -34,8 +38,8 @@ get_list_of_tier_groups(*group_list) {
         failmsg(*err, *msg)
     }
 
-    foreach(*g in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = 'irods::data_tier_group') {
-        *val = *g.META_RESC_ATTR_VALUE
+    foreach(*group_name in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = 'irods::data_tier_group') {
+        *val = *group_name.META_RESC_ATTR_VALUE
         *group_list = cons(*val, *group_list)
     }
 }
@@ -54,7 +58,6 @@ get_tier_group_resources_and_indicies(*group_name, *indicies, *resources) {
         *indicies = cons(*val, *indicies)
 
         *resources."*val" = *resc
-        writeLine("serverLog", "RESC_NAME *resc, IDX *val")
     }
 
     *indicies = sort(*indicies)
@@ -67,20 +70,16 @@ get_resource_data_tier_time(*resc, *time) {
         failmsg(*err, *msg)
     }
 
-    writeLine("serverLog", "time_attr [*time_attr]")
-
     foreach(*t in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = '*time_attr' and RESC_NAME = '*resc') {
         *time = *t.META_RESC_ATTR_VALUE
     }
-            
-    writeLine("serverLog", "XXXX - resc name [*resc] - time [*time]")
 }
 
 find_violating_data_objects(*resc_name, *time_offset, *query_iterator) {
     *msg = ""
     *err = errormsg(msiGetSystemTime(*time_now, ""), *msg)
     if(*err < 0) {
-        writeLine("stdout", "get_violating_data_objects - msiGetSystemTime :: [*err] [*msg]")
+        writeLine("serverLog", "ERROR - msiGetSystemTime :: [*err] [*msg]")
         failmsg(*err, *msg)
     }
 
@@ -89,13 +88,24 @@ find_violating_data_objects(*resc_name, *time_offset, *query_iterator) {
         failmsg(*err, *msg)
     }
 
-    *time_offset = 10
     *time_check = int(*time_now) - int(*time_offset)
-    *time_check_str = str(*time_check)
-    *query_iterator = select DATA_NAME, COLL_NAME, DATA_REPL_NUM where RESC_NAME = '*resc_name' and META_DATA_ATTR_NAME = '*atime_attr' and META_DATA_ATTR_VALUE <= '*time_check_str'
+    *time_check_str = "0" ++ str(*time_check)
+    #writeLine("serverLog", "        now [*time_now] offset [*time_offset] time check [*time_check_str]")
+    *query_iterator = select META_DATA_ATTR_VALUE, DATA_NAME, COLL_NAME where RESC_NAME = '*resc_name' and META_DATA_ATTR_NAME = '*atime_attr' and META_DATA_ATTR_VALUE < '*time_check_str'
 }
 
-migrate_violating_data_object(*src_resc_name, *dst_resc_name, *obj_path, *repl_num) {
+get_replica_number_for_resource(*obj_path, *resc_name, *repl_num) {
+    split_path(*obj_path, "/", *coll_name, *data_name)
+
+    foreach(*rn in select DATA_REPL_NUM where RESC_NAME = '*resc_name' and COLL_NAME = '*coll_name' and DATA_NAME = '*data_name') {
+        *repl_num = *rn.DATA_REPL_NUM
+    }
+}
+
+migrate_data_object(*src_resc_name, *dst_resc_name, *obj_path) {
+    *repl_num = ""
+    get_replica_number_for_resource(*obj_path, *src_resc_name, *repl_num)
+
     *err = errormsg(msiDataObjRepl(
                         *obj_path,
                         "rescName=*src_resc_name++++destRescName=*dst_resc_name",
@@ -112,60 +122,115 @@ migrate_violating_data_object(*src_resc_name, *dst_resc_name, *obj_path, *repl_n
     }
 }
 
-migrate_violating_data_objects() {
-    writeLine("serverLog", "START")
+get_tier_group_for_replica(*obj_path, *resc_name, *tier_group) {
+    *tier_attr = ""
+    *err = errormsg(get_data_tiering_group_attribute(*tier_attr), *msg)
+    if(*err < 0) {
+        failmsg(*err, *msg)
+    }
 
+    split_path(*obj_path, "/", *coll_name, *data_name)
+    foreach(*idx in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = '*tier_attr' and COLL_NAME = '*coll_name' and DATA_NAME = '*data_name' and RESC_NAME = '*resc_name') {
+        *tier_group  = *idx.META_RESC_ATTR_VALUE
+    }
+
+}
+
+restage_object_to_lowest_tier(*obj_path, *resc_hier) {
+    split_path(*resc_hier, ";", *parent, *src_resc_name)
+
+    *tier_group = ""
+    *err = errormsg(get_tier_group_for_replica(*obj_path, *src_resc_name, *tier_group), *msg)
+    if(*err < 0) {
+        failmsg(*err, *msg)
+    }
+    
+    if("" != *tier_group) {
+        *err = errormsg(get_tier_group_resources_and_indicies(
+                            *tier_group,
+                            *indicies,
+                            *resources), *msg)
+        if(*err < 0) {
+            failmsg(*err, *msg)
+        }
+        
+        *idx0 = elem(*indicies, 0)
+        *dst_resc_name = *resources."*idx0"
+
+        *err = errormsg(migrate_data_object(
+                            *src_resc_name,
+                            *dst_resc_name,
+                            *obj_path), *msg)
+        if(*err < 0) {
+            writeLine("serverLog", "ERROR - failed to migrate data object [*err] [*msg]")
+        }
+
+    }
+}
+
+apply_data_tiering_policy() {
     *group_list = list() 
     *err = errormsg(get_list_of_tier_groups(*group_list), *msg)
     if(*err < 0) {
         failmsg(*err, *msg)
     }
 
-    foreach( *g in *group_list) {
-        writeLine("stdout", "group: [*g]")
+    foreach( *tier_group in *group_list) {
+        writeLine("serverLog", "Processing Tier Group: [*tier_group]")
 
-        *err = errormsg(get_tier_group_resources_and_indicies(*g, *indicies, *resources), *msg)
+        *err = errormsg(get_tier_group_resources_and_indicies(
+                            *tier_group,
+                            *indicies,
+                            *resources), *msg)
         if(*err < 0) {
             failmsg(*err, *msg)
         }
-
-        writeLine("serverLog", "*resources")
 
         *dst_idx = size(*indicies)-1
         for(*i = 0; *i < *dst_idx; *i = *i + 1) {
             *idx0 = elem(*indicies, *i)
             *idx1 = elem(*indicies, *i+1)
 
-            writeLine("serverLog", "index: [*idx0] [*idx1]")
             *src_resc_name = *resources."*idx0"
             *dst_resc_name = *resources."*idx1"
-            writeLine("serverLog", "resc names: [*src_resc_name] [*dst_resc_name]")
 
-            *err = errormsg(get_resource_data_tier_time(*src_resc_name, *time), *msg)
+            writeLine("serverLog", "    processing resource [*src_resc_name]")
+            *err = errormsg(get_resource_data_tier_time(
+                                *src_resc_name,
+                                *time), *msg)
             if(*err < 0) {
                 failmsg(*err, *msg)
             }
 
-            *err = errormsg(find_violating_data_objects(*src_resc_name, *time, *query_iterator), *msg)
+            *err = errormsg(find_violating_data_objects(
+                                *src_resc_name,
+                                *time,
+                                *query_iterator), *msg)
             if(*err < 0) {
                 failmsg(*err, *msg)
             }
 
             foreach(*obj in *query_iterator) {
                 *obj_path = *obj.COLL_NAME ++ "/" ++ *obj.DATA_NAME
-                *repl_num = *obj.DATA_REPL_NUM
-                writeLine("serverLog", "violating object [*obj_path]")
+                *time_str = *obj.META_DATA_ATTR_VALUE
 
-                *err = errormsg(migrate_violating_data_object(*src_resc_name, *dst_resc_name, *obj_path, *repl_num), *msg)
+                writeLine("serverLog", "        violating object [*obj_path] [*time_str]")
+
+                *err = errormsg(migrate_data_object(
+                                    *src_resc_name,
+                                    *dst_resc_name,
+                                    *obj_path), *msg)
                 if(*err < 0) {
                     writeLine("serverLog", "ERROR - failed to migrate data object [*err] [*msg]")
                 }
-            }
-        }
-    }
 
-    writeLine("serverLog", "DONE")
-}
+            } # foreach obj
+
+        } # for index
+
+    } # foreach tier group
+
+} # apply_data_tiering_policy
 
 
 
