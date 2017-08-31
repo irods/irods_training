@@ -89,7 +89,7 @@ find_violating_data_objects(*resc_name, *time_offset, *query_iterator) {
     }
 
     *time_check = int(*time_now) - int(*time_offset)
-    *time_check_str = "0" ++ str(*time_check)
+    *time_check_str = str(*time_check)
     #writeLine("serverLog", "        now [*time_now] offset [*time_offset] time check [*time_check_str]")
     *query_iterator = select META_DATA_ATTR_VALUE, DATA_NAME, COLL_NAME where RESC_NAME = '*resc_name' and META_DATA_ATTR_NAME = '*atime_attr' and META_DATA_ATTR_VALUE < '*time_check_str'
 }
