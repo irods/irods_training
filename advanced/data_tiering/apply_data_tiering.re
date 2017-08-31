@@ -129,6 +129,15 @@ get_replica_number_for_resource(*obj_path, *resc_name, *repl_num) {
     }
 }
 
+check_for_replica(*obj_path, *resc_name, *safe_flg) {
+    split_path(*obj_path, "/", *coll_name, *data_name)
+
+    *safe_flg = false
+    foreach(*repl in select DATA_REPL_NUM where DATA_NAME = '*data_name' and COLL_NAME = '*coll_name' and RESC_NAME = '*resc_name') {
+       *safe_flg = true
+    }
+}
+
 migrate_data_object(*src_resc_name, *dst_resc_name, *obj_path) {
     *repl_num = ""
     get_replica_number_for_resource(*obj_path, *src_resc_name, *repl_num)
@@ -139,6 +148,12 @@ migrate_data_object(*src_resc_name, *dst_resc_name, *obj_path) {
                         *out_param), *msg)
     if(0 != *err) {
         failmsg(*err, "msiDataObjRepl failed for [*obj_path] [*src_resc_name] [*dst_resc_name] - [*msg]")
+    }
+
+    # stat the new replica before unlinking the old
+    check_for_replica(*obj_path, *dst_resc_name, *safe_flg)
+    if(false == *safe_flg) {
+        failmsg(-1, "failed to create replica for *obj_path to *dst_resc_name")
     }
 
     *err = errormsg(msiDataObjUnlink(
@@ -184,14 +199,16 @@ restage_object_to_lowest_tier(*obj_path, *resc_hier) {
         *idx0 = elem(*indicies, 0)
         *dst_resc_name = *resources."*idx0"
 
-        *err = errormsg(migrate_data_object(
-                            *src_resc_name,
-                            *dst_resc_name,
-                            *obj_path), *msg)
-        if(*err < 0) {
-            writeLine("serverLog", "ERROR - failed to migrate data object [*err] [*msg]")
+        get_restage_delay_parameters(*delay_attr)
+        delay(*delay_attr) {
+            *err = errormsg(migrate_data_object(
+                                *src_resc_name,
+                                *dst_resc_name,
+                                *obj_path), *msg)
+            if(*err < 0) {
+                writeLine("serverLog", "ERROR - failed to migrate data object [*err] [*msg]")
+            }
         }
-
     }
 }
 
