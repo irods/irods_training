@@ -1,6 +1,42 @@
 cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
+
 find_package(IRODS 4.2.1 EXACT REQUIRED CONFIG)
-project(irods_hpc_data_to_compute_example C CXX)
+
+set(CMAKE_C_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang)
+set(CMAKE_CXX_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang++)
+
+project(irods_storage_tiering C CXX)
+
+include(${IRODS_TARGETS_PATH})
+
+if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build {Debug, Release}." FORCE)
+  message(STATUS "Setting unspecified CMAKE_BUILD_TYPE to '${CMAKE_BUILD_TYPE}'")
+endif()
+
+if (NOT CMAKE_INSTALL_PREFIX)
+  set(CMAKE_INSTALL_PREFIX "/" CACHE STRING "Install root path. Change from \"/\" for run-in-place installations." FORCE)
+  message(STATUS "Setting unspecified CMAKE_INSTALL_PREFIX to '${CMAKE_INSTALL_PREFIX}'. This is the correct setting for normal builds.")
+endif()
+
+if (NOT CPACK_PACKAGING_INSTALL_PREFIX)
+  set(CPACK_PACKAGING_INSTALL_PREFIX "/" CACHE STRING "Package root path. \"/\" is correct for normal package builds.." FORCE)
+  message(STATUS "Setting unspecified CPACK_PACKAGING_INSTALL_PREFIX to '${CPACK_PACKAGING_INSTALL_PREFIX}'. This is the correct setting for normal builds.")
+endif()
+
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+set(CMAKE_INSTALL_RPATH ${IRODS_EXTERNALS_FULLPATH_CLANG_RUNTIME}/lib)
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -stdlib=libc++")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
+add_compile_options(-nostdinc++ -Wall -Wextra -Werror -Wno-unused-parameter)
+link_libraries(c++abi)
+include_directories(${IRODS_EXTERNALS_FULLPATH_CLANG}/include/c++/v1)
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,defs")
+
+include(set_avu.cmake)
+include(get_leaf_resources.cmake)
 
 install(
   FILES
@@ -18,20 +54,6 @@ install(
   ${CMAKE_SOURCE_DIR}/launch_data_tiering.r
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-  )
-
-install(
-  FILES
-  ${CMAKE_SOURCE_DIR}/thumbnail.submit
-  DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
-  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-  )
-
-install(
-  FILES
-  ${CMAKE_SOURCE_DIR}/submit_thumbnail_job.sh
-  DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
-  PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ WORLD_READ
   )
 
 if (NOT CPACK_PACKAGING_INSTALL_PREFIX)
@@ -70,18 +92,16 @@ set(CPACK_RPM_PACKAGE_AUTOPROV 0)
 
 set(CPACK_ARCHIVE_COMPONENT_INSTALL OFF)
 
-set(CPACK_DEBIAN_PACKAGE_NAME "irods-hpc-data-to-compute-example")
+set(CPACK_DEBIAN_PACKAGE_NAME "irods-storage-tiering")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "irods-server (= ${IRODS_CPACK_DEBIAN_PACKAGE_VERSION})")
 set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/postinst;")
 
-set(CPACK_RPM_PACKAGE_NAME "irods-hpc-data-to-compute-example")
+set(CPACK_RPM_PACKAGE_NAME "irods-irods-storage-tiering")
 if (IRODS_LINUX_DISTRIBUTION_NAME STREQUAL "centos" OR IRODS_LINUX_DISTRIBUTION_NAME STREQUAL "centos linux")
   set(CPACK_RPM_PACKAGE_REQUIRES "irods-server = ${IRODS_VERSION}")
 elseif (IRODS_LINUX_DISTRIBUTION_NAME STREQUAL "opensuse")
   set(CPACK_RPM_PACKAGE_REQUIRES "irods-server = ${IRODS_VERSION}")
 endif()
-
-set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE "${CMAKE_SOURCE_DIR}/postinst")
 
 if (NOT CPACK_GENERATOR)
   set(CPACK_GENERATOR ${IRODS_CPACK_GENERATOR} CACHE STRING "CPack generator to use, e.g. {DEB, RPM, TGZ}." FORCE)
