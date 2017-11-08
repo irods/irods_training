@@ -197,7 +197,7 @@ check_for_replica(*obj_path, *resc_name, *safe_flg) {
 migrate_storage_object(*src_resc_name, *dst_resc_name, *obj_path) {
     *repl_num = ""
     get_replica_number_for_resource(*obj_path, *src_resc_name, *repl_num)
-
+    writeLine("serverLog", "              obj [*obj_path]    src resc [*src_resc_name]    dst resc [*dst_resc_name]   repl_num [*repl_num]")
     *err = errormsg(msiDataObjRepl(
                         *obj_path,
                         "rescName=*src_resc_name++++destRescName=*dst_resc_name",
@@ -221,7 +221,7 @@ migrate_storage_object(*src_resc_name, *dst_resc_name, *obj_path) {
     }
 }
 
-get_tier_group_for_replica(*obj_path, *resc_name, *tier_group) {
+get_tier_group_for_resource(*obj_path, *resc_name, *tier_group) {
     *tier_attr = ""
     *err = errormsg(get_storage_tiering_group_attribute(*tier_attr), *msg)
     if(*err < 0) {
@@ -229,21 +229,25 @@ get_tier_group_for_replica(*obj_path, *resc_name, *tier_group) {
     }
 
     split_path(*obj_path, "/", *coll_name, *data_name)
-    foreach(*idx in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = '*tier_attr' and COLL_NAME = '*coll_name' and DATA_NAME = '*data_name' and RESC_NAME = '*resc_name') {
+    #foreach(*idx in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = '*tier_attr' and COLL_NAME = '*coll_name' and DATA_NAME = '*data_name' and RESC_NAME = '*resc_name') {
+    foreach(*idx in select META_RESC_ATTR_VALUE where META_RESC_ATTR_NAME = '*tier_attr' and RESC_NAME = '*resc_name') {
         *tier_group  = *idx.META_RESC_ATTR_VALUE
     }
 
 }
 
 restage_object_to_lowest_tier(*obj_path, *resc_hier) {
-    split_path(*resc_hier, ";", *parent, *src_resc_name)
+    # need to declare these here for reasons of the delay call
+    *src_resc_name = ""
+    *dst_resc_name = ""
 
+    split_path(*resc_hier, ";", *parent, *src_resc_name)
     *tier_group = ""
-    *err = errormsg(get_tier_group_for_replica(*obj_path, *src_resc_name, *tier_group), *msg)
+    *err = errormsg(get_tier_group_for_resource(*obj_path, *parent, *tier_group), *msg)
     if(*err < 0) {
         failmsg(*err, *msg)
     }
-    
+
     if("" != *tier_group) {
         *err = errormsg(get_tier_group_resources_and_indicies(
                             *tier_group,
