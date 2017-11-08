@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
 
-find_package(IRODS 4.2.1 EXACT REQUIRED CONFIG)
+find_package(IRODS 4.2.2 EXACT REQUIRED CONFIG)
 
 set(CMAKE_C_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang)
 set(CMAKE_CXX_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang++)
@@ -42,8 +42,8 @@ install(
   FILES
   ${CMAKE_SOURCE_DIR}/access_time_configuration.re
   ${CMAKE_SOURCE_DIR}/apply_access_time.re
-  ${CMAKE_SOURCE_DIR}/apply_data_tiering.re
-  ${CMAKE_SOURCE_DIR}/data_tiering_configuration.re
+  ${CMAKE_SOURCE_DIR}/apply_storage_tiering.re
+  ${CMAKE_SOURCE_DIR}/storage_tiering_configuration.re
   ${CMAKE_SOURCE_DIR}/example_tiering_policy.re
   DESTINATION etc/irods
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
@@ -51,7 +51,7 @@ install(
 
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/launch_data_tiering.r
+  ${CMAKE_SOURCE_DIR}/launch_storage_tiering.r
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
@@ -62,7 +62,7 @@ if (NOT CPACK_PACKAGING_INSTALL_PREFIX)
 endif()
 
 
-set(CPACK_PACKAGE_FILE_NAME "irods-hpc-data-to-compute-example${IRODS_PACKAGE_FILE_NAME_SUFFIX}")
+set(CPACK_PACKAGE_FILE_NAME "irods-storage-tiering${IRODS_PACKAGE_FILE_NAME_SUFFIX}")
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 set(CPACK_COMPONENT_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 set(CPACK_COMPONENTS_GROUPING IGNORE)
