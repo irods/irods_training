@@ -4,7 +4,7 @@
  
 # **Rulebase Configuration**
 
-Add the four included rule bases above "core" in the re_rule_base_set array of the native iRODS rule language plugin:
+Add the five included rule bases (two configuration files, two implementation files, and an example policy) above "core" in the `re_rule_base_set` array of the native iRODS rule language plugin:
 ```
 "rule_engines": [
     {    
@@ -18,11 +18,11 @@ Add the four included rule bases above "core" in the re_rule_base_set array of t
                 "core"
             ],
             "re_rulebase_set": [
-                **"access_time_configuration",
+                "access_time_configuration",
                 "apply_access_time",
                 "storage_tiering_configuration",
                 "apply_storage_tiering",
-                "example_tiering_policy",**
+                "example_tiering_policy",
                 "core"
             ],
             "regexes_for_supported_peps": [
@@ -38,12 +38,16 @@ Add the four included rule bases above "core" in the re_rule_base_set array of t
  
 # **Creating a Tier Group**
  
-Tier groups are defined via metadata attached to the resources which participate in the group.  In iRODS terminology the attribute is defined by a function in the rule base **storage_tiering_configuration.re**, which by default is **irods::storage_tier_group**.  The value of the metadata triple is the name of the tier group, and the Unit holds the numeric position of the resource within the group.  To define a tier group simply choose a name and apply metadata to the selected root resources of given compositions.  For example:
+Tier groups are defined via metadata attached to the resources which participate in the group.  In iRODS terminology, the attribute is defined by a function in the rule base **storage_tiering_configuration.re**, which by default is **irods::storage_tier_group**.  The `value` of the metadata triple is the name of the tier group, and the `unit` holds the numeric position of the resource within the group.  To define a tier group, simply choose a name and apply metadata to the selected root resources of given compositions.
+
+For example:
 ```
 imeta add -R fast_resc irods::storage_tier_group example_group 0
 imeta add -R medium_resc irods::storage_tier_group example_group 1
 imeta add -R slow_resc irods::storage_tier_group example_group 2 
 ```
+
+This example defines three tiers of the group `example_group` where data will flow from tier 0 to tier 2.
 
 
 # **Setting Tiering Policy**
