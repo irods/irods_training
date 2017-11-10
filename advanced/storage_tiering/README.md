@@ -1,6 +1,8 @@
 # **Storage Tiering**
 
- The storage tiering rule base provides iRODS the capability of automatically moving data between identified tiers of storage.  Each storage resource is tagged as part of a group with an indicator as to where in the group the resource resides.  Each resource is also tagged with a value which describes the maximum time a data object may reside on that resource.  Should a data object's last time of access exceed this given value it will be migrated to the next resource in the tier.  This package also includes a rule base feature which tags objects with their last time of access for this computation.
+The storage tiering framework provides iRODS the capability of automatically moving data between identified tiers of storage.
+ 
+To define a tier_group, target storage resources are labeled with metadata which define their place in the group and how long data should reside in that tier before being migrated to the next tier.
  
 # **Rulebase Configuration**
 
@@ -38,7 +40,9 @@ Add the five included rule bases (two configuration files, two implementation fi
  
 # **Creating a Tier Group**
  
-Tier groups are defined via metadata attached to the resources which participate in the group.  In iRODS terminology, the attribute is defined by a function in the rule base **storage_tiering_configuration.re**, which by default is **irods::storage_tier_group**.  The `value` of the metadata triple is the name of the tier group, and the `unit` holds the numeric position of the resource within the group.  To define a tier group, simply choose a name and apply metadata to the selected root resources of given compositions.
+Tier groups are defined via metadata AVUs attached to the resources which participate in the group.
+
+In iRODS terminology, the `attribute` is defined by a function in the rule base **storage_tiering_configuration.re**, which by default is named **irods::storage_tier_group**.  The `value` of the metadata triple is the name of the tier group, and the `unit` holds the numeric position of the resource within the group.  To define a tier group, simply choose a name and apply metadata to the selected root resources of given compositions.
 
 For example:
 ```
@@ -47,29 +51,33 @@ imeta add -R medium_resc irods::storage_tier_group example_group 1
 imeta add -R slow_resc irods::storage_tier_group example_group 2 
 ```
 
-This example defines three tiers of the group `example_group` where data will flow from tier 0 to tier 2.
+This example defines three tiers of the group `example_group` where data will flow from tier 0 to tier 2 as it ages.  In this example `fast_resc` is a single resource, but it could have been set to `fast_tier_root_resc` and represent the root of a resource hierarchy consisting of many resources.
 
 
 # **Setting Tiering Policy**
 
-Once a tier group is defined, the age limit for each tier must also be configured via metadata.  Once a data object has remained unaccessed on a given tier for more than the configured time, it will be staged to the next tier in the group and then trimmed from the previous tier.  This is configured via the default attribute **irods::storage_tier_time**, which is also defined in the **storage_tiering_configuration.re** rulebase.  In order to configure the tiering time, apply a tag to the resource using the given attribute and a positive numeric value in seconds.  For example, to configure the _fast_resc_ to only hold data for 30 minutes:
+Once a tier group is defined, the age limit for each tier must also be configured via metadata.  Once a data object has remained unaccessed on a given tier for more than the configured time, it will be staged to the next tier in the group and then trimmed from the previous tier.  This is configured via the default attribute **irods::storage_tier_time** (which itself is defined in the **storage_tiering_configuration.re** rulebase).  In order to configure the tiering time, apply an AVU to the resource using the given attribute and a positive numeric value in seconds.
+
+For example, to configure the `fast_resc` to hold data for only 30 minutes:
 ```
 imeta add -R fast_resc irods::storage_tier_time 1800
 ```
-We can then configure the _medium_resc to hold data for 8 hours:
+We can then configure the `medium_resc` to hold data for 8 hours:
 ```
 imeta add -R medium_resc irods::storage_tier_time 28800
 ```
 
 # **Customizing the Violating Objects Query**
 
-A tier within a tier group may identify data objects which are in violation by an additional mechanism beyond the built in time based constraint.  This allows the data grid administrator to take additional context into account when identifying data objects to migrate.  Data objects given a metadata attribute, a specific collection, a particular user or a project may be identified through a custom query attached to the root resource of a given tier within a group.  The default attribute **irods::storage_tier_query** is used to hold the query.  To configure the custom query, attach the query to the root resource of the tier within the tier group.  This query will be used in place of the default.
+A tier within a tier group may identify data objects which are in violation by an alternate mechanism beyond the built-in time-based constraint.  This allows the data grid administrator to take additional context into account when identifying data objects to migrate.
+
+Data objects which have been labeled via particular metadata, or within a specific collection, owned by a particular user, or belonging to a particular project may be identified through a custom query.  The default attribute **irods::storage_tier_query** is used to hold this custom query.  To configure the custom query, attach the query to the root resource of the tier within the tier group.  This query will be used in place of the default time-based query for that tier.
 
 ```
 imeta set -R rnd1 irods::storage_tier_query "select META_DATA_ATTR_VALUE, DATA_NAME, COLL_NAME where RESC_NAME = 'ufs2' || = 'ufs3' and META_DATA_ATTR_NAME = 'irods::access_time' and META_DATA_ATTR_VALUE < 'TIME_CHECK_STRING'"
 ```
 
-This example implements the default query.  Note that the string **TIME_CHECK_STRING** is used in place of an actual time.  This string will be replaced by the storage tiering framework with the appropriately computed time given the previous parameters.
+The example above implements the default query.  Note that the string `TIME_CHECK_STRING` is used in place of an actual time.  This string will be replaced by the storage tiering framework with the appropriately computed time given the previous parameters.
 
 
 
