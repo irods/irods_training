@@ -6,7 +6,7 @@ To define a tier_group, target storage resources are labeled with metadata which
  
 # **Rulebase Configuration**
 
-Add the five included rule bases (two configuration files, two implementation files, and an example policy) above "core" in the `re_rule_base_set` array of the native iRODS rule language plugin:
+Add the five included rule bases (two configuration files, two implementation files, and an example policy) above "core" in the `re_rulebase_set` array of the native iRODS rule language plugin:
 ```
 "rule_engines": [
     {    
