@@ -1,5 +1,5 @@
 
-  executable     = /usr/bin/jeb
+  executable     = /usr/bin/convert
   universe       = vanilla 
 
   queue
