@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# $1 - sizing string
-# $2 - source physical path
-# $3 - destiation physical path
+# $1 - executable
+# $2 - thumbnail option
+# $3 - sizing string
+# $4 - source physical path
+# $5 - destination physical path
 
 /usr/bin/condor_submit /var/lib/irods/msiExecCmd_bin/thumbnail.submit -append "executable ${1}" -append "arguments ${2} ${3} ${4} ${5}"
 
