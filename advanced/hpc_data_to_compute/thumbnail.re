@@ -8,7 +8,7 @@ split_path(*p,*tok,*col,*obj) {
 
 
 get_resource_name_by_role(*resc_name, *attr, *value) {
-    *lts_name = "NULL"
+    *resc_name = "NULL"
     foreach(*row in SELECT DATA_RESC_NAME WHERE META_RESC_ATTR_NAME = '*attr' AND META_RESC_ATTR_VALUE = '*value') {
         *resc_name = *row.DATA_RESC_NAME
     } # foreach
