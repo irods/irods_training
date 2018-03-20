@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
-find_package(IRODS 4.2.1 EXACT REQUIRED CONFIG)
+find_package(IRODS 4.2.2 EXACT REQUIRED CONFIG)
 project(irods_hpc_compute_to_data_example C CXX)
 
 install(
