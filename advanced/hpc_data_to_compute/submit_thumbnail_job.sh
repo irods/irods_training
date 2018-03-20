@@ -6,14 +6,14 @@
 # $4 - source physical path
 # $5 - destination physical path
 
-/usr/bin/condor_submit /var/lib/irods/msiExecCmd_bin/thumbnail.submit -append "executable ${1}" -append "arguments ${2} ${3} ${4} ${5}"
+SBATCH_OPTIONS="-o /tmp/slurm-%j.out"
 
-# debug only
-#echo ${1}
-#echo ${2}
-#echo ${3}
-#echo ${4}
-#echo ${5}
-#echo "return code is $?"
-#exit 0
+SCRIPT="$1" # assume full path to executable
+
+/usr/local/bin/sbatch $SBATCH_OPTIONS "$SCRIPT" \
+	${2+"$2"} \
+	${3+"$3"} \
+	${4+"$4"} \
+	${5+"$5"} \
+	>/dev/null 2>&1
 

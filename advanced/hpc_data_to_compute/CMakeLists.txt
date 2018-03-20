@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
-find_package(IRODS 4.2.1 EXACT REQUIRED CONFIG)
+find_package(IRODS 4.2.2 EXACT REQUIRED CONFIG)
 project(irods_hpc_data_to_compute_example C CXX)
 
 install(
@@ -28,6 +28,7 @@ install(
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/submit_thumbnail_job.sh
+  ${CMAKE_SOURCE_DIR}/convert.SLURM
   DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
   PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ WORLD_READ
   )
