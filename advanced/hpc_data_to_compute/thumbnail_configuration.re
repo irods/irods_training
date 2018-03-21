@@ -19,7 +19,7 @@ submit_thumbnail_job(
     *src_phy_path,
     *dst_phy_path ) {
     remote(*server_host, "") {
-	    *cmd_opt = '/usr/bin/convert -thumbnail *size_str *src_phy_path *dst_phy_path'
+	    *cmd_opt = '/var/lib/irods/msiExecCmd_bin/convert.SLURM -thumbnail *size_str *src_phy_path *dst_phy_path'
 	    *err = errormsg(msiExecCmd("submit_thumbnail_job.sh", *cmd_opt, "null", "null", "null", *std_out_err), *msg);
 
             msiGetStdoutInExecCmdOut(*std_out_err,*std_out);
