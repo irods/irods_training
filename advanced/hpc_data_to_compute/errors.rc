@@ -1,0 +1,44 @@
+# source this file in Bash v >=4
+
+typeset -A errMsgIdx
+erridx=1
+errMsgIdx=()
+errorList=("")
+
+add_error() {
+  local CODE=$1 MSG="$2"
+  errorList+=( "$MSG" )
+  errMsgIdx[$CODE]=$((erridx++))
+}
+
+warn() { # __ $1 = Code , $2 = hint for no-error return code
+  local n=${errMsgIdx[${1:-0}]}
+  local retval=0
+  if [ -z "$n" ] || [ $n -eq 0 ] 
+  then
+    echo "NO_PARTICULAR error" >&2
+    retval=${2:-0}
+  else
+    echo $1": ${errorList[$n]}" >&2
+    retval=$n
+  fi
+  return $retval
+}
+
+die() { # args as with warn, $3 = exit even without error (warn returns 0)
+  local status=0
+  warn $1 $2 ; status=$?
+  [ $status -ne 0 ] && exit $status
+  [ "$3" ] && exit 0
+}
+
+add_error BAD_OPTION      "Error in program option or argument"			# 1
+add_error NO_IRODS_USER   "No irods user (please install iRODS software)"	# 2
+add_error MUNGE_BUILD     "munge did not build, can't continue"			# 3
+add_error MUNGE_USER      "could not create munge user, group, or key file"	# 4
+add_error MUNGED_START    "could not start munge daemon"			# 5
+add_error MUNGED_PERSIST  "could not install munge daemon in start scripts"	# 6
+add_error SLURM_BUILD     "SLURM build (or install) failed"			# 7
+add_error SLURM_CONFIG    "SLURM could not be configured"			# 8
+add_error SLURM_START     "SLURM could not be started"				# 9
+add_error SLURM_PERSIST   "Could not install SLURM daemons in start scripts"	# 10
