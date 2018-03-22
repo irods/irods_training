@@ -1,6 +1,7 @@
 launch_compute {
-        launch_thumbnail_compute(*logical_path)
+    *logical_path="/tempZone/home/rods/stickers.jpg"
+    launch_thumbnail_compute(*logical_path)
 }
-INPUT *logical_path="/tempZone/home/rods/stickers.jpg"
+INPUT null
 OUTPUT ruleExecOut
 
