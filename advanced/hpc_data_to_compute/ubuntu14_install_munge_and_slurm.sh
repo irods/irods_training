@@ -191,18 +191,20 @@ SLURM2="/usr/local/sbin/slurmd"
 f_slurm_persist ()
 {
   sudo pkill 'slurm(ctl|)d' >/dev/null 2>&1
-  sudo su - -c "$SLURM1 && $SLURM2" 
+  #sudo su - -c "$SLURM1 && $SLURM2" 
   sleep 2
   if [ $(pgrep 'slurm(ctl|)d' | wc -l) -eq 2 ]; then
-    egrep '/slurm\w*d' /etc/rc.local >/dev/null 2>&1 && \
-      echo "SLURM daemons already referenced in /etc/rc.local " >&2 || \
-    sudo env -i SLURMDAEMONS="${SLURM1}${CR}${SLURM2}${CR}" \
-        perl -i.orig -pe 's[(\s*exit\s+0\s*)\n*$][$ENV{SLURMDAEMONS}$1]s' \
-        /etc/rc.local 
+    if [ -f  /etc/init.d/slurm ] ; then
+       mv /etc/init.d/slurm{,.old} 
+       sudo cp "$DIR"/slurm.upstart /etc/init.d/slurm
+       sudo chmod go=rx,u=rwx /etc/init.d/slurm
+    fi
   else
     warn SLURM_START
     return
   fi
+
+  sudo update-rc.d slurm defaults
 
   [ $? -eq 0 ] || warn SLURM_PERSIST
 }
