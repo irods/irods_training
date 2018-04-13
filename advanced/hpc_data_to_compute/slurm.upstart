@@ -28,16 +28,16 @@ do_clean()
 #
 do_start()
 {
-  local X retry_sec=3 RETVAL=1 ntry=0
+  local X retry_sec=4 RETVAL=1 ntry=0
 
   /usr/local/sbin/slurmd
   /usr/local/sbin/slurmctld
 
   while [ $((--retry_sec)) -ge 0 ]; do
-    # give SLURM procs a time to die off, if they're going to....
     ((++ntry))
     X=$(pgrep 'slurm(ctl|)d')
-    if [ $(echo $X|wc -w) -eq 2 -a $ntry -gt 1 ] ; then
+    # give SLURM procs a time to start ( & die if they're feeling unwell )
+    if [ $(echo $X|wc -w) -eq 2 -a $ntry -gt 2 ] ; then
 	RETVAL=0
 	echo "$X" >$PIDFILE
 	break
