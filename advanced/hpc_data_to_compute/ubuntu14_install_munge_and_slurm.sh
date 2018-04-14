@@ -187,7 +187,10 @@ copy_scripts_ ()
 
   sudo dd of="$SLURM_ADMIN/root_$TYPE" <<-EOF 2>/dev/null
 	#!/bin/bash
-	su irods -c "$IRODS_MSIEXEC"/slurm_$TYPE
+	IRODS_HOOK="$IRODS_MSIEXEC"/slurm_$TYPE
+	if [ -x "\$IRODS_HOOK" ]; then
+	  su irods -c "\$IRODS_HOOK"
+	fi
 	EOF
   # ^---last 3 lines must begin with tab characters
 
