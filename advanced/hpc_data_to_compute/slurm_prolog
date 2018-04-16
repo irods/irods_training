@@ -7,6 +7,8 @@
 UUID=$(uuidgen -t)
 MUTX=$(hostname)_slurmjob_${SLURM_JOB_ID}.txt
 touch /tmp/$MUTX
-iput /tmp/$MUTX && {	imeta add -d $MUTX uuid $UUID 
-			imeta add -d $MUTX slurm_job $SLURM_JOB_ID ; }
-
+if iput /tmp/$MUTX >/dev/null 2>&1 
+then
+	imeta add -d $MUTX uuid $UUID 
+	imeta add -d $MUTX slurm_job $SLURM_JOB_ID 
+fi
