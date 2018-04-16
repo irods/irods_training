@@ -53,13 +53,18 @@ do_stop()
   if [ -f $PIDFILE ]; then
     kill $(cat $PIDFILE)
   else
-    pkill -f '/slurm'
+    pkill -f '/slurm(ctl|)d'
   fi 
   rm -f $PIDFILE
-  RETVAL=1
+  RETVAL=0
   while [ $((--retry_sec)) -ge 0 ]; do
     X=$(pgrep 'slurm(ctl|)d')
-    [ $(echo "$X"|wc -w) -eq 0 ]  && { RETVAL=0; break; }
+    if [ $(echo "$X"|wc -w) -eq 0 ] ; then
+      RETVAL=0; break
+    else
+      RETVAL=1
+    fi
+    sleep 1
   done
   return $RETVAL
 }
@@ -105,9 +110,10 @@ case "$1" in
   status)
 	do_status
 	echo -n "slurmstate files : "
-	find  /var/spool/slurmstate -type f |wc -l
+	find  /var/spool/slurmstate -type f 2>/dev/null |wc -l
 	echo -n "slurmd     files : "
-	find  /var/spool/slurmd     -type f |wc -l
+	find  /var/spool/slurmd     -type f 2>/dev/null |wc -l
+	true
 	;;
   *)
 	echo "Usage: $SCRIPTNAME {start|stop|status|clean}" >&2
