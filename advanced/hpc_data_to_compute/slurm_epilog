@@ -1,2 +1,17 @@
 #!/bin/bash
-echo $0  `date` >>/tmp/epilog
+
+MUTX=$(hostname)_slurmjob_${SLURM_JOB_ID}.txt
+
+UUID=$(iquest '%s' "select META_DATA_ATTR_VALUE where \
+  DATA_NAME = '$MUTX'  and \
+  META_DATA_ATTR_NAME = 'uuid' and \
+  COLL_NAME not like '%/trash/%'")
+
+if [[ $UUID = CAT_NO_ROWS_FOUND* ]]; then 
+  UUID="UUID_none" 
+else
+  echo $MUTX >> /tmp/$UUID
+fi
+rm -f /tmp/$MUTX
+irm $MUTX
+echo $0  `date` $UUID >>/tmp/epilog
