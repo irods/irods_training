@@ -2,13 +2,14 @@
 ## Debug only:
 #  echo $0  `date` >>/tmp/prolog
 
-#-- Metadata trail
+# -- create metadata trail
 
 UUID=$(uuidgen -t)
 MUTX=$(hostname)_slurmjob_${SLURM_JOB_ID}.txt
 touch /tmp/$MUTX
 if iput /tmp/$MUTX >/dev/null 2>&1 
 then
+	ln /tmp/{$MUTX,$UUID}
 	imeta add -d $MUTX uuid $UUID 
-	imeta add -d $MUTX slurm_job $SLURM_JOB_ID 
+	imeta add -d $MUTX job_number $SLURM_JOB_ID 
 fi

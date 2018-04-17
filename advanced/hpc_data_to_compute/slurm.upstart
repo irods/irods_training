@@ -30,8 +30,13 @@ do_start()
 {
   local X retry_sec=4 RETVAL=1 ntry=0
 
-  /usr/local/sbin/slurmd
-  /usr/local/sbin/slurmctld
+  X=$(pgrep 'slurm(ctl|)d')
+  if [ $(echo $X|wc -w) -eq 0 ] ; then
+    /usr/local/sbin/slurmd
+    /usr/local/sbin/slurmctld
+  else
+    return 2 #__ slurm processes already running
+  fi
 
   while [ $((--retry_sec)) -ge 0 ]; do
     ((++ntry))
@@ -72,7 +77,7 @@ do_stop()
 do_status()
 {
   local x
-  if [ -f $PIDFILE ]; then
+  if [ -f $PIDFILE -a $(id -u) -eq 0 ]; then
     kill -0 $(cat $PIDFILE) >/dev/null 2>&1
   else
     [ $(pgrep 'slurm(ctl|)d' |wc -l) -eq 2 ]
@@ -104,6 +109,15 @@ case "$1" in
 			;;
 	esac
 	;;
+  restart)
+	do_stop && do_start
+	case "$?" in
+		0) echo >&2 "Restarted SLURM daemons"
+			;;
+		*) exit 1
+			;;
+	esac
+	;;
   clean)
 	do_clean
 	;;
@@ -116,7 +130,7 @@ case "$1" in
 	true
 	;;
   *)
-	echo "Usage: $SCRIPTNAME {start|stop|status|clean}" >&2
+	echo "Usage: $SCRIPTNAME {start|stop|restart|status|clean}" >&2
 	exit 3
 	;;
 esac
