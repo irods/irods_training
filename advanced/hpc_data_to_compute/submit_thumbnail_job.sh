@@ -7,16 +7,16 @@
 # $5 - destination physical path
 
 # == Carry in context from slurm_prolog :
-
 # MUTX=$(hostname)_slurmjob_${SLURM_JOB_ID}.txt
 # UUID=$(iquest '%s' "select META_DATA_ATTR_VALUE where \
-# DATA_NAME = '$MUTX'  and \
-# META_DATA_ATTR_NAME = 'uuid' and \
-# COLL_NAME not like '%/trash/%'")
+#  DATA_NAME = '$MUTX'  and \
+#  META_DATA_ATTR_NAME = 'uuid' and \
+#  COLL_NAME not like '%/trash/%'")
+#
 # [[ $UUID = CAT_NO_ROWS_FOUND* ]] && UUID="UUID_none"
 # [ -f "/tmp/$UUID" ] && { : ; } 
-# ( /tmp/$UUID could stash private, job-related 
-#   details /  metadata on slurm controller )
+# (Note: /tmp/$UUID could stash private, job-related 
+#    details or metadata on slurm controller )
 
 SBATCH_OPTIONS="-o /tmp/slurm-%j.out"
 
