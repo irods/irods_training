@@ -5,18 +5,42 @@
 
 from __future__ import print_function
 import sys
+as_module = True
 min_py_version = ( (3,4,0) , "Please use this module with at least 3.4.0 of Python")
+
 assert sys.version_info >= min_py_version[0] , min_py_version[1]
 
-import os
-import os.path
-from irods.models import Resource, ResourceMeta
-from irods.exception import DataObjectDoesNotExist , CollectionDoesNotExist
-import pprint
+import os, time, pprint 
+import logging, logging.handlers
+from   irods.models import Resource, ResourceMeta
+from   irods.exception import DataObjectDoesNotExist , CollectionDoesNotExist
+import irods.keywords as kw
+import job_params
+
+#-- set up local logging
+
+log_filename = (os.path.dirname(sys.argv[0]) or os.path.curdir) + \
+                os.path.sep + \
+                'log_irods_compute.txt'
+logger = logging.getLogger('compute_log')
+logger.setLevel(logging.DEBUG)
+ch = logging.handlers.WatchedFileHandler(filename=log_filename)
+ch.setFormatter(logging. Formatter('%(processName)s:%(process)d '
+		'@ %(asctime)s - %(message)s') )
+logger.addHandler(ch)
+
+if job_params . use_checksums:
+  checksum_options = {  k:'1' for k in ( kw.REG_CHKSUM_KW,
+                                             kw.VERIFY_CHKSUM_KW,
+                                             kw.CHKSUM_KW)          }
+else :
+  checksum_options = {}
 
 # ---
-# session_object() :  helper function to get session
+#     Helper functions
 # ---
+
+# - session_object() :  get, or initially set, iRODS session object
 
 session = None
 
@@ -38,9 +62,43 @@ def session_object( sess_ = None ):
   
   return session
 
-# ---
-# get name of resource serving role described in string parameter: role
-# ---
+
+# - check and paranoid re-checking of 
+
+def check_replica_status( repl ,
+                          use_chksum =  job_params . use_checksums ,
+                          compare_to = None ,
+                          wait =       job_params . repl_wait ):
+
+  if repl is None: return False
+
+  if type(wait) is tuple:
+    wait = list( wait )
+  else:
+    wait = [ 0, 0 ]
+
+  status_gated_checksum = (lambda y : y.checksum if y.status == '1' else None)
+  if not(compare_to) or not(compare_to.checksum) : use_chksum = False
+  get_status = lambda x : x.status == '1' if not( use_chksum ) else \
+        (
+            (status_gated_checksum( x ) is not None) if compare_to is None \
+               else status_gated_checksum( x ) == status_gated_checksum( compare_to )
+        )
+  delay = max(1.0e-6, wait[1])
+
+  cur_status = False
+
+  while not cur_status:
+    cur_status =  get_status( repl )
+    if cur_status or wait[0] <= 0 : break
+    else:
+      wait[0] -= 1
+      time.sleep(delay)
+
+  return cur_status
+    
+
+# - get name of resource serving role described in string parameter: role
 
 def rescName_by_compute_role (role):
 
@@ -96,22 +154,16 @@ def trim_all_replicas_from_resource ( object,
 # --
 
 def exists_on_resource (o, resourceName , test_status = True ):
-
   _filter = lambda x : x
-
   if test_status : 
     _filter = lambda x : x.status == '1'
-
   lst = [ r for r in o.replicas if r.resource_name == resourceName and _filter(r) ]
-
   return len(lst) > 0
 
 # --
 
 def replicate_object_to_resource ( object, resourceName ): 
-
   if not exists_on_resource (object, resourceName, test_status = False):
-
     o.replicate( resourceName )
 
 # --
@@ -119,15 +171,12 @@ def replicate_object_to_resource ( object, resourceName ):
 def get_collection (collection_name, create = True):
     c = None
     sess = session_object()
-    
     coll_path = collection_name if '/' in collection_name else \
         '/{sess.zone}/home/{sess.username}/{}'.format(collection_name,**locals())
-
     try:
       c = sess.collections.get( coll_path )
     except CollectionDoesNotExist as e:
       if create: c = sess.collections.create( coll_path )
-
     return c
   
 # --
@@ -140,11 +189,11 @@ def object_path_by_resource( o, resourceName ):
   r = repls_on_resc[0]
   return ( r.path )
 
-as_module = True
 
 if __name__ == '__main__':
 
   as_module = False
+
   args = tuple(sys.argv[1:])
 
   if (args[:1]==('role',)):
@@ -168,7 +217,46 @@ if __name__ == '__main__':
       print ( 'collection contains: ')
       pprint.pprint ( c.data_objects)
 
-  elif (args[:1]==('register',)):
+  elif (args[:1]==('replicate_input',)):
+
+    inputR = job_params . input_resc
+    input_path = job_params . input_path
+    sess = session_object()
+
+    if type ( inputR ) is tuple: 
+      try:
+        (key,val) = inputR
+        inputR = sess.query (
+          ResourceMeta.name, ResourceMeta.value, 
+          Resource.name ). filter (
+                             ResourceMeta.name == key,
+                             ResourceMeta.value == val  ).one() [Resource.name]
+      except Exception as e:
+        print (" {!r} ".format (e))
+        pass
+      except: pass
+
+    object = sess.data_objects.get(input_path)
+
+    old_repl = new_repl = None
+
+    staged_replicas = [x for x in object.replicas if x.resource_name == 'demoResc' ]
+
+    if staged_replicas : old_repl = staged_replicas [0]  
+    else :
+      logger.error ("no input could be found at '{}'".format(input_path))
+
+    try :
+      object.replicate ( inputR , ** checksum_options )
+      object = sess.data_objects.get(input_path)
+      new_repl = [x for x in object.replicas if x.resource_name == inputR ][0]
+    except :
+      pass
+    
+    if not check_replica_status( new_repl , compare_to = old_repl ):
+      logger.error ("no input could be replicated at '{}'".format(input_path))
+
+  elif (args[:1]==('register_outputs',)):
 
       thumbnail_collection = 'stickers_thumbnails'
 
@@ -198,12 +286,11 @@ if __name__ == '__main__':
 
     trim_all_replicas_from_resource ( o, resourceName = 'img_resc',
                                       rescName_for_repl_status = 'lts_resc' )
-    # print (m)
-
   else:
     print("in else clause, as_module = {}".format(as_module), file=sys.stderr)
     ses = session_object()
     # print("--- locals ---", ) ; pprint.pprint (locals())
     pass
+
 
 
