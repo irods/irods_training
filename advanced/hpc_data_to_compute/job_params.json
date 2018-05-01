@@ -1,0 +1,15 @@
+{
+  "input_path": "/tempZone/home/rods/stickers.jpg",
+  "imageCompute_resc": ["COMPUTE_RESOURCE_ROLE","IMAGE_PROCESSING"],
+  "longTermStoreCompute_resc": ["COMPUTE_RESOURCE_ROLE","LONG_TERM_STORAGE"],
+  "use_checksums" : true,
+  "input_repl_wait": [ 2, 1.0 ],
+  "phys_dir_for_output": "/tmp/irods/thumbnails",
+  "output_collection" : "/tempZone/home/rods/stickers_thumbnails",
+  "thumbnail_sizes" : [ "128x128", 
+                      "512x512",
+                      "256x256",
+                      "1024x1024"
+                      ],
+  "thumbnail_filename": "stickers_thumbnail_%s.jpg"
+}

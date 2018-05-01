@@ -5,36 +5,63 @@
 
 from __future__ import print_function
 import sys
-as_module = True
-min_py_version = ( (3,4,0) , "Please use this module with at least 3.4.0 of Python")
+
+min_py_version = ( (3,4,0) , "This module requires at least 3.4.0 of Python")
+
+#
+# check interpreter version ; bulk imports
+#
 
 assert sys.version_info >= min_py_version[0] , min_py_version[1]
 
-import os, time, pprint 
+import os, time, pprint, json
+from os.path import ( join, curdir, dirname, sep as SEP )
+from glob import glob
+import argparse
 import logging, logging.handlers
 from   irods.models import Resource, ResourceMeta
 from   irods.exception import DataObjectDoesNotExist , CollectionDoesNotExist
 import irods.keywords as kw
-import job_params
 
-#-- set up local logging
+as_module = True
+job_params = {}
+checksum_options = None
 
-log_filename = (os.path.dirname(sys.argv[0]) or os.path.curdir) + \
-                os.path.sep + \
-                'log_irods_compute.txt'
+#
+# set up file logging
+#
+
+log_filename = join( (dirname( sys.argv[0] ) or curdir), 'log_irods_compute.txt' )
 logger = logging.getLogger('compute_log')
 logger.setLevel(logging.DEBUG)
 ch = logging.handlers.WatchedFileHandler(filename=log_filename)
-ch.setFormatter(logging. Formatter('%(processName)s:%(process)d '
+ch.setFormatter(logging. Formatter('%(filename)s:%(process)d '
 		'@ %(asctime)s - %(message)s') )
 logger.addHandler(ch)
 
-if job_params . use_checksums:
-  checksum_options = {  k:'1' for k in ( kw.REG_CHKSUM_KW,
+def jobParams( cfgFile = 'job_params.json' , argv0 = '' ):
+  global job_params
+  if not(job_params):
+    if not argv0: argv0 = __file__
+    if SEP not in cfgFile:
+      cfgFile = join( (dirname(argv0) or curdir) , cfgFile )
+    try:
+      job_params = json.load( open( cfgFile, 'r') )
+    except:
+      msg =  "Could not load JSON config file at {}".format (cfgFile) 
+      logger.error(msg); raise SystemExit(msg)
+  return job_params
+
+def checksumOptions():
+  global checksum_options 
+  if checksum_options is None:
+    if jobParams() ['use_checksums']:
+      checksum_options = {  k:'1' for k in ( kw.REG_CHKSUM_KW,
                                              kw.VERIFY_CHKSUM_KW,
                                              kw.CHKSUM_KW)          }
-else :
-  checksum_options = {}
+    else:
+      checksum_options = {}
+  return checksum_options
 
 # ---
 #     Helper functions
@@ -62,20 +89,25 @@ def session_object( sess_ = None ):
   
   return session
 
-
 # - check and paranoid re-checking of 
 
 def check_replica_status( repl ,
-                          use_chksum =  job_params . use_checksums ,
+                          use_chksum =  None ,
                           compare_to = None ,
-                          wait =       job_params . repl_wait ):
+                          wait =        None ):
 
   if repl is None: return False
+  if use_chksum is None:   use_chksum = jobParams() ['use_checksums']
+  if wait is None: 	   wait = jobParams() ['input_repl_wait']
 
-  if type(wait) is tuple:
-    wait = list( wait )
-  else:
-    wait = [ 0, 0 ]
+  if type(wait) not in (tuple, list):
+    wait = [ 2, 0.5 ]
+    logger.info ("'input_repl_wait' value in config file was incorrect "
+                 "type.  need list: [nTimes, delaySec].")
+    logger.info ("'input_repl_wait' - using default of  {!r}".format(wait))
+
+  #-- need mutable copy
+  wait = list(wait)
 
   status_gated_checksum = (lambda y : y.checksum if y.status == '1' else None)
   if not(compare_to) or not(compare_to.checksum) : use_chksum = False
@@ -100,13 +132,13 @@ def check_replica_status( repl ,
 
 # - get name of resource serving role described in string parameter: role
 
-def rescName_by_compute_role (role):
+def rescName_by_role ( role_key , role_value ):
 
   try:
     q = session_object().query( Resource.name , ResourceMeta.name, ResourceMeta.value
         ).filter(
-                  ResourceMeta.name  == 'COMPUTE_RESOURCE_ROLE' ,
-                  ResourceMeta.value == role
+                  ResourceMeta.name  == role_key , 
+                  ResourceMeta.value == role_value
         )
     return q.one() [Resource.name]
   except: 
@@ -116,40 +148,42 @@ def rescName_by_compute_role (role):
 
 # -- 
 
-def get_replNumber_to_rescName_map (object, filter_on_name = ''):
+def get_replNumber_to_rescName_map (obj, filter_on_name = ''):
 
   _filter = lambda _: True 
 
   if filter_on_name:
     _filter = (lambda x : x == filter_on_name)
 
-  return { r.number:r for r in object.replicas if _filter(r.resource_name) }
+  return { r.number:r for r in obj.replicas if _filter(r.resource_name) }
 
 # -- 
 
-def trim_all_replicas_from_resource ( object,
+def trim_all_replicas_from_resource ( obj,
                                       resourceName,
-                                      rescName_for_repl_status = '' ): 
+                                      rescName_for_repl_status = '',
+                                      force = False
+                                    ): 
   if not rescName_for_repl_status:
     map_other =  {}
   else:
-    map_other = get_replNumber_to_rescName_map (object,
-                   filter_on_name = rescName_for_repl_status ) 
+    map_other = get_replNumber_to_rescName_map (obj, filter_on_name = rescName_for_repl_status ) 
 
-  map = get_replNumber_to_rescName_map (o , filter_on_name = resourceName) 
+  map_this = get_replNumber_to_rescName_map (obj , filter_on_name = resourceName) 
 
-  repls_to_trim = [ r for r in map ]
-
+  repls_to_trim = [ r for r in map_this ]
   old_good_replicas = [ r for r,v in map_other.items() if v.status == '1' ]
 
-  if len(old_good_replicas) > 0:
-
+  if len(old_good_replicas) == 0 and not( force ):
+    logger.info  ("Did not trim replicas from '{}' - no others with good status "
+                  "on '{}'".format (resourceName, rescName_for_repl_status) )
+    return False
+  else:
     for r in repls_to_trim :
-      # -- could include specify input parameter to narrow down which repls to delete
-      del map[r]
-      o.unlink( replNum = r )
+      del map_this[r]
+      obj.unlink( replNum = r )
 
-  return len(map) == 0
+  return len(map_this) == 0
  
 # --
 
@@ -162,9 +196,9 @@ def exists_on_resource (o, resourceName , test_status = True ):
 
 # --
 
-def replicate_object_to_resource ( object, resourceName ): 
-  if not exists_on_resource (object, resourceName, test_status = False):
-    o.replicate( resourceName )
+def replicate_object_to_resource ( obj, resourceName, **options ): 
+  if not exists_on_resource (obj, resourceName, test_status = False):
+    obj.replicate( resourceName , **options)
 
 # --
 
@@ -178,119 +212,146 @@ def get_collection (collection_name, create = True):
     except CollectionDoesNotExist as e:
       if create: c = sess.collections.create( coll_path )
     return c
-  
-# --
 
-def object_path_by_resource( o, resourceName ):
+# ---
 
-  repls_on_resc = [ repl for repl in o.replicas 
+def object_path_by_resource( obj, resourceName ):
+
+  repls_on_resc = [ repl for repl in obj.replicas 
                      if repl.resource_name == resourceName ]
   if not repls_on_resc : return (None, None)
   r = repls_on_resc[0]
   return ( r.path )
 
+# ---
 
-if __name__ == '__main__':
+def do_replicate_input (cmd_line_args):
 
-  as_module = False
+    success = False
 
-  args = tuple(sys.argv[1:])
+    subparser=argparse.ArgumentParser();
+    subparser.add_argument('--skip-if-exists',  action='store_true', default=False)
+    subparser.add_argument('misc', nargs=argparse.REMAINDER)
+    args = subparser.parse_args( cmd_line_args )
 
-  if (args[:1]==('role',)):
+    input_resc = jobParams() ['imageCompute_resc']
+    input_path = jobParams() ['input_path']
 
     sess = session_object()
-    dobj_name  = args[1] if args[1:2] else 'foo2.dat'
-    o = sess.data_objects.get('/{sess.zone}/home/{sess.username}/{}'.format(
-          dobj_name,**locals() 
-        ))
-    print( rescName_by_compute_role ('LONG_TERM_STORAGE') )
-    print( rescName_by_compute_role ('IMAGE_PROCESSING') )
-
-  elif (args[:1]==('coll',)):
-
-    thumbnail_collection = 'stickers_thumbnails'
-
-    c = get_collection ( thumbnail_collection )
-    if c:
-      print ('thumbnail collection ID is', c.id)
-      print ( '-------------------- ')
-      print ( 'collection contains: ')
-      pprint.pprint ( c.data_objects)
-
-  elif (args[:1]==('replicate_input',)):
-
-    inputR = job_params . input_resc
-    input_path = job_params . input_path
-    sess = session_object()
-
-    if type ( inputR ) is tuple: 
+    
+    if type ( input_resc ) is tuple: 
       try:
-        (key,val) = inputR
-        inputR = sess.query (
+        (key,val) = input_resc
+        input_resc = sess.query (
           ResourceMeta.name, ResourceMeta.value, 
           Resource.name ). filter (
                              ResourceMeta.name == key,
                              ResourceMeta.value == val  ).one() [Resource.name]
       except Exception as e:
-        print (" {!r} ".format (e))
-        pass
-      except: pass
+        msg = "Incorrect 'input_resc' value in config file: {!r}".format(input_resc)
+        logger.error(msg) ; raise SystemExit (msg)
 
-    object = sess.data_objects.get(input_path)
+    try:
+      obj = sess.data_objects.get(input_path)
+    except:
+      msg =  "Object '{}' does not exist" .format(input_path) 
+      logger.error(msg) ; raise SystemExit (msg)
+
+    if args.skip_if_exists and exists_on_resource(obj, input_resc, test_status = False):
+      return True
 
     old_repl = new_repl = None
 
-    staged_replicas = [x for x in object.replicas if x.resource_name == 'demoResc' ]
+    staged_replicas = [x for x in obj.replicas if x.resource_name == 'demoResc' ]
 
     if staged_replicas : old_repl = staged_replicas [0]  
     else :
       logger.error ("no input could be found at '{}'".format(input_path))
 
     try :
-      object.replicate ( inputR , ** checksum_options )
-      object = sess.data_objects.get(input_path)
-      new_repl = [x for x in object.replicas if x.resource_name == inputR ][0]
+      obj.replicate ( input_resc , ** checksumOptions() )
+      obj = sess.data_objects.get(input_path)
+      new_repl = [x for x in obj.replicas if x.resource_name == input_resc ][0]
     except :
       pass
     
-    if not check_replica_status( new_repl , compare_to = old_repl ):
+    if check_replica_status( new_repl , compare_to = old_repl ):
+      success = True
+    else: 
       logger.error ("no input could be replicated at '{}'".format(input_path))
+    #logger.info ("created replica for input")
+    return success
 
-  elif (args[:1]==('register_outputs',)):
+# ---
 
-      thumbnail_collection = 'stickers_thumbnails'
+def register_replicate_and_trim_thumbnail ( size_string ):
 
-      c = get_collection ( thumbnail_collection )
-      ( resourceName , fileName ) = args[1:]
-      session_object().data_objects.register( fileName,
-                                              '{}/{}'.format(c.path, os.path.basename(fileName)),
-                                              rescName = resourceName )
-  elif (args[:1]==('loc',)):
+  imageCompute_resc = rescName_by_role (*jobParams()['imageCompute_resc']) 
+  phys_dir = jobParams()['phys_dir_for_output']
 
-    sess = session_object()
-    o = sess.data_objects.get(
-      '/{sess.zone}/home/{sess.username}/{}'.format('foo2.dat',**locals())
+  c = get_collection ( jobParams()['output_collection'] ) 
+
+  result_pattern = join( phys_dir  , "*" + size_string + "*.jpg" )
+
+  try:
+    g = glob( result_pattern )
+    fileName = g[0]
+  except:
+    msg= "Could not find match for '{}'".format(g)
+    logger.error ( msg )
+    raise SystemExit(msg)
+
+  sess = session_object()
+
+  sess.data_objects.register( fileName,
+    '{}/{}'.format(c.path, os.path.basename(fileName)),
+    rescName = imageCompute_resc , **checksumOptions()
     )
-    resource = rescName_by_compute_role ('LONG_TERM_STORAGE') 
-    p = object_path_by_resource( o, resource )
 
-  elif (args[:1] == ('repltrim',))  :
+  obj_path = c.path + '/' + jobParams()['thumbnail_filename'] % (size_string,)
 
-    sess = session_object()
-    o = sess.data_objects.get(
-      '/{sess.zone}/home/{sess.username}/{}'.format('foo2.dat',**locals()))
-    # m = get_replNumber_to_rescName_map (o, filter_on_name = 'fooResc')
-    m = None
+  o = sess.data_objects.get(obj_path)
 
-    replicate_object_to_resource ( o,    resourceName = 'lts_resc' )
+  replicate_object_to_resource ( o, resourceName = 'lts_resc', **checksumOptions() )
+  o = sess.data_objects.get(obj_path)
 
-    trim_all_replicas_from_resource ( o, resourceName = 'img_resc',
-                                      rescName_for_repl_status = 'lts_resc' )
+  trim_all_replicas_from_resource ( o, resourceName = 'img_resc',
+                                    rescName_for_repl_status = 'lts_resc' )
+
+  # - todo - associate logical paths of product to job input(s)
+
+# ---
+
+
+if __name__ == '__main__':
+
+  as_module = False
+
+  parser = argparse.ArgumentParser( )
+  parser.add_argument('--config', nargs=1, help="name of a .JSON config file", default='job_params.json')
+
+  commands = { 'test' : 'check syntax and loading of config file',
+               'replicate_input' : 'copy job_input to compute resource', 
+               'reg_repl_trim_output' : 'register/trim results of computation to long term storage' }
+
+  parser.add_argument ('command', help='one of {!s}'.format(list(commands.keys())) )
+  parser.add_argument ('remainder', nargs=argparse.REMAINDER)
+  args = parser.parse_args()
+
+  params = jobParams ( cfgFile = args.config , argv0 = sys.argv[0] )
+  checksum_options = checksumOptions()
+
+  if args.command == 'replicate_input':
+
+    do_replicate_input( args.remainder )
+
+  elif args.command == 'reg_repl_trim_output' :
+
+    assert len(args.remainder) == 1, "need a size string ('NxN') as argument"
+    register_replicate_and_trim_thumbnail ( size_string = args.remainder[0] )
+
   else:
-    print("in else clause, as_module = {}".format(as_module), file=sys.stderr)
-    ses = session_object()
-    # print("--- locals ---", ) ; pprint.pprint (locals())
+    #print("in else clause, as_module = {}".format(as_module), file=sys.stderr)
+    #logger.info("ran {} without args".format(os.path.basename (sys.argv[0])))
     pass
-
-
 
