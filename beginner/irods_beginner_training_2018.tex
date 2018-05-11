@@ -122,9 +122,9 @@ In 2008, the DICE group expanded geographically, with some members accepting joi
 
 \section{About the iRODS Consortium}
 
-The iRODS Consortium is a group of organizations formally committed to iRODS' success through support for the development and release of iRODS-based, data management, middleware technologies, promoting advances in iRODS, collaboration with iRODS developers and the iRODS open source community, attendance at iRODS events, and of course, membership dues.
+The iRODS Consortium is a group of organizations formally committed to iRODS' success through support for the development and release of iRODS-based data management and middleware technologies, promoting advances in iRODS, collaboration with iRODS developers and the iRODS open source community, attendance at iRODS events, and of course, membership dues.
 
-The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC, in partnership with the DICE Center. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, ontributes decision-making and development time to the project. Current Consortium members include RENCI, DICE, Seagate, Bayer, DataDirect Networks, HGST, Novartis, Panasas, IBM, Wellcome Trust Sanger Institute, Cleversafe, Complete Genomics, National Institute for Computational Sciences (NICS), University College London, EMC, and NASA's Atmospheric Science Data Center. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
+The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, contributes decision-making and development time to the project. Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), DataDirect Networks (DDN), Western Digital, Intel, IBM, Wellcome Trust Sanger Institute, Utrecht University, MSC, OCF, University College London, Swedish National Infrastructure for Computing (SNIC), Dell EMC, University of Groningen, SURF, Quantum, and NetApp. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
 
 Consortium members receive a variety of benefits, including prioritized access to support, training, and consulting; and the opportunity to influence the developmental roadmap of future software releases.
 
@@ -233,11 +233,11 @@ All iRODS servers in a Zone run the same core code and are peers. Each server ma
 
 In iRODS, the term Data Object refers to the logical representation of data that maps to one or more physical instances of the data at rest in storage resources, such as Amazon's S3. Data objects are organized into hierarchical Collections---the logical representations of physical containers, similar to directories or folders that are found in a file system. As with file system directories and folders, iRODS denotes levels of hierarchy with slashes ( / ) in the pathname. For example, the root collection of tempZone is written as /tempZone. Each subcollection is prefixed with /tempZone/.  For example, /tempZone/home is a subcollection of /tempZone; and /tempZone/home/alice is a subcollection of /tempZone/home. The complete pathname of an iRODS data object includes the Zone (i.e., iRODS deployment) name and the full pathname within that zone, e.g., /tempZone/home/alice/sciproject/results.txt.
 
-iRODS users can store descriptive information about data objects---or metadata---in the iCAT. Metadata improves search and therefore better enables data discovery. Users can search for data objects using metadata descriptors as search terms.  This allows for browsing and serendipitous discovery, rather than relegating users to a targeted search for the file name, which they may or may not know. Both automatic, system-generated metadata and user-created metadata are supported in iRODS.
+iRODS users can store descriptive information about data objects---or metadata---in the iCAT. Metadata improves search capabilities and therefore better enables data discovery. Users can search for data objects using metadata descriptors as search terms.  This allows for browsing and serendipitous discovery, rather than relegating users to a targeted search for the file name, which they may or may not know. Both automatic, system-generated metadata and user-created metadata are supported in iRODS.
 
 \subsection{The Virtual File System and Resource Configuration}
 
-iRODS contains a virtual file system which maps logical directory paths stored in the iCAT to actual physical storage (e.g., Ceph cluster) that contains the actual data objects. Composable Resources allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage. Coordinating resources actively make decisions about which physical device will receive or serve up a data object. Storage resources are the logical representations of---or pointers to---physical storage devices. All resources are composed of five parts: (a) the name you give the resource, (b) a host name (e.g., hostname.example.org), (c) a directory path to the exact location on the storage device (e.g., /full/path/to/storage), (d) the storage resource type (e.g., Amazon S3), and (e) a plugin-specific context string (e.g., the name of the file containing access credentials or any persistent information the plugin may require).
+iRODS contains a virtual file system which maps logical directory paths stored in the iCAT to actual physical storage (e.g., Ceph cluster) that contains the logical data objects. Composable Resources allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage. Coordinating resources actively make decisions about which physical device will receive or serve up a data object. Storage resources are the logical representations of---or pointers to---physical storage devices. All resources are composed of five parts: (a) the name you give the resource, (b) a host name (e.g., hostname.example.org), (c) a directory path to the exact location on the storage device (e.g., /full/path/to/storage), (d) the storage resource type (e.g., Amazon S3), and (e) a plugin-specific context string (e.g., the name of the file containing access credentials or any persistent information the plugin may require).
 
 \subsection{Secure Collaboration}
 
@@ -273,9 +273,9 @@ To ensure your site can grow over time, you will need to determine if and when d
 
 Disk failures occur, so you will want to keep at least two copies of the data, located on separate disks, at all times.
 
-\section{Addressing SPS' Needs}
+\section{Addressing SPS's Needs}
 
-How would you address SPS' needs in the case study above?
+How would you address SPS's needs in the case study above?
 
 Get together in pairs or small groups and discuss the questions below. The answers to some of the questions below cannot be found in the above scenario. So you'll have to use your imagination and flesh out the scenario some more.
 
@@ -505,7 +505,7 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 \ugmbullet Database Server's Port & \colorbox{gray!70}{5432} The database server listens for notifications from other applications on this port. The default value is correct for PostgreSQL installations. \\
 \ugmbullet Database Name & \colorbox{gray!70}{ICAT} This is the name of the database that we created in PostgreSQL during the iCAT database installation. \\
 \ugmbullet Database User & \colorbox{gray!70}{irods} This must match the irods Linux account name to authenticate into Postgres without changing Postgres settings. \\
-\ugmbullet Database Password & Enter \texttt{testpassword} . This is the same password we set for during the iCAT database installation. \\
+\ugmbullet Database Password & Enter \texttt{testpassword} . This is the same password we set during the iCAT database installation. \\
 \ugmbullet Stored Passwords Salt & This obfuscates the passwords stored in the database, making your installation unique.  For production use, don't leave this empty. \\
 \hline
 
@@ -1123,7 +1123,7 @@ For example, the Replication Coordinating Resource weights a vote from a storage
 
 \section{Building a Tree}
 
-Recall, that we created a unixfilesystem storage resource called \texttt{newResc} for Alice to play with. Now we're going to set up automatic replication between \texttt{newResc} and two other resources, which will be named \texttt{storageResc1} and \texttt{storageResc2}.
+Recall that we created a unixfilesystem storage resource called \texttt{newResc} for Alice to play with. Now we're going to set up automatic replication between \texttt{newResc} and two other resources, which will be named \texttt{storageResc1} and \texttt{storageResc2}.
 
 To set up automatic replication, we will need to use the \texttt{iadmin} command, so we will need to \texttt{iexit full} out of Alice's account and log in as \texttt{rods}, the administrator account.
 
@@ -1333,7 +1333,7 @@ User-defined metadata about the contents of seal.jpg might look something like t
 Attribute & Value & Unit \\
 \hline
 animal & seal & \\
-photo\_color & gray and brown & \\
+photo\_color & grey and brown & \\
 zoo & St. Louis Zoo & Missouri \\
  \hline
 \end{tabular}
@@ -1537,7 +1537,7 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \end{lrbox}
 \href{https://raw.githubusercontent.com/irods/irods_training/ugm2018/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
-An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supercede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
+An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
 There are two ways to insert the new PEP's behavior into iRODS.
 \begin{enumerate}
