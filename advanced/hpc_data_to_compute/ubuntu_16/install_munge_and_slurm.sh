@@ -196,7 +196,7 @@ f_slurm_config ()
   sudo env -i $(/usr/local/sbin/slurmd -C) \
                 SLURM_HOOK_DIR=$SLURM_ADMIN \
                 perl -pe 's/\$(\w+)/$ENV{$1}/ge unless /^\s*#/' \
-                < "$DIR"/slurm.conf.template                    \
+                < "$DIR"/../slurm.conf.template                 \
                 > /tmp/slurm.conf  && \
   sudo cp /tmp/slurm.conf /usr/local/etc && \
   sudo mkdir -p /var/spool/slurm{d,state} && \
@@ -214,7 +214,7 @@ f_slurm_persist ()
   if [ -f /etc/init.d/slurm ] ; then
     sudo mv /etc/init.d/slurm{,.old} 
   fi
-  sudo cp "$DIR"/slurm.upstart /etc/init.d/slurm
+  sudo cp "$DIR"/../slurm.upstart /etc/init.d/slurm
   sudo chmod go=rx,u=rwx /etc/init.d/slurm
 
   if sudo /etc/init.d/slurm start ; then
