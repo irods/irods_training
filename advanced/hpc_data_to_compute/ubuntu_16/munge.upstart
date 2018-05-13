@@ -1,0 +1,84 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          munge
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Required-Start:      
+# Required-Stop:       
+### END INIT INFO
+
+# Do NOT "set -e"
+
+DESC="Munge basic init script"
+NAME="munge"
+SCRIPTNAME="$0"
+DAEMON="/usr/sbin/munged"
+
+do_start()
+{
+    mkdir -p /var/run/munge
+    chmod 755 /var/run/munge
+    PID=$(pgrep -f $DAEMON)
+    [ -n "$PID" ] || $DAEMON
+}
+
+do_stop()
+{
+    PID=$(pgrep -f $DAEMON)
+    [ -z "$PID" ] || pkill -f $DAEMON  
+}
+
+do_status()
+{
+    STATUS=1
+    PID=$(pgrep -f $DAEMON)
+    if [ -n "$PID" ]
+    then
+      STATUS=0
+      echo "MUNGE daemon '$(basename $DAEMON)' is running: PID = $PID" >&2
+    else
+      echo "MUNGE daemon not active" >&2
+    fi
+    return $STATUS
+}
+
+case "$1" in
+  start)
+	do_start
+	case "$?" in
+		0)   echo >&2 "Started MUNGE daemon"
+			;;
+		*) exit 1
+			;;
+	esac
+	;;
+  stop)
+	do_stop
+	case "$?" in
+		0)   echo >&2 "Stopped MUNGE daemon"
+			;;
+		*) exit 1
+			;;
+	esac
+	;;
+  restart)
+        export FORCE_STOP=1
+	do_stop && do_start
+	case "$?" in
+		0) echo >&2 "Restarted MUNGE daemon"
+			;;
+		*) exit 1
+			;;
+	esac
+	;;
+  status)
+	do_status
+	true
+	;;
+  *)
+	echo "Usage: $SCRIPTNAME {start|stop|restart|status}" >&2
+	exit 3
+	;;
+esac
+
+:
