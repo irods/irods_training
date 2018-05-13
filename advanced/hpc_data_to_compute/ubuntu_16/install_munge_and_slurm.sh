@@ -170,6 +170,7 @@ copy_scripts_ ()
 		echo >&2 "At this time only SLURM 'prolog' and 'epilog' scripts can be installed" 
 		return ;;
   esac
+  REF="${2}"
 
   sudo dd of="$SLURM_ADMIN/root_$TYPE" <<-EOF 2>/dev/null
 	#!/bin/bash
@@ -184,9 +185,11 @@ copy_scripts_ ()
 
   BASE="slurm_$TYPE"
   DEST="$IRODS_MSIEXEC/$BASE"
-  sudo su irods -c "touch '$DEST'"
-  [ -f "$DIR"/"$BASE" ] && sudo cp "$DIR"/"$BASE" "$DEST"  # -- Copy from this folder into irods
-  [ -f "$DEST" ]	&& sudo chmod go+rx,u+rwx "$DEST"  # msiExec dir & enable execution      
+  sudo su irods -c "touch '$DEST'" && \
+  [ -f "$DIR"/$REF/"$BASE" ] && \
+      sudo cp "$DIR"/$REF/"$BASE" "$DEST" && \
+  [ -f "$DEST" ] && \
+      sudo chmod go+rx,u+rwx "$DEST"  
 }
 
 f_slurm_config ()
@@ -202,8 +205,8 @@ f_slurm_config ()
   sudo mkdir -p /var/spool/slurm{d,state} && \
   sudo chmod -R 755 /var/spool/slurm{d,state} && \
   sudo mkdir -p $SLURM_ADMIN  && \
-  copy_scripts_ prolog && \
-  copy_scripts_ epilog 
+  copy_scripts_ prolog .. && \
+  copy_scripts_ epilog ..
   [ $? -eq 0 ] || warn SLURM_CONFIG
 }
 
