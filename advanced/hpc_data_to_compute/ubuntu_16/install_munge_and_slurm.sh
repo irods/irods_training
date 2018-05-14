@@ -179,7 +179,7 @@ copy_scripts_ ()
 	  su irods -c "\$IRODS_HOOK"
 	fi
 	EOF
-  # ^---last 3 lines must begin with tab characters
+  # ^-- tab necessary for <<-EOF!
 
   sudo chmod a+rx "$SLURM_ADMIN/root_$TYPE"
 
