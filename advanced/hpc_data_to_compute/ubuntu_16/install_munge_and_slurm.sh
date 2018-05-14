@@ -228,9 +228,21 @@ f_slurm_persist ()
   fi
 
   if [ $? -eq 0 ] ; then 
-    ## TODO : Ub16 runlevel mgt
-    #sudo update-rc.d slurm defaults
-    true
+    MUNGE_SLURM_RESTART=$(cat <<-'EOF'
+	refresh_slurm() {
+	  /etc/init.d/munge restart
+	  /etc/init.d/slurm restart
+	}
+	UBUNTU_VERSION=$( . /etc/os-release >/dev/null ; echo "$VERSION" | cut -d. -f1 )
+	case "$UBUNTU_VERSION." in	#(
+	  14.) refresh_slurm ;; 	#(
+	  16.) refresh_slurm ;; 	#(
+	  *) ;;
+	esac
+	EOF
+    )
+    sudo env -i inserttext="${MUNGE_SLURM_RESTART}" perl -i.orig -0 -pe '
+      s[(\n)\s*(exit\s+0\s*)$][${1}$ENV{inserttext}\n${2}]s' /etc/rc.local
   else
     warn SLURM_PERSIST
   fi
