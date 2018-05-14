@@ -4,7 +4,7 @@ EXECUTABLE="/usr/bin/convert"
 
 SRUN_OPTIONS="--nodes=1-1 --ntasks=1 --cpus-per-task=1"
 
-MUTX=$(hostname)_slurmjob_${SLURM_JOB_ID}.txt
+MUTX=${SLURM_SUBMIT_HOST}_slurmjob_${SLURM_JOB_ID}.txt
 UUID=$(iquest '%s' "select META_DATA_ATTR_VALUE where \
  DATA_NAME = '$MUTX'  and \
  META_DATA_ATTR_NAME = 'uuid' and \
