@@ -230,8 +230,10 @@ f_slurm_persist ()
   if [ $? -eq 0 ] ; then 
     MUNGE_SLURM_RESTART=$(cat <<-'EOF'
 	refresh_slurm() {
-	  /etc/init.d/munge restart
-	  /etc/init.d/slurm restart
+	  [ -x /etc/init.d/munge -a  -x /etc/init.d/slurm ] && {
+	   /etc/init.d/munge restart
+	   /etc/init.d/slurm restart
+	  }
 	}
 	UBUNTU_VERSION=$( . /etc/os-release >/dev/null ; echo "$VERSION" | cut -d. -f1 )
 	case "$UBUNTU_VERSION." in	#(

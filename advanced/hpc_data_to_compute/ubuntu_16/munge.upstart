@@ -62,7 +62,7 @@ case "$1" in
 	esac
 	;;
   restart)
-        export FORCE_STOP=1
+        # export FORCE_STOP=1
 	do_stop && do_start
 	case "$?" in
 		0) echo >&2 "Restarted MUNGE daemon"
