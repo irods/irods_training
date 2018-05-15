@@ -124,7 +124,7 @@ f_munge_start () {
 
   # -- Start the munge daemon
 
-  sudo /etc/init.d/munge start
+  sudo /etc/init.d/munge restart
   echo -n "starting 'munge' daemon ..." >&2
   sleep 2 ; echo >&2
   [ $? -eq 0 ] || warn MUNGED_START
@@ -233,15 +233,17 @@ f_slurm_persist ()
   sudo cp "$DIR"/../slurm.upstart /etc/init.d/slurm
   sudo chmod go=rx,u=rwx /etc/init.d/slurm
 
-  if sudo /etc/init.d/slurm start ; then
+  if sudo /etc/init.d/slurm restart ; then
     :
   else
     warn SLURM_START
     return
   fi
-
-  if [ $? -eq 0 ] ; then 
-    MUNGE_SLURM_RESTART=$(cat <<-'EOF'
+  if [ $? -eq 0 ] 
+  then 
+    RC_LOCAL=/etc/rc.local
+    if perl -0 -ne 'exit m[UBUNTU_VERSION.*\n.*refresh_slurm]' $RC_LOCAL ; then 
+	MUNGE_SLURM_RESTART=$(echo; cat <<-'EOF'
 	refresh_slurm() {
 	  [ -x /etc/init.d/munge -a  -x /etc/init.d/slurm ] && {
 	   /etc/init.d/munge restart
@@ -255,9 +257,10 @@ f_slurm_persist ()
 	  *) ;;
 	esac
 	EOF
-    )
-    sudo env -i inserttext="${MUNGE_SLURM_RESTART}" perl -i.orig -0 -pe '
-      s[(\n)\s*(exit\s+0\s*)$][${1}$ENV{inserttext}\n${2}]s' /etc/rc.local
+	)
+	sudo env -i inserttext="${MUNGE_SLURM_RESTART}" perl -i.orig -0 -pe '
+	  s[(\n)\s*(exit\s+0\s*)$][${1}$ENV{inserttext}\n\n${2}]s' $RC_LOCAL
+    fi
   else
     warn SLURM_PERSIST
   fi
@@ -331,3 +334,4 @@ else
     x=""
   done
 fi
+
