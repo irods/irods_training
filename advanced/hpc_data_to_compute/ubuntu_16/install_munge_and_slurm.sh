@@ -34,6 +34,7 @@ add_error SLURM_BUILD     "SLURM build (or install) failed"			# 7
 add_error SLURM_CONFIG    "SLURM could not be configured"			# 8
 add_error SLURM_START     "SLURM could not be started"				# 9
 add_error SLURM_PERSIST   "Could not install SLURM daemons in start scripts"	# 10
+add_error NEED_PREREQ     "Need build pre-requisite; check internet connection"	# 11
 
 # -- Check for irods service account, die unless it exists
 
@@ -52,17 +53,29 @@ WGET=1
 
 # Dictionaries to hold repository path and preferred version info
 
-typeset -A \
-  dlPath=( [munge]="dun/munge" [slurm]="SchedMD/slurm" )\
-  dlTag=(  [munge]="munge-0.5.13" [slurm]="slurm-17-11-4-1" )
+typeset -A dlPath=( [munge]="dun/munge" [slurm]="SchedMD/slurm"  
+                    [singularity]="singularityware/singularity"		)\
+	   dlTag=(  [munge]="munge-0.5.13" [slurm]="slurm-17-11-4-1" 
+                    [singularity]="2.5.1"				)\
+	   bldReq=(
+		[singularity]="squashfs-tools libarchive-dev autoconf"
+	   )
+
 
 # -- Helper function to download software --
 
 download() {
   local pkg="$1" 
   [ -z "$pkg" ] && exit 125
+  printf $'\n\t*** Downloading and building: "%s" ***\n\n' "$pkg" >&2
   [ -d ".old.$pkg" ] && rm -fr ".old.$pkg"/
   [ -d "$pkg" ] && mv "$pkg"/ ".old.$pkg"/
+  local reqs="${bldReq[$pkg]}"
+  if [ -n "$reqs" ] ; then  # -- satisfy build requirements, if there are any
+    echo -n "installing ( $reqs ) before download ..." >&2
+    sudo apt-get -qq -y install $reqs || die NEED_PREREQ
+    echo >&2
+  fi
   local fname
   if [ "$WGET" = "1" ] ; then
     fname=${dlTag[$pkg]}.tar.gz
@@ -271,7 +284,7 @@ if [ $# -eq 0 ] ; then
 
   f_munge_build           || exit $?
 
-  f_munge_key_install    || exit $?
+  f_munge_key_install     || exit $?
 
   f_munge_start           || exit $?
 
@@ -292,7 +305,11 @@ else
   then
     x=$1
   else
-    [ -n "$1" ] && menu
+    [ $# -gt 0 -a -n "$1" ] && menu && echo "
+	No argument: complete install
+	Empty argument (''): menu-driven install
+	Integer argument: execute one phase of install
+    " >&2 && die BAD_OPTION
   fi
 
   while [ -n "$x" ] || read -p "->" x
@@ -305,6 +322,8 @@ else
 	5) f_slurm_build_install  ;;
 	6) f_slurm_config         ;;
 	7) f_slurm_persist        ;;
+	9) mkdir -p ~/github && cd ~/github && download singularity	;;
+	99*) echo >&2 " ** (: Nines :) ** ";;
 	[Qq]*) exit 0		  ;;
 	*) menu ;;
     esac
