@@ -3,7 +3,7 @@
 # -- create metadata trail
 
 UUID=$(uuidgen -t)
-MUTX=${SLURM_SUBMIT_HOST}_slurmjob_${SLURM_JOB_ID}.txt
+MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
 touch /tmp/$MUTX
 if iput /tmp/$MUTX >/dev/null 2>&1 
 then
