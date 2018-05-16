@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MUTX=${SLURM_SUBMIT_HOST}_slurmjob_${SLURM_JOB_ID}.txt
+MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
 
 UUID=$(iquest '%s' "select META_DATA_ATTR_VALUE where \
   DATA_NAME = '$MUTX'  and \
