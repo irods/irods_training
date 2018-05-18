@@ -1,4 +1,4 @@
-import EXIF
+import exifread
 
 import python_storage_balancing
 import session_vars
@@ -12,7 +12,7 @@ def acPostProcForPut(rule_args, callback, rei):
     objpath = sv['data_object']['object_path']
     exiflist = []
     with open(phypath, 'rb') as f:
-        tags = EXIF.process_file(f, details=False)
+        tags = exifread.process_file(f, details=False)
         for (k, v) in tags.iteritems():
             if k not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
                 exifpair = '{0}={1}'.format(k, v)
