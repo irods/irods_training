@@ -18,6 +18,7 @@
 
 SLURM_ADMIN=/var/lib/slurm
 IRODS_MSIEXEC=~irods/msiExecCmd_bin
+IRODS_COMPUTE=~irods/compute
 
 # Import symbolic error codes
 
@@ -187,7 +188,7 @@ copy_scripts_ ()
 
   sudo dd of="$SLURM_ADMIN/root_$TYPE" <<-EOF 2>/dev/null
 	#!/bin/bash
-	IRODS_HOOK="$IRODS_MSIEXEC"/slurm_$TYPE
+	IRODS_HOOK="$IRODS_COMPUTE"/slurm_$TYPE
 	if [ -x "\$IRODS_HOOK" ]; then
 	  su irods -c "\$IRODS_HOOK"
 	fi
@@ -197,10 +198,10 @@ copy_scripts_ ()
   sudo chmod a+rx "$SLURM_ADMIN/root_$TYPE"
 
   BASE="slurm_$TYPE"
-  DEST="$IRODS_MSIEXEC/$BASE"
+  DEST="$IRODS_COMPUTE/$BASE"
   sudo su irods -c "touch '$DEST'" && \
   [ -f "$DIR"/$REF/"$BASE" ] && \
-      sudo cp "$DIR"/$REF/"$BASE" "$DEST" && \
+      sudo cp -p "$DIR"/$REF/"$BASE" "$DEST" && \
   [ -f "$DEST" ] && \
       sudo chmod go+rx,u+rwx "$DEST"  
 }
@@ -218,6 +219,8 @@ f_slurm_config ()
   sudo mkdir -p /var/spool/slurm{d,state} && \
   sudo chmod -R 755 /var/spool/slurm{d,state} && \
   sudo mkdir -p $SLURM_ADMIN  && \
+  sudo mkdir -p $IRODS_COMPUTE && \
+  sudo chown irods:irods $IRODS_COMPUTE && \
   copy_scripts_ prolog .. && \
   copy_scripts_ epilog ..
   [ $? -eq 0 ] || warn SLURM_CONFIG
@@ -251,9 +254,10 @@ f_slurm_persist ()
 	  }
 	}
 	UBUNTU_VERSION=$( . /etc/os-release >/dev/null ; echo "$VERSION" | cut -d. -f1 )
-	case "$UBUNTU_VERSION." in	#(
-	  14.) refresh_slurm ;; 	#(
-	  16.) refresh_slurm ;; 	#(
+	CURRENT_RUNLEVEL=$( runlevel | cut -d' ' -f2 )
+	case "$UBUNTU_VERSION." in #(
+	  14.) [ $CURRENT_RUNLEVEL = 2 ] && refresh_slurm ;; #(
+	  16.) [ $CURRENT_RUNLEVEL = 5 ] && refresh_slurm ;; #(
 	  *) ;;
 	esac
 	EOF
