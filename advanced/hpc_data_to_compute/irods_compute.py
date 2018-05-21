@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 # --
 # -  iRODS compute <-> data 
 # --
@@ -6,13 +7,9 @@
 from __future__ import print_function
 import sys
 
-min_py_version = ( (3,4,0) , "This module requires at least 3.4.0 of Python")
-
-#
-# check interpreter version ; bulk imports
-#
-
-assert sys.version_info >= min_py_version[0] , min_py_version[1]
+def check_python_version():
+  min_py_version = ( (2,7) , "This module requires >=2.7 of Python")
+  assert sys.version_info >= min_py_version[0] , min_py_version[1]
 
 import os, time, pprint, json
 from os.path import ( join, curdir, dirname, sep as SEP )
@@ -23,21 +20,19 @@ from   irods.models import Resource, ResourceMeta
 from   irods.exception import DataObjectDoesNotExist , CollectionDoesNotExist
 import irods.keywords as kw
 
-as_module = True
 job_params = {}
 checksum_options = None
+logger = None
 
-#
-# set up file logging
-#
-
-log_filename = join( (dirname( sys.argv[0] ) or curdir), 'log_irods_compute.txt' )
-logger = logging.getLogger('compute_log')
-logger.setLevel(logging.DEBUG)
-ch = logging.handlers.WatchedFileHandler(filename=log_filename)
-ch.setFormatter(logging. Formatter('%(filename)s:%(process)d '
-		'@ %(asctime)s - %(message)s') )
-logger.addHandler(ch)
+def set_up_logging():
+  global logger
+  log_filename = join( (dirname( sys.argv[0] ) or curdir), 'log_irods_compute.txt' )
+  logger = logging.getLogger('compute_log')
+  logger.setLevel(logging.DEBUG)
+  ch = logging.handlers.WatchedFileHandler(filename=log_filename)
+  ch.setFormatter(logging. Formatter('%(filename)s:%(process)d '
+    '@ %(asctime)s - %(message)s') )
+  logger.addHandler(ch)
 
 def jobParams( cfgFile = 'job_params.json' , argv0 = '' ):
   global job_params
@@ -63,9 +58,9 @@ def checksumOptions():
       checksum_options = {}
   return checksum_options
 
-# ---
-#     Helper functions
-# ---
+# --
+# -   Helper functions
+# --
 
 # - session_object() :  get, or initially set, iRODS session object
 
@@ -325,7 +320,7 @@ def register_replicate_and_trim_thumbnail ( size_string ):
 
 if __name__ == '__main__':
 
-  as_module = False
+  check_py_version()
 
   parser = argparse.ArgumentParser( )
   parser.add_argument('--config', nargs=1, help="name of a .JSON config file", default='job_params.json')
@@ -351,7 +346,6 @@ if __name__ == '__main__':
     register_replicate_and_trim_thumbnail ( size_string = args.remainder[0] )
 
   else:
-    #print("in else clause, as_module = {}".format(as_module), file=sys.stderr)
-    #logger.info("ran {} without args".format(os.path.basename (sys.argv[0])))
-    pass
+
+    logger.info("ran {} without args".format(os.path.basename (sys.argv[0])))
 

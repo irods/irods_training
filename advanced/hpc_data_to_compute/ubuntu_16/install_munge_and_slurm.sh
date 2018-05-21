@@ -36,6 +36,7 @@ add_error SLURM_CONFIG    "SLURM could not be configured"			# 8
 add_error SLURM_START     "SLURM could not be started"				# 9
 add_error SLURM_PERSIST   "Could not install SLURM daemons in start scripts"	# 10
 add_error NEED_PREREQ     "Need build pre-requisite; check internet connection"	# 11
+add_error SINGULARITY_BLD "Singularity build (or install) failed"		# 12
 
 # -- Check for irods service account, die unless it exists
 
@@ -270,6 +271,21 @@ f_slurm_persist ()
   fi
 }
 
+f_singularity_install() 
+{
+           OLDDIR=$(pwd)
+           mkdir -p ~/github && \
+           cd ~/github && download singularity && \
+           cd singularity  && \
+           ./autogen.sh  && \
+           ./configure --prefix=/usr/local  && \
+           make && \
+           sudo make install
+           STATUS=$?
+           cd "$OLDDIR"
+           [ $? -eq 0 ] || warn SINGULARITY_BLD
+}
+
 # -------------------------------------------
 
 menu() { echo >&2 \
@@ -318,7 +334,6 @@ else
 	Integer argument: execute one phase of install
     " >&2 && die BAD_OPTION
   fi
-
   while [ -n "$x" ] || read -p "->" x
   do
     case $x in 
@@ -329,7 +344,8 @@ else
 	5) f_slurm_build_install  ;;
 	6) f_slurm_config         ;;
 	7) f_slurm_persist        ;;
-	9) mkdir -p ~/github && cd ~/github && download singularity	;;
+	9)
+           f_singularity_install  ;;
 	99*) echo >&2 " ** (: Nines :) ** ";;
 	[Qq]*) exit 0		  ;;
 	*) menu ;;
