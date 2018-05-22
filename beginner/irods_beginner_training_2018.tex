@@ -247,7 +247,7 @@ With iRODS, organizations can share data, or federate, by simply adding a few bi
 
 Your organization may have defined, formally or informally, policies and procedures for access control, backup, data migration, data preparation, metadata extraction, and more. These organizational policies can be implemented in iRODS through the use of rules, which can help you customize and automate related data management tasks.
 
-Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages, if a rule engine plugin exists for that language.  As of the time of publication, there are rule engine plugins for the iRODS Rule Language, C++, Python, and Javascript.
+Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages, if a rule engine plugin exists for that language.  As of the time of publication, there are rule engine plugins for the iRODS Rule Language, C++, Python, Javascript, and Go.
 
 Rules are executed based on conditions or, in iRODS parlance, Policy Enforcement Points (PEPs). Consider, for example, a rule to transfer ownership of data objects to the project manager when a user is deleted; the trigger---or PEP---is the deletion of the user. Similarly, rules could be written to extract metadata or pre-process data whenever a file is uploaded to a storage device. Or, upon access to particular data objects, a rule can create a log of the event, send an email notification to the project manager, or perform some other task you need to occur as a result of the data's access.
 
@@ -1049,8 +1049,6 @@ iRODS has a modular architecture with 7 pluggable interfaces that allow differen
 
 Through these interfaces, chiefly composable resources, iRODS users can take advantage of storage virtualization. iRODS users are provided with a uniform interface that supports the implementation of consistent data management policies and practices regardless of different types or numbers of storage. For example, data could be stored on Amazon S3, a Unix file system, and Web Object Scaler (DataDirect Network's block storage appliance), yet data retrieval, sharing, and replication could be handled in the same way regardless of device differences.
 
-In iRODS version 4.3, the iRODS team hopes to add pluggable data transport as the eighth plugin interface.  This will allow hardware vendors to maximize the connections between their machines.  iRODS will serve only as the broker for the fast connection.
-
 \vspace{-5mm}
 \begin{center}
 \def\arraystretch{3}%  1 is the default
@@ -1061,7 +1059,7 @@ Interface & Plugins \\
 Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM) \\ LDAP via PAM \\Kerberos* \\ Grid Security Infrastructure (GSI)*} \\
 Network & \makecell[l]{Transmission Control Protocol (TCP) \\ Secure Socket Layer (SSL)} \\
 Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MySQL*} \\
-Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)* \\ Javascript*} \\
+Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)* \\ Javascript* \\ Go*} \\
 API & An avenue through which new functionality can be added to an iRODS deployment. \\
 Microservices & There are over 350 available, covering a variety of functions. \\
 Composable Resources & There are two kinds of Composable Resources in iRODS: Coordinating and Storage. Both are discussed in more detail in the next section. \\
@@ -1085,7 +1083,6 @@ A Coordinating Resource manages the flow of data to and from Storage Resources. 
 \begin{tabular}{ |l|p{10cm}| }
 \hline
 Replication & A replication resource keeps its children in sync with identical copies---or replicas---of data objects. \\
-Round Robin & A round robin resource will rotate through its children for each upload to the system. \\
 Load Balanced & A load balanced resource attempts to balance storage and retrieval across children to avoid taxing the servers (e.g., available space, CPU usage, network traffic). \\
 Deferred & A deferred resource has no implicit policy and will honor the voting of its children in determining priority for both puts and gets. \\
 Compound & A compound resource manages two children, in the roles of Cache and Archive. The cache resource provides a standard UNIX file system interface (i.e., POSIX) to an archive that may not natively support this type of access. \\
