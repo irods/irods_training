@@ -37,6 +37,7 @@ add_error SLURM_START     "SLURM could not be started"				# 9
 add_error SLURM_PERSIST   "Could not install SLURM daemons in start scripts"	# 10
 add_error NEED_PREREQ     "Need build pre-requisite; check internet connection"	# 11
 add_error SINGULARITY_BLD "Singularity build (or install) failed"		# 12
+add_error SINGULARITY_PUL "Singularity pull of images failed"			# 13
 
 # -- Check for irods service account, die unless it exists
 
@@ -286,16 +287,40 @@ f_singularity_install()
            [ $? -eq 0 ] || warn SINGULARITY_BLD
 }
 
+f_singularity_pull() 
+{
+  sudo su - irods -c \
+  "
+  cd $IRODS_COMPUTE 
+  singularity pull                                      \\
+        --name "generate_thumbnails.img"                \\
+        docker://dwmoore/thumbnail_image:latest         \\
+  && \\
+  singularity pull \\
+        --name "tag_with_metadata.img" \\
+        shub://d-w-moore/singularity-python-irodsclient:prc
+  " || warn SINGULARITY_PUL
+}
+
 # -------------------------------------------
 
 menu() { echo >&2 \
-"Menu:	1 f_munge_build       
+"Menu
+        ::: data-to-compute :::
+
+        1 f_munge_build       
 	2 f_munge_key_install   
 	3 f_munge_start          
 	4 f_munge_daemon_persist 
 	5 f_slurm_build_install  
 	6 f_slurm_config         
 	7 f_slurm_persist
+
+        ::: compute-to-data :::
+
+        8 f_singularity_build
+        9 f_singularity_pull
+
 	Q quit "
 }
 
@@ -344,8 +369,10 @@ else
 	5) f_slurm_build_install  ;;
 	6) f_slurm_config         ;;
 	7) f_slurm_persist        ;;
-	9)
+	8)
            f_singularity_install  ;;
+	9)
+           f_singularity_pull  ;;
 	99*) echo >&2 " ** (: Nines :) ** ";;
 	[Qq]*) exit 0		  ;;
 	*) menu ;;
