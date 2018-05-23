@@ -259,7 +259,7 @@ f_slurm_persist ()
 	CURRENT_RUNLEVEL=$( runlevel | cut -d' ' -f2 )
 	case "$UBUNTU_VERSION." in #(
 	  14.) [ $CURRENT_RUNLEVEL = 2 ] && refresh_slurm ;; #(
-	  16.) [ $CURRENT_RUNLEVEL = 5 ] && refresh_slurm ;; #(
+	  16.) [ $CURRENT_RUNLEVEL = 5 -o $CURRENT_RUNLEVEL = unknown ] && refresh_slurm ;; #(
 	  *) ;;
 	esac
 	EOF
