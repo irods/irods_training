@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # --
 # -  iRODS compute <-> data 
@@ -24,15 +24,30 @@ job_params = {}
 checksum_options = None
 logger = None
 
-def set_up_logging():
+class dummyLogger (object):
+  def __init__(self): pass
+  def fatal(self,s): pass
+  def error(self,s): pass
+  def info (self,s): pass
+  def debug(self,s): pass
+  def warn (self,s): pass
+
+def computeLogger(use_dummy=False):
   global logger
-  log_filename = join( (dirname( sys.argv[0] ) or curdir), 'log_irods_compute.txt' )
-  logger = logging.getLogger('compute_log')
-  logger.setLevel(logging.DEBUG)
-  ch = logging.handlers.WatchedFileHandler(filename=log_filename)
-  ch.setFormatter(logging. Formatter('%(filename)s:%(process)d '
-    '@ %(asctime)s - %(message)s') )
-  logger.addHandler(ch)
+  if not logger:
+    try:
+      log_filename =  '/tmp/log_irods_compute.txt' ;
+      if not use_dummy :
+        logger = logging.getLogger('compute_logger')
+        logger.setLevel(logging.DEBUG)
+        ch = logging.handlers.WatchedFileHandler(filename=log_filename)
+        ch.setFormatter(logging. Formatter('%(filename)s:%(process)d '
+          '@ %(asctime)s - %(message)s') )
+        logger.addHandler(ch)
+    except:
+      pass
+  if not logger: logger = dummyLogger()
+  return logger
 
 def jobParams( cfgFile = 'job_params.json' , argv0 = '' ):
   global job_params
@@ -44,7 +59,7 @@ def jobParams( cfgFile = 'job_params.json' , argv0 = '' ):
       job_params = json.load( open( cfgFile, 'r') )
     except:
       msg =  "Could not load JSON config file at {}".format (cfgFile) 
-      logger.error(msg); raise SystemExit(msg)
+      computeLogger().error(msg); raise SystemExit(msg)
   return job_params
 
 def checksumOptions():
@@ -84,7 +99,7 @@ def session_object( sess_ = None ):
   
   return session
 
-# - check and paranoid re-checking of 
+# =-=-=-=-=
 
 def check_replica_status( repl ,
                           use_chksum =  None ,
@@ -97,9 +112,9 @@ def check_replica_status( repl ,
 
   if type(wait) not in (tuple, list):
     wait = [ 2, 0.5 ]
-    logger.info ("'input_repl_wait' value in config file was incorrect "
-                 "type.  need list: [nTimes, delaySec].")
-    logger.info ("'input_repl_wait' - using default of  {!r}".format(wait))
+    computeLogger().info ("'input_repl_wait' value in config file was incorrect "
+                          "type.  need list: [nTimes, delaySec].")
+    computeLogger().info ("'input_repl_wait' - using default of  {!r}".format(wait))
 
   #-- need mutable copy
   wait = list(wait)
@@ -170,8 +185,8 @@ def trim_all_replicas_from_resource ( obj,
   old_good_replicas = [ r for r,v in map_other.items() if v.status == '1' ]
 
   if len(old_good_replicas) == 0 and not( force ):
-    logger.info  ("Did not trim replicas from '{}' - no others with good status "
-                  "on '{}'".format (resourceName, rescName_for_repl_status) )
+    computeLogger().info  ("Did not trim replicas from '{}' - no others with good status "
+                           "on '{}'".format (resourceName, rescName_for_repl_status) )
     return False
   else:
     for r in repls_to_trim :
@@ -244,13 +259,13 @@ def do_replicate_input (cmd_line_args):
                              ResourceMeta.value == val  ).one() [Resource.name]
       except Exception as e:
         msg = "Incorrect 'input_resc' value in config file: {!r}".format(input_resc)
-        logger.error(msg) ; raise SystemExit (msg)
+        computeLogger().error(msg) ; raise SystemExit (msg)
 
     try:
       obj = sess.data_objects.get(input_path)
     except:
       msg =  "Object '{}' does not exist" .format(input_path) 
-      logger.error(msg) ; raise SystemExit (msg)
+      computeLogger().error(msg) ; raise SystemExit (msg)
 
     if args.skip_if_exists and exists_on_resource(obj, input_resc, test_status = False):
       return True
@@ -261,7 +276,7 @@ def do_replicate_input (cmd_line_args):
 
     if staged_replicas : old_repl = staged_replicas [0]  
     else :
-      logger.error ("no input could be found at '{}'".format(input_path))
+      computeLogger().error ("no input could be found at '{}'".format(input_path))
 
     try :
       obj.replicate ( input_resc , ** checksumOptions() )
@@ -273,8 +288,7 @@ def do_replicate_input (cmd_line_args):
     if check_replica_status( new_repl , compare_to = old_repl ):
       success = True
     else: 
-      logger.error ("no input could be replicated at '{}'".format(input_path))
-    #logger.info ("created replica for input")
+      computeLogger().error ("no input could be replicated at '{}'".format(input_path))
     return success
 
 # ---
@@ -283,9 +297,7 @@ def register_replicate_and_trim_thumbnail ( size_string ):
 
   imageCompute_resc = rescName_by_role (*jobParams()['imageCompute_resc']) 
   phys_dir = jobParams()['phys_dir_for_output']
-
-  c = get_collection ( jobParams()['output_collection'] ) 
-
+  c = get_collection( jobParams()['output_collection'] ) 
   result_pattern = join( phys_dir  , "*" + size_string + "*.jpg" )
 
   try:
@@ -293,7 +305,7 @@ def register_replicate_and_trim_thumbnail ( size_string ):
     fileName = g[0]
   except:
     msg= "Could not find match for '{}'".format(g)
-    logger.error ( msg )
+    computeLogger().error ( msg )
     raise SystemExit(msg)
 
   sess = session_object()
@@ -313,39 +325,25 @@ def register_replicate_and_trim_thumbnail ( size_string ):
   trim_all_replicas_from_resource ( o, resourceName = 'img_resc',
                                     rescName_for_repl_status = 'lts_resc' )
 
-  # - todo - associate logical paths of product to job input(s)
-
-# ---
-
+  # - todo - add METADATA to associate logical paths of product to job input(s)
 
 if __name__ == '__main__':
-
-  check_py_version()
-
-  parser = argparse.ArgumentParser( )
-  parser.add_argument('--config', nargs=1, help="name of a .JSON config file", default='job_params.json')
-
-  commands = { 'test' : 'check syntax and loading of config file',
-               'replicate_input' : 'copy job_input to compute resource', 
-               'reg_repl_trim_output' : 'register/trim results of computation to long term storage' }
-
-  parser.add_argument ('command', help='one of {!s}'.format(list(commands.keys())) )
-  parser.add_argument ('remainder', nargs=argparse.REMAINDER)
-  args = parser.parse_args()
-
-  params = jobParams ( cfgFile = args.config , argv0 = sys.argv[0] )
-  checksum_options = checksumOptions()
-
-  if args.command == 'replicate_input':
-
-    do_replicate_input( args.remainder )
-
-  elif args.command == 'reg_repl_trim_output' :
-
-    assert len(args.remainder) == 1, "need a size string ('NxN') as argument"
-    register_replicate_and_trim_thumbnail ( size_string = args.remainder[0] )
-
-  else:
-
-    logger.info("ran {} without args".format(os.path.basename (sys.argv[0])))
-
+ 
+   check_python_version()
+   parser = argparse.ArgumentParser( )
+   parser.add_argument('--config', nargs=1, help="name of a .JSON config file", default='job_params.json')
+   commands = { 'test' : 'check syntax and loading of config file',
+                'replicate_input' : 'copy job_input to compute resource', 
+                'reg_repl_trim_output' : 'register/trim results of computation to long term storage' }
+   parser.add_argument ('command', help='one of {!s}'.format(list(commands.keys())) )
+   parser.add_argument ('remainder', nargs=argparse.REMAINDER)
+   args = parser.parse_args()
+   params = jobParams ( cfgFile = args.config , argv0 = sys.argv[0] )
+   checksum_options = checksumOptions()
+   if args.command == 'replicate_input':
+     do_replicate_input( args.remainder )
+   elif args.command == 'reg_repl_trim_output' :
+     assert len(args.remainder) == 1, "need a size string ('NxN') as argument"
+     register_replicate_and_trim_thumbnail ( size_string = args.remainder[0] )
+   else:
+     computeLogger().info("ran {} without args".format(os.path.basename (sys.argv[0])))
