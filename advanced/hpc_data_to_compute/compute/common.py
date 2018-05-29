@@ -11,6 +11,9 @@ def check_python_version():
   min_py_version = ( (2,7) , "This module requires >=2.7 of Python")
   assert sys.version_info >= min_py_version[0] , min_py_version[1]
 
+def get_config ( rule_args, callback, rei ):
+  callback.writeLine("serverLog", "getConfig getting args:{0!r}".format( rule_args))
+
 import os, time, pprint, json
 from os.path import ( join, curdir, dirname, sep as SEP )
 from glob import glob

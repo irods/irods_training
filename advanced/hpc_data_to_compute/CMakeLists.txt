@@ -20,6 +20,15 @@ install(
 
 install(
   FILES
+  ${CMAKE_SOURCE_DIR}/compute/common.py
+  ${CMAKE_SOURCE_DIR}/compute/util.py
+  ${CMAKE_SOURCE_DIR}/compute/__init__.py
+  DESTINATION ${IRODS_HOME_DIRECTORY}/compute
+  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
+  )
+
+install(
+  FILES
   ${CMAKE_SOURCE_DIR}/thumbnail.submit
   DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ

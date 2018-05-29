@@ -7,9 +7,9 @@
   "phys_dir_for_output": "/tmp/irods/thumbnails",
   "output_collection" : "/tempZone/home/rods/stickers_thumbnails",
   "thumbnail_sizes" : [ "128x128", 
-                      "512x512",
-                      "256x256",
-                      "1024x1024"
+                        "512x512",
+                        "256x256",
+                        "1024x1024"
                       ],
   "thumbnail_filename": "stickers_thumbnail_%s.jpg"
 }
