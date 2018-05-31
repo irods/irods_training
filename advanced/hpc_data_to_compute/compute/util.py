@@ -6,6 +6,7 @@ from irods.keywords import REG_CHKSUM_KW, VERIFY_CHKSUM_KW, CHKSUM_KW
 from irods.session import iRODSSession
 from irods.models import Resource , ResourceMeta
 from exceptions import SystemExit
+from . import common as _common
 
 def compute_host_from_rescName (rescName ):
   pass
