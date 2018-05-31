@@ -13,19 +13,22 @@ def compute_host_from_rescName (rescName ):
 
 chksum_opt = { k:'1' for k in ( REG_CHKSUM_KW,VERIFY_CHKSUM_KW,CHKSUM_KW ) }
 
-def put_dest_from_fileName (fileName, sess = None):
+def put_dest_from_fileName (fileName, sess = None, config = None):
   abs_module_path = abspath(dirname(__file__))
   configFile =  join( abs_module_path , "put_data_to_compute.json" )
-  j = { "dest_resource":{}, "checksums": False }
 
-  if os.path.isfile(configFile):
-    with open(configFile) as f:
-      j = json.load( f )
+  if config is None:
+    config = { "dest_resource":{}, "checksums": False }
+
+    if os.path.isfile(configFile):
+      with open(configFile) as f:
+        config = json.load( f )
+  #-if
 
   ext = fileName.split(".")[-1:]
   spec = ''
   if ext and ext[0]:
-    spec = j["dest_resource"].get( ext[0], '' )
+    spec = config["dest_resource"].get( ext[0], '' )
 
   role_key = role_value = ''
 

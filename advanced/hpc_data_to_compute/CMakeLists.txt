@@ -4,8 +4,7 @@ project(irods_hpc_data_to_compute_example C CXX)
 
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/thumbnail.re
-  ${CMAKE_SOURCE_DIR}/thumbnail_configuration.re
+  ${CMAKE_SOURCE_DIR}/data_to_compute.re
   DESTINATION etc/irods
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
@@ -14,14 +13,23 @@ install(
   FILES
   ${CMAKE_SOURCE_DIR}/create_thumbnails.r
   ${CMAKE_SOURCE_DIR}/find_thumbnails.r
+  ${CMAKE_SOURCE_DIR}/put_data_to_compute.json
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
 
 install(
   FILES
+  ${CMAKE_SOURCE_DIR}/put_data_to_compute.py
+  DESTINATION ${IRODS_HOME_DIRECTORY}
+  PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ WORLD_READ 
+  )
+
+install(
+  FILES
   ${CMAKE_SOURCE_DIR}/compute/common.py
   ${CMAKE_SOURCE_DIR}/compute/util.py
+  ${CMAKE_SOURCE_DIR}/compute/job_params.json
   ${CMAKE_SOURCE_DIR}/compute/__init__.py
   DESTINATION ${IRODS_HOME_DIRECTORY}/compute
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
