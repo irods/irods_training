@@ -37,13 +37,6 @@ install(
 
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/thumbnail.submit
-  DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
-  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-  )
-
-install(
-  FILES
   ${CMAKE_SOURCE_DIR}/submit_thumbnail_job.sh
   ${CMAKE_SOURCE_DIR}/convert.SLURM
   DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin

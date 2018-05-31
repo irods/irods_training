@@ -1,5 +1,0 @@
-
-  executable     = /usr/bin/convert
-  universe       = vanilla 
-
-  queue
