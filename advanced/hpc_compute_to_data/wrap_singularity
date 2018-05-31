@@ -1,0 +1,64 @@
+#!/bin/bash
+DIR=$(dirname "$0")
+REL_PATH_TO_COMPUTE="../compute/"
+singularity="/usr/local/bin/singularity"
+SINGULARITY_DATA_ROOT="/tmp/irods" #needs 'src' and 'dst' subdirectories
+
+. "${DIR}/${REL_PATH_TO_COMPUTE}"/singularity_images.conf
+
+subcommand="$1"; shift
+
+[ -z "$subcommand" ] && 
+{
+  echo $'\n\t'"== Local singularity images index =="$'\n'
+  for key in ${!Singularity_Sources[*]}; do
+    echo "$key"$'\t\t'"${Singularity_Sources[$key]}"
+  done
+  echo $'\n'
+  exit  0
+
+} >&2
+
+# -- Helper function to pull singularity images
+
+pull_image() {  
+  [ -n "$1" ] && [[ $1 != */* ]] || return 2; 
+  LOC=$(readlink -e "${DIR}/${REL_PATH_TO_COMPUTE}")/"$1.simg"
+  echo -n "$LOC - being pulled ... " >&2
+  if [ ! -f "$LOC" ]  ; then
+      SOURCE="${Singularity_Sources[$1]}" 
+      echo  "using '$SOURCE'" >&2
+      [ -n "$SOURCE" ] || return 1
+      echo -n "  (please wait ...)"
+      ( cd $DIR && ${singularity} pull --name $(basename "$LOC") "$SOURCE"  && \
+        mv $(basename "$LOC") "$REL_PATH_TO_COMPUTE"/.
+      ) >/dev/null 2>&1
+      echo 
+  else
+      echo  " already exists" >&2
+  fi
+}
+
+case "$1" in 
+metadata_addtags)
+  case "$subcommand" in 
+    pull) pull_image $1 ;;
+  esac
+;;
+thumbnail_image)
+  case $subcommand in
+    exec) 
+	cd "${DIR}${REL_PATH_TO_COMPUTE}"
+        if [ "$2 $3" != 'python3 /make_thumbnail.py' ]; then exit 1; else 
+          IMAGE="$1" ; shift 3
+	  ${singularity} exec -c \
+	    --bind ${SINGULARITY_DATA_ROOT}/src:/src \
+            --bind ${SINGULARITY_DATA_ROOT}/dst:/dst \
+	    "$IMAGE".simg python3 /make_thumbnail.py "$1" "/src/$2" "/dst/$3" "$4"
+        fi
+    ;;
+    pull) pull_image $1 ;;
+  esac
+;;
+*)exit 123;;
+esac
