@@ -1,0 +1,48 @@
+import datetime
+import json
+import session_vars
+
+# -- choose to import modules from irods home directory
+#    (specifically, the compute.* modules)
+
+import sys
+sys.path.insert(0, "/var/lib/irods")
+
+## Either...
+## - define python rule code here:
+
+def get_resource (rule_args, callback, rei):
+  callback.writeLine ("serverLog", "{!r}".format(rule_args[:2])
+  rule_args[2] = "lts_resc" # dwm do query here
+
+## - or import python rules like this:
+# from compute.common import (rulefunc1, rulefunc2,...)
+
+def get_irods_username (rule_args, callback, rei):
+  client_username = ""
+  userrec = session_vars.get_map(rei).get('client_user','')
+  if userrec:
+    client_username = userrec.get('user_name','')
+  rule_args[0] = client_username
+
+# -- Below is some useful
+#    test code from core.py.template --
+
+def writeStringToCharArray(s, char_array):
+    for i in range(0, len(s)):
+        char_array[i] = s[i]
+
+def pythonRuleEnginePluginTest(rule_args, callback, rei):
+    with open('/tmp/from_core_py.txt', 'a') as f:
+        f.write(str(datetime.datetime.now()))
+        f.write('\n')
+        c = 0
+        for arg in rule_args:
+            f.write('\t')
+            f.write(str(c))
+            f.write(' : ')
+            f.write(str(arg))
+            f.write('\n')
+            c = c +1
+    callback.writeLine('serverLog',
+            'Printed to server log from python rule engine - map {!r}'.format(session_vars.get_map(rei)))
