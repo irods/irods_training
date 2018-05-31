@@ -5,22 +5,30 @@ project(irods_hpc_compute_to_data_example C CXX)
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/launch_compute.r
-  ${CMAKE_SOURCE_DIR}/docker_run.sh
+  ${CMAKE_SOURCE_DIR}/wrap_singularity
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
 
+
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/docker_run.sh
+  ${CMAKE_SOURCE_DIR}/wrap_singularity
   DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
 
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/launch_compute_container.re
-  ${CMAKE_SOURCE_DIR}/set_default_resource.re
+  ${CMAKE_SOURCE_DIR}/singularity_images.conf
+  DESTINATION ${IRODS_HOME_DIRECTORY}/compute
+  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
+  )
+
+install(
+  FILES
+  ${CMAKE_SOURCE_DIR}/compute_to_data.re
+  ${CMAKE_SOURCE_DIR}/c2d_default_resource.re
   DESTINATION etc/irods
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
