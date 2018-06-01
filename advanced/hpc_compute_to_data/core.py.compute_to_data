@@ -8,15 +8,11 @@ import session_vars
 import sys
 sys.path.insert(0, "/var/lib/irods")
 
-## Either...
-## - define python rule code here:
+## - Define python rule code here:
 
 def get_resource (rule_args, callback, rei):
   callback.writeLine ("serverLog", "{!r}".format(rule_args[:2])
   rule_args[2] = "lts_resc" # dwm do query here
-
-## - or import python rules like this:
-# from compute.common import (rulefunc1, rulefunc2,...)
 
 def get_irods_username (rule_args, callback, rei):
   client_username = ""
@@ -25,8 +21,8 @@ def get_irods_username (rule_args, callback, rei):
     client_username = userrec.get('user_name','')
   rule_args[0] = client_username
 
-# -- Below is some useful
-#    test code from core.py.template --
+
+# -- Rules below are imported from core.py.template 
 
 def writeStringToCharArray(s, char_array):
     for i in range(0, len(s)):
