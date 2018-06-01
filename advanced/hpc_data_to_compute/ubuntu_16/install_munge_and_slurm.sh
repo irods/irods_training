@@ -292,13 +292,13 @@ f_singularity_pull()
   sudo su - irods -c \
   "
   cd $IRODS_COMPUTE 
-  singularity pull                                      \\
-        --name "generate_thumbnails.img"                \\
-        docker://dwmoore/thumbnail_image:latest         \\
+  singularity pull                             \\
+        --name "thumbnail_image.simg"          \\
+        docker://dwmoore/thumbnail_image       \\
   && \\
   singularity pull \\
-        --name "tag_with_metadata.img" \\
-        shub://d-w-moore/singularity-python-irodsclient:prc
+        --name "metadata_addtags.simg" \\
+        shub://d-w-moore/singularity-python-irodsclient:prc-0_8_0
   " || warn SINGULARITY_PUL
 }
 
