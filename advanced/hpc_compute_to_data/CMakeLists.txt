@@ -9,7 +9,6 @@ install(
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
 
-
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/wrap_singularity
