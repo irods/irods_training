@@ -27,6 +27,10 @@ job_params = {}
 checksum_options = None
 logger = None
 
+checksum_flags = (kw.REG_CHKSUM_KW, kw.VERIFY_CHKSUM_KW, kw.CHKSUM_KW)
+def generate_checksum_options() :
+  return { k:'1' for k in checksum_flags }
+
 class dummyLogger (object):
   def __init__(self): pass
   def fatal(self,s): pass
@@ -69,9 +73,7 @@ def checksumOptions():
   global checksum_options 
   if checksum_options is None:
     if jobParams() ['use_checksums']:
-      checksum_options = {  k:'1' for k in ( kw.REG_CHKSUM_KW,
-                                             kw.VERIFY_CHKSUM_KW,
-                                             kw.CHKSUM_KW)          }
+      checksum_options = generate_checksum_options()
     else:
       checksum_options = {}
   return checksum_options
