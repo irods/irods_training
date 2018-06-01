@@ -9,7 +9,7 @@ The three major steps in DATA TO COMPUTE
   - puts file to target resource 
   - attach metadata describing HPC tasks (thumbnail sizes)
 
-hpc rule
+3. hpc rule
   - schedules hpc job(s)
      - prolog
      - epilog
