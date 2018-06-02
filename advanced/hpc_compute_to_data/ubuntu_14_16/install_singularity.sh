@@ -15,15 +15,20 @@
 
 IRODS_COMPUTE=~irods/compute
 
+SINGULARITY_INSTALL_PREFIX="/opt/local"
+SINGULARITY_BIN_PREFIX="$SINGULARITY_INSTALL_PREFIX/bin"
+
 # Import symbolic error codes
 
 DIR=$(dirname "$0")
 . "$DIR/errors.rc"
 
-
 add_error BAD_OPTION        "Error in program option or argument"	# 1
 add_error SINGULARITY_BUILD "Singularity build (or install) failed"	# 2
 add_error SINGULARITY_PULL  "Pull of Singularity images failed"		# 3
+add_error SINGULARITY_MKDIR "Couldn't"		# 3
+
+sudo mkdir -p "$SINGULARITY_INSTALL_PREFIX" || die CANNOT_MAKE_SNG_INSTALL_DIR
 
 # =-=-=-=-=-=-=
 # Build and install from this directory:
@@ -51,7 +56,8 @@ download() {
   local fname
   if [ "$WGET" = "1" ] ; then
     fname=${dlTag[$pkg]}.tar.gz
-    wget "http://github.com/${dlPath[$pkg]}/archive/$fname" >/dev/null 2>&1 &&\
+    echo $'\t'"Using: 'http://github.com/${dlPath[$pkg]}/archive/$fname'" >&2
+    wget -nc "http://github.com/${dlPath[$pkg]}/archive/$fname" >/dev/null 2>&1 &&\
     tar xf $fname && mv "$pkg"-*/ "$pkg"
   else
     git clone "http://github.com/${dlPath[$pkg]}"
@@ -67,7 +73,7 @@ f_singularity_install()
            cd ~/github && download singularity && \
            cd singularity  && \
            ./autogen.sh  && \
-           ./configure --prefix=/usr/local  && \
+           ./configure --prefix="$SINGULARITY_INSTALL_PREFIX" && \
            make && \
            sudo make install
            STATUS=$?
@@ -76,21 +82,29 @@ f_singularity_install()
 }
 
 #--------------------------------------
+# --> Get "Singularity_Sources" associative array which maps
+#     imagename stub to "docker://" or "shub://" URL's
 
-. "$DIR/../singularity_images.conf"
+. "$DIR/../singularity_images.conf" 
 
 f_singularity_pull() 
 {
-  local images=(
-    "${!Singularity_Sources[@]}" # -- sourced from 'singularity_images.conf'
-  )
-  for key in "${!images[@]}"
+  local status=0
+  for Key in "${!Singularity_Sources[@]}"
   do
-    sudo su - irods -c \
-    " # cd $IRODS_COMPUTE  \\
-      singularity pull --name '${images[$key]}.simg'" \
-         || { warn SINGULARITY_PULL ; break ; }
+    local Cmd="#cd $IRODS_COMPUTE ; 
+               rm -f '$Key'.simg 
+               '$SINGULARITY_BIN_PREFIX'/singularity pull \\
+               --name '$Key'.simg \\
+               '${Singularity_Sources[$Key]}'"
+    echo $'\n---\n'"$Cmd" >&2
+    #sudo su - irods -c "$Cmd" || { }
+    eval "$Cmd" || {
+       warn SINGULARITY_PULL
+       status=$?; break
+    }
   done
+  return $status
 }
 
 # -------------------------------------------
