@@ -15,7 +15,7 @@
 
 IRODS_COMPUTE=~irods/compute
 
-SINGULARITY_INSTALL_PREFIX="/opt/local"
+SINGULARITY_INSTALL_PREFIX="/usr/local"
 SINGULARITY_BIN_PREFIX="$SINGULARITY_INSTALL_PREFIX/bin"
 
 # Import symbolic error codes
@@ -93,7 +93,7 @@ f_singularity_pull()
   local as_irods='1' # else '' or '0'
   local status=0 CMD_STATUS=''
 
-  sudo su irods -c "umask 22; mkdir -p '$IRODS_COMPUTE'" \
+  sudo su irods -c "umask 2; mkdir -p '$IRODS_COMPUTE'" \
    || die CANNOT_MAKE_IRODS_COMPUTE_DIR
   
   for Key in "${!Singularity_Sources[@]}"
