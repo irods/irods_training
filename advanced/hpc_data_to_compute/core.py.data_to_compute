@@ -1,0 +1,32 @@
+import datetime
+import json
+#import alice
+import sys
+import session_vars
+sys.path.insert(0,'/var/lib/irods')
+from compute.util import pyParseRoleSpec
+
+def writeStringToCharArray(s, char_array):
+    for i in range(0, len(s)):
+        char_array[i] = s[i]
+
+def prepTest2(rule_args, callback, rei):
+    callback.writeLine('serverLog','in prepTest2 path={!r}'.format (sys.path))
+    callback.writeLine('serverLog','in prepTest2 map={!r}'.format(session_vars.get_map(rei)) )
+
+def pythonRuleEnginePluginTest(rule_args, callback, rei):
+    callback.writeLine('serverLog','in prepTest2 path={!r}'.format (sys.path))
+    callback.writeLine('serverLog','in prepTest2 map={!r}'.format(session_vars.get_map(rei)) )
+    with open('/tmp/from_core_py.txt', 'a') as f:
+        f.write(str(datetime.datetime.now()))
+        f.write('\n')
+        c = 0
+        for arg in rule_args:
+            f.write('\t')
+            f.write(str(c))
+            f.write(' : ')
+            f.write(str(arg))
+            f.write('\n')
+            c = c +1
+    callback.writeLine('serverLog', 'Printed to server log from python rule engine')
+
