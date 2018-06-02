@@ -223,6 +223,7 @@ f_slurm_config ()
   sudo mkdir -p $SLURM_ADMIN  && \
   sudo mkdir -p $IRODS_COMPUTE && \
   sudo chown irods:irods $IRODS_COMPUTE && \
+  sudo chmod ug=rwx,o=rx $IRODS_COMPUTE && \
   copy_scripts_ prolog .. && \
   copy_scripts_ epilog ..
   [ $? -eq 0 ] || warn SLURM_CONFIG
