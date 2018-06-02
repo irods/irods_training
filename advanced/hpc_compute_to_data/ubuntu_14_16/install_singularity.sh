@@ -26,9 +26,10 @@ DIR=$(dirname "$0")
 add_error BAD_OPTION        "Error in program option or argument"	# 1
 add_error SINGULARITY_BUILD "Singularity build (or install) failed"	# 2
 add_error SINGULARITY_PULL  "Pull of Singularity images failed"		# 3
-add_error SINGULARITY_MKDIR "Couldn't"		# 3
+add_error CREATE_SINGULARITY_DIR "Can't make Singularity install dir"	# 4
+add_error CANNOT_MAKE_IRODS_COMPUTE_DIR	"Can't make iRODS compute dir"	# 5
 
-sudo mkdir -p "$SINGULARITY_INSTALL_PREFIX" || die CANNOT_MAKE_SNG_INSTALL_DIR
+sudo mkdir -p "$SINGULARITY_INSTALL_PREFIX" || die CREATE_SINGULARITY_DIR
 
 # =-=-=-=-=-=-=
 # Build and install from this directory:
@@ -89,20 +90,28 @@ f_singularity_install()
 
 f_singularity_pull() 
 {
-  local status=0
+  local as_irods='1' # else '' or '0'
+  local status=0 CMD_STATUS=''
+
+  sudo su irods -c "umask 22; mkdir -p '$IRODS_COMPUTE'" \
+   || die CANNOT_MAKE_IRODS_COMPUTE_DIR
+  
   for Key in "${!Singularity_Sources[@]}"
   do
-    local Cmd="#cd $IRODS_COMPUTE ; 
+    local Cmd="[ \"$as_irods\" = 1 ] && cd '$IRODS_COMPUTE' ; \\
                rm -f '$Key'.simg 
                '$SINGULARITY_BIN_PREFIX'/singularity pull \\
                --name '$Key'.simg \\
                '${Singularity_Sources[$Key]}'"
-    echo $'\n---\n'"$Cmd" >&2
-    #sudo su - irods -c "$Cmd" || { }
-    eval "$Cmd" || {
-       warn SINGULARITY_PULL
-       status=$?; break
-    }
+    echo $'\n---' "as_irods = '$as_irods'" ; echo "$Cmd" $'===>' >&2
+    if [ "$as_irods" = 1 ] ; then
+      sudo su irods -c "$Cmd" ; CMD_STATUS=$?
+    else
+      eval "$Cmd" ; CMD_STATUS=$?
+    fi 
+    if [ $CMD_STATUS -ne 0 ]; then
+      warn SINGULARITY_PULL ; status=$?; break 
+    fi
   done
   return $status
 }
