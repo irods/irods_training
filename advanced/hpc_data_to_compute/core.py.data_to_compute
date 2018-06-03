@@ -1,11 +1,12 @@
 import datetime
 import json
-#import alice
 import sys
 import session_vars
 sys.path.insert(0,'/var/lib/irods')
 from compute.util import pyParseRoleSpec
 
+# imported from core.py.template, just in case
+##############################################
 def writeStringToCharArray(s, char_array):
     for i in range(0, len(s)):
         char_array[i] = s[i]

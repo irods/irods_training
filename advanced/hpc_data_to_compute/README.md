@@ -7,7 +7,9 @@ The three major steps in DATA TO COMPUTE
    - checks extension
    - determines target (for compute) from resource metadata 
    - puts file to target resource 
-   - attach metadata describing HPC tasks (thumbnail sizes)
+   - (change of plan from Friday; no longer attaching job params as metadata)
+     now going to spawn rules from command line ; can't pass params through
+     the rule mechanism as this is prevented by ongoing remote-exec issue
 
 3. hpc rule - schedules hpc job(s)
    - prolog
