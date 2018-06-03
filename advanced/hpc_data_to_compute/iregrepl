@@ -11,7 +11,7 @@ verbose = False
 
 def time_it (func, args=(),accum = (0,) , pos = -1, skip=False) :
   if skip: return func(*args) 
-  if type (accum) is not accum: accum=list(accum)
+  if type (accum) is not list: accum=list(accum)
   pos_ = pos
   if pos_ < 0: pos_ += min(1, len(accum))
   if pos_ > len(accum): accum.extend( [0,] * (pos_+1))
