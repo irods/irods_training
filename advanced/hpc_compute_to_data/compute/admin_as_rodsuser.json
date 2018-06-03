@@ -1,4 +1,4 @@
 {
-  "agent_username" : "rods",
-  "agent_password" : null
+  "admin_username" : "rods",
+  "admin_password" : null
 }

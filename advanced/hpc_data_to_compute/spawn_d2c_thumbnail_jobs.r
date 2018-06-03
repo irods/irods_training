@@ -1,15 +1,15 @@
-find_thumbnails {
+main_rule {
 
+    #*host = ""
+    #*value = ""
+    #get_host_and_resource_name_by_role (*host, *resc_spec, *attr, *value) {
+    #writeLine("stdout", "resc_name -> [ *vlauehost -> [*host]")
     *thb_sizes = list("128x128", "256x256", "512x512", "1024x1024")
-
-    #*err = errormsg(get_list_of_thumbnails(*src_obj_path, *thb_list), *msg)
-    #if(0 != *err) { writeLine( "stdout", "FAIL: [*err] [*msg]") }
-
     foreach( *t in *thb_sizes ) {
         writeLine("stdout", "thumbnail size -> [*t]")
     }
-
 }
+
 
 INPUT null 
 OUTPUT ruleExecOut
