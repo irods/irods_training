@@ -18,11 +18,6 @@ except KeyError:
 
 session = iRODSSession(irods_env_file=env_file) 
 
-# q = session.query ( Resource.parent , Resource.name )
-# f = q.filter ( Resource.parent == '')
-#q = session.query ( Resource.parent , Resource.name, Resource.location ).filter( Resource.name == 'lts_resc')
-#print ( q.one()[Resource.location] )
-
 defaultCollection = "/{}/home/{}".format(session.zone,session.username)
 rf = []
 object_path = args[0]
@@ -41,7 +36,7 @@ except:
   pass
 
 if rf:
-  print (rf[0].checksum)
+  print ( 'object exists (checksum field is: {!r})'.format(rf[0].checksum), file=sys.stderr )
 
 if opts.has_key('-m'):
   print ( "***", file=sys.stderr )
