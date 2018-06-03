@@ -25,6 +25,13 @@ install(
 
 install(
   FILES
+  ${CMAKE_SOURCE_DIR}/compute/admin_as_rodsuser.json
+  DESTINATION ${IRODS_HOME_DIRECTORY}/compute
+  PERMISSIONS OWNER_READ OWNER_WRITE
+  )
+
+install(
+  FILES
   ${CMAKE_SOURCE_DIR}/compute_to_data.re
   ${CMAKE_SOURCE_DIR}/c2d_default_resource.re
   DESTINATION etc/irods
