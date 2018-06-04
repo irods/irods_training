@@ -10,16 +10,12 @@ sys.path.insert(0, "/var/lib/irods")
 
 ## - Define python rule code here:
 
-def get_resource (rule_args, callback, rei):
-  callback.writeLine ("serverLog", "{!r}".format(rule_args[:2])
-  rule_args[2] = "lts_resc" # dwm do query here
-
-def get_irods_username (rule_args, callback, rei):
-  client_username = ""
-  userrec = session_vars.get_map(rei).get('client_user','')
-  if userrec:
-    client_username = userrec.get('user_name','')
-  rule_args[0] = client_username
+#def get_irods_username (rule_args, callback, rei):
+#  client_username = ""
+#  userrec = session_vars.get_map(rei).get('client_user','')
+#  if userrec:
+#    client_username = userrec.get('user_name','')
+#  rule_args[0] = client_username
 
 
 # -- Rules below are imported from core.py.template 
