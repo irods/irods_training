@@ -12,9 +12,12 @@ rrule {
   # # ...
   # resc_name=$(find_compute_resc IMAGE_PROCESSING)
   pyParseRoleSpec( *in1, *out2, *out3 )
-  *r = "demoResc"
+  *r = "NULL"
   if ((*out2 != "") && (*out3 != "")) {
      get_resource_name_by_role ( *r , *out2, *out3 )
+  }
+  if (*r == "NULL") {
+    *r="demoResc"
   }
   writeLine("stdout", "*r" )
 }
