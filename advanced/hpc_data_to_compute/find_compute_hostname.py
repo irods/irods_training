@@ -1,19 +1,15 @@
 #!/usr/bin/env python
 from __future__ import print_function
-from irods.models import DataObject, DataObjectMeta, Collection, Resource
-from irods.column import Criterion, Like
+from irods.models import Resource, ResourceMeta
 import os, sys
 from irods.session import iRODSSession
-from irods.meta import iRODSMeta
 from getopt import getopt
 import json
+#sys.path.insert(0,'/var/lib/irods')
+#from compute.common  import session_object
+#session = session_object()
 
-# =-=-=-=-=-=-=
-# detect a data object path is valid in iRODS and 
-#   attach metadata from a .json config-file if desired
-# =-=-=-=-=-=-=
-
-opt,args=getopt(sys.argv[1:],'r:')
+opt,args=getopt(sys.argv[1:],'r:l')
 optLookup= {} ; optLookup.update (opt)
 
 resc_spec = optLookup .get ( '-r', '' )
@@ -22,15 +18,30 @@ try:
     env_file = os.environ['IRODS_ENVIRONMENT_FILE']
 except KeyError:
     env_file = os.path.expanduser('~/.irods/irods_environment.json')
-
 session = iRODSSession(irods_env_file=env_file) 
 
-q = session.query ( Resource.parent , Resource.name, Resource.location ).filter( Resource.name == resc_spec )
-# filter out all but the root node resource with a matching name
-q = q.filter ( Resource.parent == '') .filter( Resource.name == resc_spec )
-
+if resc_spec.find('=') < 0 :
+  resc_spec = resc_spec.strip()
+  q = session.query ( Resource.name ). filter( Resource.name == resc_spec )
+  1
+else:
+  resc_spec = map(lambda x:x.strip(), resc_spec.split('=')+['']) [:2] 
+  q = session.query ( Resource.name, ResourceMeta.name, ResourceMeta.value).filter(
+                      ResourceMeta.name == resc_spec[0] and \
+                      ResourceMeta.value == resc_spec[1] )
 try:
-  print ( q.one()[Resource.location] )
+  resc_name = ( q.one()[Resource.name] )
 except:
-  print ( "localhost" )
+  resc_name = ''
+
+print ('resc_name='+resc_name)
+  
+if optLookup.get('-l') is not None:
+  try:
+    q = session.query ( Resource.parent , Resource.name, Resource.location ) \
+          .filter( Resource.name == resc_name )
+    host = ( q.one()[Resource.location] )
+  except:
+    host = ''
+  print('location='+host)
 
