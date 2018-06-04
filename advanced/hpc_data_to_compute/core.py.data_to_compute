@@ -5,15 +5,20 @@ import session_vars
 sys.path.insert(0,'/var/lib/irods')
 from compute.util import pyParseRoleSpec
 
+def get_irods_username (rule_args, callback, rei):
+  client_username = ""
+  userrec = session_vars.get_map(rei).get('client_user','')
+  if userrec:
+    client_username = userrec.get('user_name','')
+  rule_args[0] = client_username
+
+# =-=-=-=- # =-=-=-=- # =-=-=-=-
 # imported from core.py.template, just in case
-##############################################
+#   needed for debug
+
 def writeStringToCharArray(s, char_array):
     for i in range(0, len(s)):
         char_array[i] = s[i]
-
-def prepTest2(rule_args, callback, rei):
-    callback.writeLine('serverLog','in prepTest2 path={!r}'.format (sys.path))
-    callback.writeLine('serverLog','in prepTest2 map={!r}'.format(session_vars.get_map(rei)) )
 
 def pythonRuleEnginePluginTest(rule_args, callback, rei):
     callback.writeLine('serverLog','in prepTest2 path={!r}'.format (sys.path))
