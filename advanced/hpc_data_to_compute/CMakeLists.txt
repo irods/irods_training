@@ -11,19 +11,9 @@ install(
 
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/create_thumbnails.r
-  ${CMAKE_SOURCE_DIR}/spawn_d2c_thumbnail_jobs.r
-  ${CMAKE_SOURCE_DIR}/find_thumbnails.r
-  ${CMAKE_SOURCE_DIR}/put_data_to_compute.json
+  ${CMAKE_SOURCE_DIR}/data_to_compute_X.r
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
-  )
-
-install(
-  FILES
-  ${CMAKE_SOURCE_DIR}/put_data_to_compute.py
-  DESTINATION ${IRODS_HOME_DIRECTORY}
-  PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ WORLD_READ 
   )
 
 install(
