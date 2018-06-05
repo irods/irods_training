@@ -13,10 +13,12 @@ install(
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/spawn_remote_slurm_jobs.r
-  ${CMAKE_SOURCE_DIR}/detect_data_object.py
+  ${CMAKE_SOURCE_DIR}/rescName_from_kvpair.r
+  ${CMAKE_SOURCE_DIR}/detect_thumbnails.py
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
+
 
 install(
   FILES
@@ -37,7 +39,6 @@ install(
 
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/get_physical_path
   ${CMAKE_SOURCE_DIR}/submit_thumbnail_job.sh
   ${CMAKE_SOURCE_DIR}/convert.SLURM
   DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
