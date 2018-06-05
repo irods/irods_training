@@ -11,6 +11,11 @@ if [[ $UUID = CAT_NO_ROWS_FOUND* ]]; then
   UUID="UUID_none" 
 else
   echo $MUTX >> /tmp/$UUID
+  thumbnail_size=$(iquest '%s' "select META_DATA_ATTR_VALUE where \
+    DATA_NAME = '$MUTX'  and \
+    META_DATA_ATTR_NAME = 'size_string' and \
+    COLL_NAME not like '%/trash/%'")
+  python ~irods/compute/common.py reg_repl_trim_output  $thumbnail_size
 fi
 rm -f /tmp/$MUTX
 irm $MUTX

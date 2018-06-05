@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 EXECUTABLE="/usr/bin/convert"
 
