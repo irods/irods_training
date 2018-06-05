@@ -36,13 +36,19 @@ except:
   pass
 
 if rf:
-  print ( 'object exists (checksum field is: {!r})'.format(rf[0].checksum), file=sys.stderr )
+  print ( 'object exists:')
+  if type(rf[0].checksum) is str:
+    print ( 'checksum='+rf[0].checksum )
+  print ( 'path='+rf[0].path )
+  
 
-if opts.has_key('-m'):
-  print ( "***", file=sys.stderr )
-  with open(opts['-m'],'r') as f:
-    config = json.load(f)
-    AVUs = config['add_avu']
-    for triplet in AVUs:
-      obj.metadata.add( iRODSMeta(*triplet) )
+#=-=-=-= add metadata =-=-=-=-=
+#
+#if opts.has_key('-m'):
+#  print ( "***", file=sys.stderr )
+#  with open(opts['-m'],'r') as f:
+#    config = json.load(f)
+#    AVUs = config['add_avu']
+#    for triplet in AVUs:
+#      obj.metadata.add( iRODSMeta(*triplet) )
 

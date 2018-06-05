@@ -18,10 +18,6 @@ def pyParseRoleSpec (rule_args,callback,rei):  #-- called from iRODS rule langua
     compute_resc_spec = rule_args[0]
     rule_args[1:3]= map( lambda x:x.strip() , 
                          (compute_resc_spec.split('=')+['']) [:2] )
-    if callback:
-      callback.writeLine ( 'serverLog', 'in pyParseRoleSpec() with map {!r}'.format(
-                           session_vars.get_map(rei)
-                         ))
 
 def compute_rescName__as_rule ( compute_resc_spec, session = None, **kw ):
 

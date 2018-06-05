@@ -5,13 +5,15 @@ project(irods_hpc_data_to_compute_example C CXX)
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/data_to_compute.re
+  ${CMAKE_SOURCE_DIR}/core.py.data_to_compute
   DESTINATION etc/irods
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
 
 install(
   FILES
-  ${CMAKE_SOURCE_DIR}/data_to_compute_X.r
+  ${CMAKE_SOURCE_DIR}/spawn_remote_slurm_jobs.r
+  ${CMAKE_SOURCE_DIR}/detect_data_object.py
   DESTINATION ${IRODS_HOME_DIRECTORY}
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
@@ -28,6 +30,14 @@ install(
 
 install(
   FILES
+  ${CMAKE_SOURCE_DIR}/compute/admin_as_rodsuser.json
+  DESTINATION ${IRODS_HOME_DIRECTORY}/compute
+  PERMISSIONS OWNER_READ OWNER_WRITE
+  )
+
+install(
+  FILES
+  ${CMAKE_SOURCE_DIR}/get_physical_path
   ${CMAKE_SOURCE_DIR}/submit_thumbnail_job.sh
   ${CMAKE_SOURCE_DIR}/convert.SLURM
   DESTINATION ${IRODS_HOME_DIRECTORY}/msiExecCmd_bin
