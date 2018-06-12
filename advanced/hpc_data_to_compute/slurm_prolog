@@ -1,14 +1,11 @@
 #!/bin/bash
 
-# -- create metadata trail
+. /var/lib/irods/compute/irods_compute_functions
 
-UUID=$(uuidgen -t)
-MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
-touch /tmp/$MUTX
-if iput /tmp/$MUTX >/dev/null 2>&1 
-then
-	ln /tmp/{$MUTX,$UUID}
-	imeta add -d $MUTX uuid $UUID 
-	imeta add -d $MUTX job_number $SLURM_JOB_ID 
-fi
-echo $0  `date` "$UUID" >>/tmp/prolog 
+UUID=$(
+  create_irods_slurm_desc -v  # -- create time-based UUID for this job
+)
+
+#   -- debug --
+[ -n "$UUID" ] && { # echo >>"/tmp/$UUID" # - suppresses epilog deletion of UUID
+  echo $0  `date` "$UUID" >>/tmp/prolog ; }

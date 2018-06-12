@@ -1,0 +1,94 @@
+
+MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#
+# - create/ test/ destroy job descriptor (an iRODS data object with the name
+#     contained in the "$MUTX" variable above, valid as long as not in the trash
+# 
+
+#--- ( CREATE ) : form : [ -v(erbose) ]  [uuid]
+# -     uuid is generated based on time / host info if not given.
+
+create_irods_slurm_desc ()
+{
+  local VERBOSE="0" status=1
+  if [[ "$1" = -v* ]]; then
+    shift; VERBOSE=1
+  fi
+
+  local UUID="$1"
+  if [ -z "$UUID" ]; then
+    UUID=$(uuidgen -t)
+  fi
+
+  touch /tmp/$MUTX
+
+  if iput /tmp/$MUTX >/dev/null 2>&1 
+  then
+    ln /tmp/{$MUTX,$UUID} && \
+    imeta set -d $MUTX uuid $UUID # 'uuid' aids continuity / tracking of
+    status=$?                     # SLURM job through submit, pro- & epi-log
+  fi
+
+  [ $VERBOSE -ne 0 ] && echo "$UUID"
+  return $status
+}
+
+#--- ( TEST )
+
+test_irods_slurm_desc () 
+{
+ local result=""
+ local UUID=${1:-$(get_irods_slurm_var uuid)}
+
+ [ -f /tmp/$UUID -a -f /tmp/$MUTX ] && \
+ [ "$(stat -c%i "/tmp/$UUID")" = "$(stat -c%i "/tmp/$MUTX")" ]
+}
+
+destroy_irods_slurm_desc () 
+{
+  if [ -f /tmp/"$MUTX" ];  then
+    local UUID=$(get_irods_slurm_var uuid)
+    rm -f /tmp/"$MUTX"
+    irm "$MUTX"
+    [ -f "/tmp/$UUID" -a \
+      $(stat -c'%s' "/tmp/$UUID") -eq 0 ] && rm -f "/tmp/$UUID"
+  fi
+}
+
+get_irods_slurm_desc ()
+{
+  echo -n "$MUTX"
+}
+
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#    get and set through metadata attached to the $MUTX job descriptor 
+#    ( an iRODS data object )
+
+set_irods_slurm_var ()
+{
+  imeta set -d "$MUTX" "$1" "$2" ${3+"$3"}
+}
+
+#---
+
+get_irods_slurm_var ()
+{
+  local status=0
+
+  local result=$(iquest '%s' \
+   "select META_DATA_ATTR_VALUE where \
+    DATA_NAME = '$MUTX'  and \
+    META_DATA_ATTR_NAME = '$1' and \
+    COLL_NAME not like '%/trash/%'")
+
+  if [[ $result = CAT_NO_ROWS_FOUND* ]]
+  then
+    result=""; status=1
+  fi
+
+  echo "$result"
+
+  return $status
+}
