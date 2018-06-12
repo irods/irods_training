@@ -26,6 +26,7 @@ install(
   ${CMAKE_SOURCE_DIR}/compute/util.py
   ${CMAKE_SOURCE_DIR}/compute/job_params.json
   ${CMAKE_SOURCE_DIR}/compute/__init__.py
+  ${CMAKE_SOURCE_DIR}/compute/irods_compute_functions
   DESTINATION ${IRODS_HOME_DIRECTORY}/compute
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )

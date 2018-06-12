@@ -1,22 +1,19 @@
 #!/bin/bash
 
-MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+. /var/lib/irods/compute/irods_compute_functions
 
-UUID=$(iquest '%s' "select META_DATA_ATTR_VALUE where \
-  DATA_NAME = '$MUTX'  and \
-  META_DATA_ATTR_NAME = 'uuid' and \
-  COLL_NAME not like '%/trash/%'")
-
-if [[ $UUID = CAT_NO_ROWS_FOUND* ]]; then 
-  UUID="UUID_none" 
-else
-  echo $MUTX >> /tmp/$UUID
-  thumbnail_size=$(iquest '%s' "select META_DATA_ATTR_VALUE where \
-    DATA_NAME = '$MUTX'  and \
-    META_DATA_ATTR_NAME = 'size_string' and \
-    COLL_NAME not like '%/trash/%'")
-  python ~irods/compute/common.py reg_repl_trim_output  $thumbnail_size
+thumbnail_size=$(get_irods_slurm_var "size_string")
+if [ $? -eq 0 ] ; then
+    # python /var/lib/irods/compute/common.py reg_repl_trim_output "$thumbnail_size"
+    # python /var/lib/irods/compute/common.py reg_repl_trim_output "$thumbnail_size"
+    echo -n y "*($thumbnail_size)" >> /tmp/epilog  
 fi
-rm -f /tmp/$MUTX
-irm $MUTX
-echo $0  `date` $UUID >>/tmp/epilog
+
+UUID=$(get_irods_slurm_var uuid) 
+
+destroy_irods_slurm_desc
+
+#   -- debug --
+if [ -n "$UUID" ] ; then 
+  echo $0  `date` $UUID >>/tmp/epilog 
+fi
