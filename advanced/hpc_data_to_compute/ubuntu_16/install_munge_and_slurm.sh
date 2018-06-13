@@ -36,8 +36,6 @@ add_error SLURM_CONFIG    "SLURM could not be configured"			# 8
 add_error SLURM_START     "SLURM could not be started"				# 9
 add_error SLURM_PERSIST   "Could not install SLURM daemons in start scripts"	# 10
 add_error NEED_PREREQ     "Need build pre-requisite; check internet connection"	# 11
-add_error SINGULARITY_BLD "Singularity build (or install) failed"		# 12
-add_error SINGULARITY_PUL "Singularity pull of images failed"			# 13
 
 # -- Check for irods service account, die unless it exists
 
@@ -56,14 +54,9 @@ WGET=1
 
 # Dictionaries to hold repository path and preferred version info
 
-typeset -A dlPath=( [munge]="dun/munge" [slurm]="SchedMD/slurm"  
-                    [singularity]="singularityware/singularity"		)\
-	   dlTag=(  [munge]="munge-0.5.13" [slurm]="slurm-17-11-4-1" 
-                    [singularity]="2.5.1"				)\
-	   bldReq=(
-		[singularity]="squashfs-tools libarchive-dev autoconf"
-	   )
-
+typeset -A dlPath=( [munge]="dun/munge" [slurm]="SchedMD/slurm"  )\
+	   dlTag=(  [munge]="munge-0.5.13" [slurm]="slurm-17-11-4-1" )\
+	   bldReq=( ) ## no build prereqs for slurm or munge
 
 # -- Helper function to download software --
 
@@ -273,42 +266,10 @@ f_slurm_persist ()
   fi
 }
 
-f_singularity_install() 
-{
-           OLDDIR=$(pwd)
-           mkdir -p ~/github && \
-           cd ~/github && download singularity && \
-           cd singularity  && \
-           ./autogen.sh  && \
-           ./configure --prefix=/usr/local  && \
-           make && \
-           sudo make install
-           STATUS=$?
-           cd "$OLDDIR"
-           [ $? -eq 0 ] || warn SINGULARITY_BLD
-}
-
-f_singularity_pull() 
-{
-  sudo su - irods -c \
-  "
-  cd $IRODS_COMPUTE 
-  singularity pull                             \\
-        --name "thumbnail_image.simg"          \\
-        docker://dwmoore/thumbnail_image       \\
-  && \\
-  singularity pull \\
-        --name "metadata_addtags.simg" \\
-        shub://d-w-moore/singularity-python-irodsclient:prc-0_8_0
-  " || warn SINGULARITY_PUL
-}
-
 # -------------------------------------------
 
 menu() { echo >&2 \
 "Menu
-        ::: data-to-compute :::
-
         1 f_munge_build       
 	2 f_munge_key_install   
 	3 f_munge_start          
@@ -316,11 +277,6 @@ menu() { echo >&2 \
 	5 f_slurm_build_install  
 	6 f_slurm_config         
 	7 f_slurm_persist
-
-        ::: compute-to-data :::
-
-        8 f_singularity_build
-        9 f_singularity_pull
 
 	Q quit "
 }
@@ -370,10 +326,6 @@ else
 	5) f_slurm_build_install  ;;
 	6) f_slurm_config         ;;
 	7) f_slurm_persist        ;;
-	8)
-           f_singularity_install  ;;
-	9)
-           f_singularity_pull  ;;
 	99*) echo >&2 " ** (: Nines :) ** ";;
 	[Qq]*) exit 0		  ;;
 	*) menu ;;
