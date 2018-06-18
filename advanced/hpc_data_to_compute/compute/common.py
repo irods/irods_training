@@ -5,7 +5,7 @@
 # --
 
 from __future__ import print_function
-import sys
+import sys, copy
 
 def check_python_version():
   min_py_version = ( (2,7) , "This module requires >=2.7 of Python")
@@ -332,23 +332,39 @@ def register_replicate_and_trim_thumbnail ( size_string ):
 
   # - todo - add METADATA to associate logical paths of product to job input(s)
 
+def getDefaults (session = None , defaults = {'homeColl':None, 'session': None} ):
+  if not(session): session = session_object()
+  path_to_home = "/{}/home/{}".format(session.zone, session.username)
+  if  type(defaults) is dict:
+    defaults = copy.deepcopy (defaults)
+    defaults["homeColl"] = session.collections.get(path_to_home)
+    defaults["session"] = session
+  return defaults
+
 if __name__ == '__main__':
  
    check_python_version()
    parser = argparse.ArgumentParser( )
    parser.add_argument('--config', nargs=1, help="name of a .JSON config file", default='job_params.json')
+
    commands = { 'test' : 'check syntax and loading of config file',
                 'replicate_input' : 'copy job_input to compute resource', 
                 'reg_repl_trim_output' : 'register/trim results of computation to long term storage' }
+
    parser.add_argument ('command', help='one of {!s}'.format(list(commands.keys())) )
    parser.add_argument ('remainder', nargs=argparse.REMAINDER)
    args = parser.parse_args()
+
    params = jobParams ( cfgFile = args.config , argv0 = sys.argv[0] )
+
    checksum_options = checksumOptions()
+
    if args.command == 'replicate_input':
      do_replicate_input( args.remainder )
    elif args.command == 'reg_repl_trim_output' :
      assert len(args.remainder) == 1, "need a size string ('NxN') as argument"
      register_replicate_and_trim_thumbnail ( size_string = args.remainder[0] )
    else:
-     computeLogger().info("ran {} without args".format(os.path.basename (sys.argv[0])))
+     computeLogger().info("ran {} with command argument '{}'".format(
+       os.path.basename (sys.argv[0]), args.command )
+     )
