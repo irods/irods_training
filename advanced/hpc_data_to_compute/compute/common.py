@@ -332,13 +332,21 @@ def register_replicate_and_trim_thumbnail ( size_string ):
 
   # - todo - add METADATA to associate logical paths of product to job input(s)
 
-def getDefaults (session = None , defaults = {'homeColl':None, 'session': None} ):
+def get_defaults (defaults_in = {'homeColl':None, 'session': None} ):
+
+  session = defaults_in.get('session')
+
   if not(session): session = session_object()
+
   path_to_home = "/{}/home/{}".format(session.zone, session.username)
-  if  type(defaults) is dict:
-    defaults = copy.deepcopy (defaults)
-    defaults["homeColl"] = session.collections.get(path_to_home)
-    defaults["session"] = session
+
+  if  type(defaults_in) is dict:
+    defaults = copy.deepcopy (defaults_in)
+  else:
+    defaults = {}
+  
+  defaults["homeColl"] = session.collections.get(path_to_home)
+  defaults["session"] = session
   return defaults
 
 if __name__ == '__main__':
