@@ -2,10 +2,25 @@
 
 . /var/lib/irods/compute/irods_compute_functions
 
+## ////////////////////////////////
+##
+## BEGIN_SECTION -- data to compute 
+
 thumbnail_size=$(get_irods_slurm_var "size_string")
 if [ $? -eq 0 ] ; then
     python /var/lib/irods/compute/common.py reg_repl_trim_output "$thumbnail_size"
 fi
+
+## BEGIN_SECTION -- compute to data --
+
+# post_processing_options=$(get_irods_slurm_var "post_processing")
+# if [ $? -eq 0 ] ; then
+#   CMD="/var/lib/irods/msiExecCmd_bin/wrap_singularity exec metadata_addtags"
+#   CMD+=" $post_processing_options "
+#   STATUS="" ; $CMD ; STATUS="$?"
+#   { echo "$(date) - status=($STATUS) after post-processing with:"
+#     echo " '$CMD'"  } >>/tmp/epilog
+# fi
 
 UUID=$(get_irods_slurm_var uuid) 
 
