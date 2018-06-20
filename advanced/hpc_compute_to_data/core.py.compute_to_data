@@ -2,27 +2,20 @@ import datetime
 import json
 import session_vars
 
-# -- choose to import modules from irods home directory
-#    (specifically, the compute.* modules)
-
 import sys
 sys.path.insert(0, "/var/lib/irods")
+from compute.common import pyParseRoleSpec
 
-## - Define python rule code here:
+# - An iRODS rule to retrieve the user's name before the remoteExec
 
-#def get_irods_username (rule_args, callback, rei):
-#  client_username = ""
-#  userrec = session_vars.get_map(rei).get('client_user','')
-#  if userrec:
-#    client_username = userrec.get('user_name','')
-#  rule_args[0] = client_username
+def get_irods_username (rule_args, callback, rei):
+  client_username = ""
+  userrec = session_vars.get_map(rei).get('client_user','')
+  if userrec:
+    client_username = userrec.get('user_name','')
+  rule_args[0] = client_username
 
-
-# -- Rules below are imported from core.py.template 
-
-def writeStringToCharArray(s, char_array):
-    for i in range(0, len(s)):
-        char_array[i] = s[i]
+# - This is for debug:
 
 def pythonRuleEnginePluginTest(rule_args, callback, rei):
     with open('/tmp/from_core_py.txt', 'a') as f:
@@ -36,5 +29,5 @@ def pythonRuleEnginePluginTest(rule_args, callback, rei):
             f.write(str(arg))
             f.write('\n')
             c = c +1
-    callback.writeLine('serverLog',
-            'Printed to server log from python rule engine - map {!r}'.format(session_vars.get_map(rei)))
+    # callback.writeLine('serverLog', 'Printed to server log from python rule engine'
+    #                      ' - map {!r}'.format(session_vars.get_map(rei)) )
