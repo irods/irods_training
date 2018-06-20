@@ -2,8 +2,7 @@
 
 FUNCTIONS=/var/lib/irods/compute/irods_compute_functions
 if [ -r $FUNCTIONS ]; then
-  . $FUNCTIONS
-fi
+. $FUNCTIONS
 
 ## ////////////////////////////////
 ##
@@ -33,3 +32,5 @@ destroy_irods_slurm_desc
 if [ -n "$UUID" ] ; then 
   echo $0  `date` $UUID >>/tmp/epilog 
 fi
+
+fi # -r $FUNCTIONS

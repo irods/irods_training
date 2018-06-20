@@ -3,7 +3,6 @@
 FUNCTIONS=/var/lib/irods/compute/irods_compute_functions
 if [ -r $FUNCTIONS ]; then
   . $FUNCTIONS
-fi
 
 UUID=$(
   create_irods_slurm_desc -v  # -- create time-based UUID for this job
@@ -12,3 +11,5 @@ UUID=$(
 #   -- debug --
 [ -n "$UUID" ] && { # echo >>"/tmp/$UUID" # - suppresses epilog deletion of UUID
   echo $0  `date` "$UUID" >>/tmp/prolog ; }
+
+fi # -r $FUNCTIONS
