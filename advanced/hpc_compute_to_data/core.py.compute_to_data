@@ -4,7 +4,7 @@ import session_vars
 
 import sys
 sys.path.insert(0, "/var/lib/irods")
-from compute.common import pyParseRoleSpec
+from compute.util import pyParseRoleSpec
 
 # - An iRODS rule to retrieve the user's name before the remoteExec
 
