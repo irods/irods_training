@@ -28,7 +28,6 @@ install(
 install(
   FILES
   ${CMAKE_SOURCE_DIR}/compute_to_data.re
-  ${CMAKE_SOURCE_DIR}/c2d_default_resource.re
   DESTINATION etc/irods
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
   )
