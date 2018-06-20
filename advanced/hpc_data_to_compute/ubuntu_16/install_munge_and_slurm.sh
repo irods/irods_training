@@ -198,7 +198,8 @@ copy_scripts_ ()
   [ -f "$DIR"/$REF/"$BASE" ] && \
       sudo cp -p "$DIR"/$REF/"$BASE" "$DEST" && \
   [ -f "$DEST" ] && \
-      sudo chmod go+rx,u+rwx "$DEST"  
+      sudo chmod go+rx,u+rwx "$DEST" && \
+      sudo chown irods:irods "$DEST"  
 }
 
 f_slurm_config ()
