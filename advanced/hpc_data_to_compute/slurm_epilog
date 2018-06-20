@@ -1,6 +1,9 @@
 #!/bin/bash
 
-. /var/lib/irods/compute/irods_compute_functions
+FUNCTIONS=/var/lib/irods/compute/irods_compute_functions
+if [ -r $FUNCTIONS ]; then
+  . $FUNCTIONS
+fi
 
 ## ////////////////////////////////
 ##
