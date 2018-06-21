@@ -21,7 +21,7 @@ fi
 #   CMD+=" $post_processing_options "
 #   STATUS="" ; $CMD ; STATUS="$?"
 #   { echo "$(date) - status=($STATUS) after post-processing with:"
-#     echo " '$CMD'"  } >>/tmp/epilog
+#     echo " '$CMD'" ; } >>/tmp/epilog
 # fi
 
 UUID=$(get_irods_slurm_var uuid) 
