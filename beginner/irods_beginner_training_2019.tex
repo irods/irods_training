@@ -74,10 +74,10 @@
 \textbf{Part of the iRODS User Group Meeting}
 
 \vspace{10mm}
-\textbf{Durham, North Carolina, United States}
+\textbf{Utrecht, Netherlands}
 
 \vspace{10mm}
-\textbf{June 5, 2018}
+\textbf{June 25, 2019}
 
 \end{center}
 
@@ -125,7 +125,7 @@ In 2008, the DICE group expanded geographically, with some members accepting joi
 
 The iRODS Consortium is a group of organizations formally committed to iRODS' success through support for the development and release of iRODS-based data management and middleware technologies, promoting advances in iRODS, collaboration with iRODS developers and the iRODS open source community, attendance at iRODS events, and of course, membership dues.
 
-The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, contributes decision-making and development time to the project. Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), DataDirect Networks (DDN), Western Digital, Intel, IBM, Wellcome Trust Sanger Institute, Utrecht University, MSC, OCF, University College London, Swedish National Infrastructure for Computing (SNIC), Dell EMC, University of Groningen, SURF, Quantum, and NetApp. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
+The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, contributes decision-making and development time to the project. Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), DataDirect Networks (DDN), Western Digital, Wellcome Sanger Institute, Utrecht University, MSC, University College London, Swedish National Infrastructure for Computing (SNIC), University of Groningen, SURF, Quantum, NetApp, Texas Advanced Computing Center (TACC), Cloudian, Maastricht University, University of Colorado Boulder, SUSE, and Aptiv. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
 
 Consortium members receive a variety of benefits, including prioritized access to support, training, and consulting; and the opportunity to influence the developmental roadmap of future software releases.
 
@@ -139,10 +139,14 @@ Funded projects that supported the development of iRODS technology:
 
 
 \begin{center}
-\begin{tabular}{ |l|c|c| }
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ |>{\raggedright}p{11cm}|c|c| }
  \hline
  CyberCarpentry via DFC & NSF & 11/1/2017 - 10/31/2020 \\
  SciDAS & NSF & 2/15/2017 - 1/31/2020 \\
+ DataBridge: Neuroscience & NSF & 10/1/2016 - 9/30/2018 \\
+ RADII & NSF & 10/1/2014 - 9/30/2017 \\
+ DataBridge: Social Science & NSF & 11/1/2012 - 10/31/2015 \\
  HydroShare & NSF & 7/1/2012 - 9/30/2021 \\
  EarthCube Layered Architecture & NSF & 4/1/2012 - 3/31/2013 \\
  DFC Supplement for Extensible Hardware & NSF & 9/1/2011 - 8/31/2015 \\
@@ -158,16 +162,22 @@ Funded projects that supported the development of iRODS technology:
  Data Grids for Community Driven Applications & NSF & 10/1/2007 - 9/30/2010 \\
  Joint Virtual Network Centric Warfare & DOD & 11/1/2006 - 10/30/2007 \\
  Petascale Cyberfacility for Seismic Analysis & NSF & 10/1/2006 - 9/30/2009 \\
+ Digital Preservation Lifecycle Management & NSF & 5/15/2005 - 4/30/2007 \\
  LLNL Scientific Data Management & LLNL & 3/1/2005 - 12/31/2008 \\
  NARA Persistent Archives & NSF & 10/1/2004 - 6/30/2008 \\
  Constraint-based Knowledge Systems & NSF & 10/1/2004 - 9/30/2006 \\
+ Biomedical Informatics Research Network (BIRN) & NIH & 4/1/2004 - 4/1/2008 \\
  NDIIPP California Digital Library & LC & 2/1/2004 - 1/31/2007 \\
  NASA Information Power Grid & NASA & 10/1/2003 - 9/30/2004 \\
+ Real-Time Data Aware System for Earth, Oceanographic, and Environmental Applications & NSF & 9/15/2003 - 8/31/2007 \\
+ Enabling the Science Environment for Ecological Knowledge (SEEK) & NSF & 10/1/2002 - 9/30/2008 \\
  National Science Digital Library & NSF & 10/1/2002 - 9/30/2006 \\
  NARA Persistent Archive & NSF & 6/1/2002 - 5/31/2005 \\
+ ROADNet & NSF & 10/1/2001 - 9/30/2006 \\
  SCEC Community Modeling & NSF & 10/1/2001 - 9/30/2006 \\
  Particle Physics Data Grid & DOE & 8/15/2001 - 8/14/2004 \\
  Grid Physics Network & NSF & 7/1/2000 - 6/30/2005 \\
+ Knowledge Network for Biocomplexity (KNB) & NSF & 9/15/1999 - 2/26/2005 \\
  Digital Library Initiative UCSB & NSF & 9/1/1999 - 8/31/2004 \\
  Digital Library Initiative Stanford & NSF & 9/1/1999 - 8/31/2004 \\
  Persistent Archive & NARA & 9/1999 - 8/2000 \\
@@ -180,6 +190,7 @@ Funded projects that supported the development of iRODS technology:
  Massive Data Analysis Systems & DARPA & 9/1/1995 - 8/31/1996 \\
  \hline
 \end{tabular}
+}
 \end{center}
 
 
@@ -248,7 +259,7 @@ With iRODS, organizations can share data, or federate, by simply adding a few bi
 
 Your organization may have defined, formally or informally, policies and procedures for access control, backup, data migration, data preparation, metadata extraction, and more. These organizational policies can be implemented in iRODS through the use of rules, which can help you customize and automate related data management tasks.
 
-Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages, if a rule engine plugin exists for that language.  As of the time of publication, there are rule engine plugins for the iRODS Rule Language, C++, Python, Javascript, and Go.
+Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages, if a rule engine plugin exists for that language.  As of the time of publication, there are released rule engine plugins for the iRODS Rule Language, C++, and Python.  There are experimental rule engine plugins for Javascript and Go.
 
 Rules are executed based on conditions or, in iRODS parlance, Policy Enforcement Points (PEPs). Consider, for example, a rule to transfer ownership of data objects to the project manager when a user is deleted; the trigger---or PEP---is the deletion of the user. Similarly, rules could be written to extract metadata or pre-process data whenever a file is uploaded to a storage device. Or, upon access to particular data objects, a rule can create a log of the event, send an email notification to the project manager, or perform some other task you need to occur as a result of the data's access.
 
@@ -770,7 +781,7 @@ $ icd ../alice
 For this training, we will be using a set of images. To prepare your home directory for the following exercises, do the following:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2018/beginner/training_jpgs.zip
+$ wget https://github.com/irods/irods_training/raw/ugm2019/beginner/training_jpgs.zip
 $ sudo apt-get -y install unzip
 $ unzip training_jpgs.zip
 \end{lstlisting}
@@ -904,29 +915,29 @@ Now, let's create a Replica (i.e., an identical, physical copy of a data object)
 \begin{lstlisting}[basicstyle=\tiny]
 $ ils @\char45@L /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2016-04-07.14:16 & beans.jpg
+ alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2016-04-07.14:16 & coffee.jpg
+ alice             0 demoResc       479299 2019-04-07.14:16 & coffee.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2016-04-07.14:16 & eggs.jpg
+ alice             0 demoResc       912548 2019-04-07.14:16 & eggs.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2016-04-07.14:16 & grapes.jpg
+ alice             0 demoResc       669306 2019-04-07.14:16 & grapes.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2016-04-07.14:16 & lemur.jpg
+ alice             0 demoResc      1312007 2019-04-07.14:16 & lemur.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2016-04-07.14:16 & mouse.jpg
+ alice             0 demoResc       392585 2019-04-07.14:16 & mouse.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             0 demoResc      1413230 2016-04-07.14:16 & peanuts.jpg
+ alice             0 demoResc      1413230 2019-04-07.14:16 & peanuts.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2016-04-07.14:16 & platter.jpg
+ alice             0 demoResc      2555592 2019-04-07.14:16 & platter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2016-04-07.14:16 & scooter.jpg
+ alice             0 demoResc      1822077 2019-04-07.14:16 & scooter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2016-04-07.14:16 & seal.jpg
+ alice             0 demoResc       362833 2019-04-07.14:16 & seal.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2016-04-07.14:16 & sources.txt
+ alice             0 demoResc          371 2019-04-07.14:16 & sources.txt
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
- alice             0 demoResc      1153142 2016-04-07.14:16 & waffle.jpg
+ alice             0 demoResc      1153142 2019-04-07.14:16 & waffle.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
@@ -943,29 +954,29 @@ Now, let's verify that the replica was created (now numbered \texttt{1} on \text
 \begin{lstlisting}[basicstyle=\tiny\rmfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2016-04-07.14:16 & beans.jpg
+ alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2016-04-07.14:16 & coffee.jpg
+ alice             0 demoResc       479299 2019-04-07.14:16 & coffee.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2016-04-07.14:16 & eggs.jpg
+ alice             0 demoResc       912548 2019-04-07.14:16 & eggs.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2016-04-07.14:16 & grapes.jpg
+ alice             0 demoResc       669306 2019-04-07.14:16 & grapes.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2016-04-07.14:16 & lemur.jpg
+ alice             0 demoResc      1312007 2019-04-07.14:16 & lemur.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2016-04-07.14:16 & mouse.jpg
+ alice             0 demoResc       392585 2019-04-07.14:16 & mouse.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             0 demoResc      1413230 2016-04-07.14:16 & peanuts.jpg
+ alice             0 demoResc      1413230 2019-04-07.14:16 & peanuts.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
- alice             1 newResc       1413230 2016-04-07.14:37 & peanuts.jpg
+ alice             1 newResc       1413230 2019-04-07.14:37 & peanuts.jpg
        newResc     generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2016-04-07.14:16 & platter.jpg
+ alice             0 demoResc      2555592 2019-04-07.14:16 & platter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2016-04-07.14:16 & scooter.jpg
+ alice             0 demoResc      1822077 2019-04-07.14:16 & scooter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2016-04-07.14:16 & seal.jpg
+ alice             0 demoResc       362833 2019-04-07.14:16 & seal.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2016-04-07.14:16 & sources.txt
+ alice             0 demoResc          371 2019-04-07.14:16 & sources.txt
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
 \end{lstlisting}
 
@@ -983,27 +994,27 @@ Now let's verify that the replica of \texttt{peanuts.jpg} on \texttt{demoResc} h
 \begin{lstlisting}[basicstyle=\tiny\rmfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2016-04-07.14:16 & beans.jpg
+ alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2016-04-07.14:16 & coffee.jpg
+ alice             0 demoResc       479299 2019-04-07.14:16 & coffee.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2016-04-07.14:16 & eggs.jpg
+ alice             0 demoResc       912548 2019-04-07.14:16 & eggs.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2016-04-07.14:16 & grapes.jpg
+ alice             0 demoResc       669306 2019-04-07.14:16 & grapes.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2016-04-07.14:16 & lemur.jpg
+ alice             0 demoResc      1312007 2019-04-07.14:16 & lemur.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2016-04-07.14:16 & mouse.jpg
+ alice             0 demoResc       392585 2019-04-07.14:16 & mouse.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
-alice              1 newResc       1413230 2016-04-07.14:37 & peanuts.jpg
+alice              1 newResc       1413230 2019-04-07.14:37 & peanuts.jpg
        newResc     generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2016-04-07.14:16 & platter.jpg
+ alice             0 demoResc      2555592 2019-04-07.14:16 & platter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2016-04-07.14:16 & scooter.jpg
+ alice             0 demoResc      1822077 2019-04-07.14:16 & scooter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2016-04-07.14:16 & seal.jpg
+ alice             0 demoResc       362833 2019-04-07.14:16 & seal.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2016-04-07.14:16 & sources.txt
+ alice             0 demoResc          371 2019-04-07.14:16 & sources.txt
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
 \end{lstlisting}
 
@@ -1060,7 +1071,7 @@ Interface & Plugins \\
 Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM) \\ LDAP via PAM \\Kerberos* \\ Grid Security Infrastructure (GSI)*} \\
 Network & \makecell[l]{Transmission Control Protocol (TCP) \\ Secure Socket Layer (SSL)} \\
 Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MySQL*} \\
-Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)* \\ Javascript* \\ Go*} \\
+Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)* \\ Javascript (unreleased)* \\ Go (unreleased)*} \\
 API & An avenue through which new functionality can be added to an iRODS deployment. \\
 Microservices & There are over 350 available, covering a variety of functions. \\
 Composable Resources & There are two kinds of Composable Resources in iRODS: Coordinating and Storage. Both are discussed in more detail in the next section. \\
@@ -1527,13 +1538,13 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstTrainingRuleBase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2018/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2019/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2018/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2019/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
@@ -1560,7 +1571,7 @@ Add a new python rule engine stanza within ``rule\_engines" just before the ``ir
         },
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2018/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
+\href{https://github.com/irods/irods_training/blob/ugm2019/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
@@ -1572,12 +1583,12 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
                 ],
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2018/beginner/server_config.json#L78-L80}{\usebox{\lstServerConfigB}}
+\href{https://github.com/irods/irods_training/blob/ugm2019/beginner/server_config.json#L78-L80}{\usebox{\lstServerConfigB}}
 
 Save the file and the new rulebases will be activated!  Let's upload a new file to our home collection:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2018/stickers.jpg
+$ wget https://github.com/irods/irods_training/raw/ugm2019/stickers.jpg
 $ iput stickers.jpg
 \end{lstlisting}
 
