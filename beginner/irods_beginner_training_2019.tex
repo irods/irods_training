@@ -218,7 +218,7 @@ iRODS empowers users by supporting:
 
 \section{iRODS is Open Source}
 
-Open source software---such as iRODS---provides several benefits to users. First, because the source code is publicly available, the user community can monitor the entire development process. Second, developers within the user community can monitor and fix any errors in the code, extend the existing code, and contribute new code. For example, if a developer would like to add a custom authentication scheme, she can create a new plugin to handle this. Thus, iRODS code keeps improving and new functionality is continually added through community participation. Third, Consortium members have the opportunity to participate in the development of standards, software release roadmaps, and architectural plans, as well as provide oversight of development and testing efforts.
+Open source software---such as iRODS---provides several benefits to users. First, because the source code is publicly available, the user community can monitor the entire development process. Second, developers within the user community can monitor and fix any errors in the code, extend the existing code, and contribute new code. For example, if a developer would like to add a custom authentication scheme, she can create a new plugin to handle this. Thus, iRODS code keeps improving and new functionality is continually added through community participation. Third, it allows Consortium members the opportunity to participate in the development of standards, software release roadmaps, and architectural plans, as well as provide oversight of development and testing efforts.
 
 \section{iRODS is Middleware}
 
@@ -236,7 +236,7 @@ Each iRODS deployment---or Zone---is composed of an iRODS Metadata Catalog (iCAT
  \item user information.
  \end{itemize}
 
-Currently, PostgreSQL, MySQL, and Oracle are the database technologies that may be used to implement an iCAT database.
+Currently, PostgreSQL, MySQL, and Oracle are the officially supported database technologies that may be used to implement an iCAT database.
 
 All iRODS servers in a Zone run the same core code and are peers. Each server may have its own set of policies, rules, and plugins. However, the Catalog Provider holds the connection to and communicates with the iCAT database. Consumer servers must communicate with the database by connecting through the Catalog Provider. A zone may have as many Consumer servers as needed. Using multiple Consumer servers can enhance the performance, security, and resilience of a Zone by providing redundancy, both within a single location and distributed geographically.
 
@@ -385,7 +385,7 @@ Before installing iRODS, we first need to install and configure a database.
 iRODS stores most of its information (e.g. user names, file names and locations, metadata) in the iCAT. iRODS assumes this database is created and managed by a third party. Therefore, before installing iRODS, we have to create and configure the database iRODS will be using.
 
 
-For this training, we will be using PostgreSQL for our iRODS database. First let's update Ubuntu's apt repository.
+For this training, we will be using Ubuntu for our operating system and PostgreSQL for our iRODS database. First let's update Ubuntu's apt repository.
 
 \begin{lstlisting}
 $ sudo apt-get update
@@ -455,8 +455,6 @@ iRODS is split into a series of packages that declare dependencies on one anothe
 \end{itemize}
 
 iRODS software can be installed via the native operating system's package manager.
-
-For Ubuntu, this is named apt.
 
 To install the RENCI repository that hosts the iRODS software, execute the \textbf{APT} instructions located at \url{https://packages.irods.org}:
 
@@ -573,7 +571,7 @@ All iCommands accept command line options (e.g., -a for all, -e for echo, -h for
 
 To get help on a specific iCommand (such as \texttt{ils} for listing the contents of a collection), you may
 \begin{itemize}
- \item visit this webpage: \url{https://docs.irods.org/master/icommands/user/}
+ \item visit this webpage: \url{https://docs.irods.org/4.2.6/icommands/user/}
  \item use the -h option with the command (e.g., \texttt{ils -h}), or
  \item use the \texttt{ihelp} command as the argument with the command you'd like to learn more
          about (e.g., \texttt{ihelp ils}).
@@ -582,7 +580,7 @@ To get help on a specific iCommand (such as \texttt{ils} for listing the content
 \section{Administrative Operations}
 In this workshop, you are interacting with iRODS through a Linux shell session. The session needs many settings and other details to determine iRODS behavior and access to iRODS resources. One way the shell manages these settings and details is through an area it maintains called the environment. The shell builds the environment every time it starts a session by accessing the settings and details that are contained in an environment file.
 
-So to connect to an iRODS server using the rods administrator account, we will need to execute the \texttt{iinit} command which will create the iRODS environment file \texttt{irods\_environment.json}, in the \texttt{.irods} subdirectory of your Linux home directory (e.g., \texttt{/home/ubuntu/.irods/irods\_environment.json}).
+So to connect to an iRODS server using the rods administrator account (i.e. \texttt{rodsadmin}), we will need to execute the \texttt{iinit} command which will create the iRODS environment file \texttt{irods\_environment.json}, in the \texttt{.irods} subdirectory of your Linux home directory (e.g., \texttt{/home/ubuntu/.irods/irods\_environment.json}).
 
 \newpage
 
@@ -659,7 +657,7 @@ Let's create a storage resource so that Alice can try out iCommands in the next 
 
 \textcolor{red}{\textbf{Please Note} - demoResc is not for production use, but we will use it for training purposes.}
 
-Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the host \texttt{X.X.X.X}, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen
+Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the local host, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iadmin mkresc newResc unixfilesystem @\`{}@hostname@\`{}@:/var/lib/irods/new_vault
@@ -786,7 +784,7 @@ $ sudo apt-get -y install unzip
 $ unzip training_jpgs.zip
 \end{lstlisting}
 
-Suppose Alice would like to upload her photos---or data objects---from a local directory to an iRODS collection. For this, use the \texttt{iput} command:
+Suppose Alice would like to upload her photos from a local directory to an iRODS collection as data objects. For this, use the \texttt{iput} command:
 
 \begin{lstlisting}
 $ iput -r /home/ubuntu/training_jpgs
@@ -941,7 +939,7 @@ $ ils @\char45@L /tempZone/home/alice/training_jpgs
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
-We can see that there is a single copy of each data object (they are all on demoResc and are replica zero). There are no replicas.
+We can see that there is a single replica of each data object (they are all on demoResc and are replica zero). Each data object refers to only one replica right now.
 
 Let's replicate \texttt{peanuts.jpg} to \texttt{newResc} using the \texttt{irepl} command:
 
@@ -1051,7 +1049,7 @@ $ irm -r /tempZone/home/alice/bw_photos
 We have covered several fundamental iCommands, but there are dozens more that cover copying data between collections, moving data between resources, computing checksums, etc.
 
 You can learn more about any iCommand using the \texttt{-h} command line option, or by visiting \\
-\url{https://docs.irods.org/master/icommands/user/}.
+\url{https://docs.irods.org/4.2.6/icommands/user/}.
 
 \chapter{Virtualization}
 
@@ -1070,7 +1068,7 @@ Interface & Plugins \\
 \hline
 Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM) \\ LDAP via PAM \\Kerberos* \\ Grid Security Infrastructure (GSI)*} \\
 Network & \makecell[l]{Transmission Control Protocol (TCP) \\ Secure Socket Layer (SSL)} \\
-Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MySQL*} \\
+Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MySQL* \\ CockroachDB (unreleased)*} \\
 Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)* \\ Javascript (unreleased)* \\ Go (unreleased)*} \\
 API & An avenue through which new functionality can be added to an iRODS deployment. \\
 Microservices & There are over 350 available, covering a variety of functions. \\
@@ -1115,8 +1113,7 @@ Storage Resources are the logical representations of---or pointers to---physical
 Unix File System & This type of storage resource communicates with a storage device through the standard POSIX interface \\
 S3* & Amazon's or any other S3-compatible storage service \\
 Web Object Scaler (WOS)* & DataDirect Networks' block storage appliance \\
-Ceph RADOS* & Designed for efficient cacheless access to a Ceph RADOS block storage cluster \\
-HPSS* & IBM's High Performance Storage System \\
+Ceph RADOS (unreleased)* & Designed for efficient cacheless access to a Ceph RADOS block storage cluster \\
 Universal Mass Storage & For use with Compound resources, such as tape-based archives \\
 \hline
 \end{tabular}
@@ -1215,7 +1212,7 @@ When writing data (usually via an \texttt{iput}), the default replication coordi
 The composable resources can always be visualized with the ilsresc command.
 
 \begin{lstlisting}
-$ ilsresc
+$ ilsresc --ascii
 demoResc
 replResc:replication
 |-- newResc
@@ -1274,7 +1271,7 @@ Structural metadata describes the structure of the data object. For example, ele
 Administrative metadata is intended to facilitate management and processing of the data.
 Elements could allow for identifying how the data was created, its file type, resolution, copyright information, licensing information, access privileges, etc.
 
-Cornell University Library provides a nice chart describing these classifications of metadata: \\ \url{https://www.library.cornell.edu/preservation/tutorial/metadata/table5-1.html}.
+Cornell University Library provides a nice chart describing these classifications of metadata: \\ \url{http://preservationtutorial.library.cornell.edu/metadata/table5-1.html}.
 
 Other classifications of metadata exist. Gilliland [4, p. 9] includes additional categories of preservation, use, and technical.
 
@@ -1526,13 +1523,13 @@ To install the Python rule engine plugin (and a Python EXIF library we'll use):
 $ sudo apt-get -y install irods-rule-engine-plugin-python python-exif
 \end{lstlisting}
 
-This rule engine package installs a single compiled library (shared object): \\ \texttt{/usr/lib/irods/plugins/rule\_engines/librule-engine-plugin-python.so}
+This rule engine package installs a single compiled library (shared object): \\ \texttt{/usr/lib/irods/plugins/rule\_engines/libirods\_rule\_engine\_plugin-python.so}
 
 We will configure this new rule engine as part of the following metadata harvesting example.
 
 \section{The Example Rule: Harvesting and Applying Metadata with the Python Rule Engine}
 
-The example rulebases below (\texttt{training.re} and \texttt{core.py}) work together to harvest and apply metadata to any data object at rest, owned by any user. This rule could help Alice save time by automating metadata annotation for her. We will use this pair of rulebases to demonstrate the power of the rule engine plugin system.
+The example rulebases below (\texttt{training.re} and \texttt{core.py}) work together to harvest and apply metadata to any data object at rest, owned by any user. This rule could help Alice save time by automating metadata annotation for her. We will use this pair of rulebases to demonstrate the power of the rule engine plugin system. Using a text editor, copy the rulebases into new files in \texttt{/etc/irods} with the appropriate names.
 
 \vspace{5mm}
 \begin{lrbox}{\lstTrainingRuleBase}
@@ -1546,7 +1543,7 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \end{lrbox}
 \href{https://raw.githubusercontent.com/irods/irods_training/ugm2019/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
-An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut}) PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
+An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut} PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
 There are two ways to insert the new PEP's behavior into iRODS.
 \begin{enumerate}
@@ -1554,7 +1551,7 @@ There are two ways to insert the new PEP's behavior into iRODS.
  \item We can write the rule into an accessory rulebase (i.e., a file that contains a rule or rules but is not \texttt{core.re}) in \texttt{/etc/irods} and then tell iRODS to read this file by editing the \\ \texttt{/etc/irods/server\_config.json} file. When we do this, the rules in our accessory rulebases (\texttt{training.re} and \texttt{core.py}), will combine to take precedence over the existing PEP in \texttt{core.re}.
 \end{enumerate}
 
-Let's try the second approach.
+Let's try the second approach. Open the file using a text editor such as nano:
 
 \begin{lstlisting}
 $ sudo nano /etc/irods/server_config.json
@@ -1661,7 +1658,7 @@ This simple example demonstrates automated metadata harvesting, use of multiple 
  \item iRODS download page  --- \url{https://irods.org/download/}
  \item iRODS GitHub site ---  \url{https://github.com/irods}
  \item iRODS documentation --- \url{https://docs.irods.org/}
- \item iRODS LinkedIn Group --- \url{https://www.linkedin.com/groups?gid=8162245}
+ \item iRODS LinkedIn Group --- \url{https://www.linkedin.com/groups/8162245/}
  \item iRODS Twitter --- \url{https://twitter.com/irods}
 \end{itemize}
 
