@@ -258,7 +258,7 @@ With iRODS, organizations can share data, or federate, by simply adding a few bi
 
 Your organization may have defined, formally or informally, policies and procedures for access control, backup, data migration, data preparation, metadata extraction, and more. These organizational policies can be implemented in iRODS through the use of rules, which can help you customize and automate related data management tasks.
 
-Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages, if a rule engine plugin exists for that language.  As of the time of publication, there are released rule engine plugins for the iRODS Rule Language, C++, and Python.  There are experimental rule engine plugins for Javascript and Go.
+Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages if a rule engine plugin exists for that language.  As of the time of publication, there are released rule engine plugins for the iRODS Rule Language, C++, and Python.  There are experimental rule engine plugins for Javascript and Go.
 
 Rules are executed based on conditions or, in iRODS parlance, Policy Enforcement Points (PEPs). Consider, for example, a rule to transfer ownership of data objects to the project manager when a user is deleted; the trigger---or PEP---is the deletion of the user. Similarly, rules could be written to extract metadata or pre-process data whenever a file is uploaded to a storage device. Or, upon access to particular data objects, a rule can create a log of the event, send an email notification to the project manager, or perform some other task you need to occur as a result of the data's access.
 
@@ -266,7 +266,7 @@ Rules are carried out by an iRODS rule engine plugin---a built-in interpreter fo
 
 \section{iRODS Plugins}
 
-We've already discussed two types of plugin: Composable Resources and Rule Engines; but there are many more. Plugins---like rules---allow for the customization of an iRODS installation. Plugins are used to implement core iRODS functions, such as authentication, communication over the Internet, communication with storage devices, and more. The use of plugins enables zone administrators to tailor iRODS to their needs, without having to recompile core code. Plugins also make it possible to upgrade small portions of iRODS without interfering with core functions.
+We've already discussed two types of plugins: Composable Resources and Rule Engines; but there are many more. Plugins---like rules---allow for the customization of an iRODS installation. Plugins are used to implement core iRODS functions, such as authentication, communication over the Internet, communication with storage devices, and more. The use of plugins enables zone administrators to tailor iRODS to their needs, without having to recompile core code. Plugins also make it possible to upgrade small portions of iRODS without interfering with core functions.
 
 \chapter{Case Study: stockphotosite.com (SPS)}
 
@@ -656,7 +656,7 @@ Let's create a storage resource so that Alice can try out iCommands in the next 
 
 \textcolor{red}{\textbf{Please Note} - demoResc is not for production use, but we will use it for training purposes.}
 
-Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the local host, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen
+Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the local host, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen.
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
 $ iadmin mkresc newResc unixfilesystem @\`{}@hostname@\`{}@:/var/lib/irods/new_vault
@@ -1696,7 +1696,7 @@ A Data Object is the logical representation of data that maps to one or more phy
 A Delayed Execution Rule is a rule that invokes the delay keyword (i.e., a reserved word), which places the rule script in the delayed execution queue rather than immediately executing the rule.
 
 \item [Grid]
-The hardware, operating system, and other machinery that supports a Zone.
+The hardware, operating system, and other machinery that support a Zone.
 
 \item [iCAT]
 The iCAT, or iRODS Metadata Catalog, is a database (e.g. PostgreSQL, MySQL, Oracle) that stores metadata about the Data Objects, Collections, Users, and Groups in an iRODS Zone. There is one iCAT per iRODS Zone.
