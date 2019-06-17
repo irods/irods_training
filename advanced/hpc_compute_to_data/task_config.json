@@ -1,0 +1,25 @@
+{
+    "container": {
+        "type": "docker",
+        "image": "testimages/jupyter-digital-filter",
+        "command": [ "jupyter", "nbconvert", 
+                    "--execute", 
+                    "--to", "html",
+                    "--output", "/outputs/lowpass_filter_processing.html", 
+                    "/home/jovyan/work/lpfilter.ipynb"
+         ],
+        "environment": {
+            "INPUT_FILE_PATH" : "/inputs/%(INPUT_FILE_BASENAME)s",
+            "CUTOFF_FREQUENCY_INDEX" : "0",
+            "OUTPUT_FILE_PATH" : "/outputs/lowpass_filtered_%(INPUT_FILE_BASENAME)s"
+        }
+    },
+    "external": {
+        "src_collection" : "/tempZone/home/alice/notebook_input",
+        "dst_collection" : "/tempZone/home/alice/notebook_output"
+    },
+    "internal": {
+        "src_directory": "/inputs",
+        "dst_directory": "/outputs"
+    }
+}
