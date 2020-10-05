@@ -1124,7 +1124,7 @@ Universal Mass Storage & For use with Compound resources, such as tape-based arc
 
 When a request for data is made, each storage resource communicates with its parent coordinating resource about whether it is able to provide the requested data. The coordinating resource then decides which particular storage resource is the best option for serving up the data. This is determined based on the nature of the coordinating resource.
 
-For example, the Replication Coordinating Resource weights a vote from a storage resource more heavily if it possesses a local copy. The replication coordinating resource is designed to honor ``locality of reference," and then point the client to the closest data.
+For example, the Replication Coordinating Resource selects the storage resource that votes the 'highest'.  A storage resource votes higher if it possesses a local replica of the requested data object or if it is on the same host as the `irodsServer` holding the current connection. This process is designed to honor ``locality of reference," and then point the client to the closest data.
 
 \section{Building a Tree}
 
