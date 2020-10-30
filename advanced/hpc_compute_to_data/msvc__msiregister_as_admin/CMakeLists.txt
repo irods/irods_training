@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
 
-find_package(IRODS 4.2.7 EXACT REQUIRED)
+find_package(IRODS 4.2.8 EXACT REQUIRED)
 
 set(CMAKE_C_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang)
 set(CMAKE_CXX_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang++)
@@ -39,7 +39,10 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
 add_compile_options(-nostdinc++)
 add_compile_options(-std=c++14)
 link_libraries(c++abi)
-include_directories(${IRODS_EXTERNALS_FULLPATH_CLANG}/include/c++/v1)
+include_directories(
+  ${IRODS_EXTERNALS_FULLPATH_CLANG}/include/c++/v1
+  ${IRODS_EXTERNALS_FULLPATH_JSON}/include
+  )
 
 set(
   IRODS_AUDIT_PLUGIN_LOCKING_SERVER_COMPILE_DEFINITIONS
