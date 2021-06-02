@@ -489,8 +489,10 @@ Then run the following setup script:
 The final installation step is running the setup script:
 
 \begin{lstlisting}
-$ sudo python /var/lib/irods/scripts/setup_irods.py
+$ sudo python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
 \end{lstlisting}
+
+This command uses the defaults in that file that are the same as the table below, to fill in the details in one go rather than manually. 
 
 \newpage
 The \texttt{setup\_irods.py} script will ask for information in five sections.
