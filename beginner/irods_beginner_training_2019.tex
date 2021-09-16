@@ -226,7 +226,7 @@ iRODS is a layer that sits above the file systems that contain data, and below d
 
 \section{An iRODS Zone}
 
-Each iRODS deployment---or Zone---is composed of an iRODS Metadata Catalog (iCAT) database, a Catalog Provider, and optional Catalog Consumers. The iCAT is a relational database that holds all the information about your data, users, and zone that the iRODS servers need to facilitate the management and sharing of your data. The iCAT contains the information about
+Each iRODS deployment---or Zone---is composed of an iRODS Metadata Catalog database, a Catalog Service Provider, and optional Catalog Service Consumers. The iRODS Catalog is a relational database that holds all the information about your data, users, and zone that the iRODS servers need to facilitate the management and sharing of your data. The iRODS Catalog contains the information about
  \begin{itemize}
  \item the zone for the purposes of sharing across zones,
  \item data and their metadata,
@@ -235,20 +235,20 @@ Each iRODS deployment---or Zone---is composed of an iRODS Metadata Catalog (iCAT
  \item user information.
  \end{itemize}
 
-Currently, PostgreSQL, MySQL, and Oracle are the officially supported database technologies that may be used to implement an iCAT database.
+Currently, PostgreSQL, MySQL, and Oracle are the officially supported database technologies that may be used to implement an iRODS Catalog database.
 
-All iRODS servers in a Zone run the same core code and are peers. Each server may have its own set of policies, rules, and plugins. However, the Catalog Provider holds the connection to and communicates with the iCAT database. Consumer servers must communicate with the database by connecting through the Catalog Provider. A zone may have as many Consumer servers as needed. Using multiple Consumer servers can enhance the performance, security, and resilience of a Zone by providing redundancy, both within a single location and distributed geographically.
+All iRODS servers in a Zone run the same core code and are peers. Each server may have its own set of policies, rules, and plugins. However, the Catalog Provider holds the connection to and communicates with the iRODS Catalog database. Consumer servers must communicate with the database by connecting through the Catalog Provider. A zone may have as many Consumer servers as needed. Using multiple Consumer servers can enhance the performance, security, and resilience of a Zone by providing redundancy, both within a single location and distributed geographically.
 
 
 \subsection{Data Objects and Metadata}
 
 In iRODS, the term Data Object refers to the logical representation of data that maps to one or more physical instances of the data at rest in storage resources, such as Amazon's S3. Data objects are organized into hierarchical Collections---the logical representations of physical containers, similar to directories or folders that are found in a file system. As with file system directories and folders, iRODS denotes levels of hierarchy with slashes ( / ) in the pathname. For example, the root collection of tempZone is written as /tempZone. Each subcollection is prefixed with /tempZone/.  For example, /tempZone/home is a subcollection of /tempZone; and /tempZone/home/alice is a subcollection of /tempZone/home. The complete pathname of an iRODS data object includes the Zone (i.e., iRODS deployment) name and the full pathname within that zone, e.g., /tempZone/home/alice/sciproject/results.txt.
 
-iRODS users can store descriptive information about data objects---or metadata---in the iCAT. Metadata improves search capabilities and therefore better enables data discovery. Users can search for data objects using metadata descriptors as search terms.  This allows for browsing and serendipitous discovery, rather than relegating users to a targeted search for the file name, which they may or may not know. Both automatic, system-generated metadata and user-created metadata are supported in iRODS.
+iRODS users can store descriptive information about data objects---or metadata---in the iRODS Catalog. Metadata improves search capabilities and therefore better enables data discovery. Users can search for data objects using metadata descriptors as search terms.  This allows for browsing and serendipitous discovery, rather than relegating users to a targeted search for the file name, which they may or may not know. Both automatic, system-generated metadata and user-created metadata are supported in iRODS.
 
 \subsection{The Virtual File System and Resource Configuration}
 
-iRODS contains a virtual file system which maps logical directory paths stored in the iCAT to actual physical storage (e.g., Ceph cluster) that contains the logical data objects. Composable Resources allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage. Coordinating resources actively make decisions about which physical device will receive or serve up a data object. Storage resources are the logical representations of---or pointers to---physical storage devices. All resources are composed of five parts: (a) the name you give the resource, (b) a host name (e.g., hostname.example.org), (c) a directory path to the exact location on the storage device (e.g., /full/path/to/storage), (d) the storage resource type (e.g., Amazon S3), and (e) a plugin-specific context string (e.g., the name of the file containing access credentials or any persistent information the plugin may require).
+iRODS contains a virtual file system which maps logical directory paths stored in the iRODS Catalog to actual physical storage (e.g., Ceph cluster) that contains the logical data objects. Composable Resources allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage. Coordinating resources actively make decisions about which physical device will receive or serve up a data object. Storage resources are the logical representations of---or pointers to---physical storage devices. All resources are composed of five parts: (a) the name you give the resource, (b) a host name (e.g., hostname.example.org), (c) a directory path to the exact location on the storage device (e.g., /full/path/to/storage), (d) the storage resource type (e.g., Amazon S3), and (e) a plugin-specific context string (e.g., the name of the file containing access credentials or any persistent information the plugin may require).
 
 \subsection{Secure Collaboration}
 
@@ -366,8 +366,8 @@ Throughout the training, you will be assuming different user roles to interact w
 Role & \makecell[c]{Linux, \\ iRODS, \\ or Postgres?} & Role Definition \\
 \hline
 ubuntu & Linux & This is the user account on the Linux VM. You will be \texttt{ubuntu} throughout most of the day because you will always be using the Linux VM. \\
-postgres & Linux & This is the service account for the Postgres database management system. We will use this account to create the iCAT. \\
-irods & Postgres & This is the database user account which will own the iCAT. \\
+postgres & Linux & This is the service account for the Postgres database management system. We will use this account to create the iRODS Catalog. \\
+irods & Postgres & This is the database user account which will own the iRODS Catalog. \\
 irods & Linux & This is the Linux service account that is created by default when you install iRODS. It runs the iRODS software and owns all physical data objects. \\
 rods & iRODS & This is the default administrator account---rodsadmin---in iRODS. It has permissions to add users to iRODS, set up resources, etc. \\
 alice & iRODS & A regular user account---rodsuser---in iRODS. A photographer at SPS. \\
@@ -380,8 +380,8 @@ bobby & iRODS & A regular user account---rodsuser---in iRODS. A photographer at 
 
 Before installing iRODS, we first need to install and configure a database.
 
-\section{The iCAT Database}
-iRODS stores most of its information (e.g. user names, file names and locations, metadata) in the iCAT. iRODS assumes this database is created and managed by a third party. Therefore, before installing iRODS, we have to create and configure the database iRODS will be using.
+\section{The iRODS Catalog Database}
+iRODS stores most of its information (e.g. user names, file names and locations, metadata) in the iRODS Catalog. iRODS assumes this database is created and managed by a third party. Therefore, before installing iRODS, we have to create and configure the database iRODS will be using.
 
 
 For this training, we will be using Ubuntu for our operating system and PostgreSQL for our iRODS database. First let's update Ubuntu's apt repository.
@@ -396,7 +396,7 @@ Then let's install the PostgreSQL server software.
 $ sudo apt-get -y install postgresql
 \end{lstlisting}
 
-Next, we will switch user to the Linux user account---postgres---that controls the PostgreSQL server software so that we can create the iCAT database:
+Next, we will switch user to the Linux user account---postgres---that controls the PostgreSQL server software so that we can create the iRODS Catalog database:
 
 \begin{lstlisting}
 $ sudo su - postgres
@@ -479,7 +479,7 @@ iRODS Postgres Database Plugin installation was successful.
 
 To configure this plugin, the following prerequisites need to be met:
  - an existing database user (to be used by the iRODS server)
- - an existing database (to be used as the iCAT catalog)
+ - an existing database (to be used as the iRODS Catalog)
  - permissions for existing user on existing database
 
 Then run the following setup script:
@@ -514,9 +514,9 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 \ugmbullet ODBC Driver & \colorbox{gray!70}{1} The driver on the server used to talk to the ODBC database layer. \\
 \makecell[l]{\ugmbullet Database Server's \\ \hspace{8.5mm}Hostname or IP } & \colorbox{gray!70}{localhost} We are connecting to a local database. \\
 \ugmbullet Database Server's Port & \colorbox{gray!70}{5432} The database server listens for notifications from other applications on this port. The default value is correct for PostgreSQL installations. \\
-\ugmbullet Database Name & \colorbox{gray!70}{ICAT} This is the name of the database that we created in PostgreSQL during the iCAT database installation. \\
+\ugmbullet Database Name & \colorbox{gray!70}{ICAT} This is the name of the database that we created in PostgreSQL during the iRODS Catalog database installation. \\
 \ugmbullet Database User & \colorbox{gray!70}{irods} This must match the irods Linux account name to authenticate into Postgres without changing Postgres settings. \\
-\ugmbullet Database Password & Enter \texttt{testpassword} . This is the same password we set during the iCAT database installation. \\
+\ugmbullet Database Password & Enter \texttt{testpassword} . This is the same password we set during the iRODS Catalog database installation. \\
 \ugmbullet Stored Passwords Salt & This obfuscates the passwords stored in the database, making your installation unique.  For production use, don't leave this empty. \\
 \hline
 
@@ -1087,7 +1087,7 @@ Recall that Composable Resources are plugins that allow you to create rich decis
 \subsection{Coordinating Resources}
 \label{sec:coordinating_resources}
 
-A Coordinating Resource manages the flow of data to and from Storage Resources. In the iCAT database, they are composed of three parts: (a) the name you give the resource, (b) the resource type (e.g., Replication), and (c) a plugin-specific context string (e.g., in the case of a Passthru resource, the read and write weights---see below).
+A Coordinating Resource manages the flow of data to and from Storage Resources. In the iRODS Catalog database, they are composed of three parts: (a) the name you give the resource, (b) the resource type (e.g., Replication), and (c) a plugin-specific context string (e.g., in the case of a Passthru resource, the read and write weights---see below).
 
 \begin{center}
 \def\arraystretch{1.5}%  1 is the default
@@ -1250,7 +1250,7 @@ Once there is no data stored on \texttt{storageResc1}, it can be safely removed 
 
 \chapter{Data Discovery}
 
-iRODS employs a metadata catalog---iCAT---that permits users and administrators to access and contribute descriptive information about their data. This descriptive information---or metadata---improves search and therefore better enables data discovery. Users can search for data objects using metadata descriptors as search terms. This allows for browsing and serendipitous discovery, rather than relegating users to a targeted search for a file name they may not know.
+iRODS employs a metadata catalog that permits users and administrators to access and contribute descriptive information about their data. This descriptive information---or metadata---improves search and therefore better enables data discovery. Users can search for data objects using metadata descriptors as search terms. This allows for browsing and serendipitous discovery, rather than relegating users to a targeted search for a file name they may not know.
 
 Both automatic, system-generated metadata and user-created metadata are supported in iRODS. For example, iRODS can automatically derive the data object's creation date, modification date, the last date it was accessed, etc.; and an individual user can contextualize her data by providing the creator's name, subject or topic of the data, project name, etc. Once that metadata is affiliated with any of the data objects, users can search on it.
 
@@ -1493,7 +1493,7 @@ A user may manually execute a rule that operates on data that she has access to 
 
 \subsection{Policy Enforcement Points}
 
-Policy Enforcement Points are triggers within the code that call specific rules. Editing these rules lets administrators change their data management policy. Later in this section, we will demonstrate the editing of \texttt{acPostProcForPut}, which is triggered after a newly uploaded data object is registered in the iCAT.
+Policy Enforcement Points are triggers within the code that call specific rules. Editing these rules lets administrators change their data management policy. Later in this section, we will demonstrate the editing of \texttt{acPostProcForPut}, which is triggered after a newly uploaded data object is registered in the iRODS catalog.
 
 \subsection{The \texttt{delay} Directive}
 
@@ -1673,11 +1673,11 @@ This simple example demonstrates automated metadata harvesting, use of multiple 
 \item [Agent]
 An Agent is an instance of a server process that handles application programming interface (API) requests. Each time a client connects to an iRODS server, the server spawns an agent and a network connection is established between the agent and the requesting client.
 
-\item [Catalog Service Consumer (Resource Server)]
-An iRODS server in a Zone that is not a Catalog Service Provider.  There can be zero to many Catalog Service Consumers in a Zone.
+\item [Catalog Service Consumer (CSC)]
+An iRODS server in a Zone that is not a Catalog Service Provider. There can be zero to many Catalog Service Consumers in a Zone.
 
-\item [Catalog Service Provider (iCAT Server, IES, or iCAT Enabled Server)]
-The iRODS server in a Zone that holds the connection to the (possibly remote) iCAT. There is one Catalog Service Provider in a Zone.
+\item [Catalog Service Provider (CSP)]
+The iRODS server in a Zone that holds the connection to the (possibly remote) iRODS catalog. There is one Catalog Service Provider in a Zone.
 
 \item [Collection]
 A Collection is the logical representation of physical containers, similar to directories or folders that are found in a file system. A Collection can have sub-collections, and hence provides a hierarchical structure.
@@ -1700,11 +1700,11 @@ A Delayed Execution Rule is a rule that invokes the delay keyword (i.e., a reser
 \item [Grid]
 The hardware, operating system, and other machinery that support a Zone.
 
-\item [iCAT]
-The iCAT, or iRODS Metadata Catalog, is a database (e.g. PostgreSQL, MySQL, Oracle) that stores metadata about the Data Objects, Collections, Users, and Groups in an iRODS Zone. There is one iCAT per iRODS Zone.
-
 \item [iCommands]
 iCommands are Unix utilities that give users a command-line interface to operate on data in iRODS.
+
+\item [iRODS Catalog]
+The iRODS Metadata Catalog is a database (e.g. PostgreSQL, MySQL, Oracle) that stores metadata about the Data Objects, Collections, Users, and Groups in an iRODS Zone. There is one iRODS Catalog per iRODS Zone.
 
 \item [Microservice]
 A microservice is a small, well-defined procedure that performs a server-side task and is either compiled into the iRODS server code or packaged independently as a shared object. Rules invoke Microservices to implement data management policies.
