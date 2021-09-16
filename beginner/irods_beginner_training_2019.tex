@@ -547,21 +547,15 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 
 Once \texttt{setup\_irods.py} has received all of its input, it will complete the setup.
 
-A successful setup will end with the following text:
-
+Confirm that the return code of the setup script is 0 (indicates that no errors occurred):
 \begin{lstlisting}
-+---------------------+
-| Attempting test put |
-+---------------------+
+$ echo $?
+0
+\end{lstlisting}
 
-Putting the test file into iRODS...
-Getting the test file from iRODS...
-Removing the test file from iRODS...
-Success.
-
-+--------------------------------+
-| iRODS is installed and running |
-+--------------------------------+
+The iRODS server will not be running after setup. Run the following to start the server:
+\begin{lstlisting}
+$ sudo su irods -c "/var/lib/irods/irodsctl start"
 \end{lstlisting}
 
 \chapter{Using iCommands}
@@ -572,7 +566,7 @@ All iCommands accept command line options (e.g., -a for all, -e for echo, -h for
 
 To get help on a specific iCommand (such as \texttt{ils} for listing the contents of a collection), you may
 \begin{itemize}
- \item visit this webpage: \url{https://docs.irods.org/4.2.8/icommands/user/}
+ \item visit this webpage: \url{https://docs.irods.org/4.2.10/icommands/user/}
  \item use the -h option with the command (e.g., \texttt{ils -h}), or
  \item use the \texttt{ihelp} command as the argument with the command you'd like to learn more
          about (e.g., \texttt{ihelp ils}).
@@ -1050,7 +1044,7 @@ $ irm -r /tempZone/home/alice/bw_photos
 We have covered several fundamental iCommands, but there are dozens more that cover copying data between collections, moving data between resources, computing checksums, etc.
 
 You can learn more about any iCommand using the \texttt{-h} command line option, or by visiting \\
-\url{https://docs.irods.org/4.2.8/icommands/user/}.
+\url{https://docs.irods.org/4.2.10/icommands/user/}.
 
 \chapter{Virtualization}
 
