@@ -97,6 +97,7 @@ f_munge_build () {
     ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var && \
     make && \
     sudo make install 
+    sudo ldconfig
   ) && \
   sudo cp "$DIR"/munge.upstart /etc/init.d/munge && \
   sudo chmod 755 /etc/init.d/munge
