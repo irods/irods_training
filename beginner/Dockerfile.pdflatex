@@ -1,0 +1,6 @@
+FROM ubuntu:20.04
+RUN apt update
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt install -y git texlive-latex-base texlive-latex-recommended texlive-latex-extra
+WORKDIR /tmp
+ENTRYPOINT [ "pdflatex" ]
