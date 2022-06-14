@@ -396,6 +396,12 @@ Then let's install the PostgreSQL server software.
 $ sudo apt-get -y install postgresql
 \end{lstlisting}
 
+Start the PostgreSQL service.
+
+\begin{lstlisting}
+$ sudo service postgresql start
+\end{lstlisting}
+
 Next, we will switch user to the Linux user account---postgres---that controls the PostgreSQL server software so that we can create the iRODS Catalog database:
 
 \begin{lstlisting}
@@ -489,7 +495,8 @@ Then run the following setup script:
 The final installation step is running the setup script:
 
 \begin{lstlisting}
-$ sudo python3 /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
+$ sudo python3 /var/lib/irods/scripts/setup_irods.py \
+< /var/lib/irods/packaging/localhost_setup_postgres.input
 \end{lstlisting}
 
 This command uses the defaults in that file that are the same as the table below, to fill in the details in one go rather than manually. 
@@ -1534,7 +1541,7 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2019/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/2022_pdf_via_docker/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut} PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 

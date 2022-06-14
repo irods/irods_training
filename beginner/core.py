@@ -10,7 +10,7 @@ def acPostProcForPut(rule_args, callback, rei):
     exiflist = []
     with open(phypath, 'rb') as f:
         tags = exifread.process_file(f, details=False)
-        for (k, v) in tags.iteritems():
+        for (k, v) in tags.items():
             if k not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
                 exifpair = '{0}={1}'.format(k, v)
                 exiflist.append(exifpair)
