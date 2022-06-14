@@ -9,7 +9,13 @@ The Beginner training is self contained within a single document.  It leads the 
 
 It can be found in the ./beginner directory.
 
-If you have pdflatex installed, you can generate the PDF with `make`.
+The prerequisites for building the PDF are `make`, `pdflatex`, `memoir.cls`, and `isodate.sty` which can be provided in Ubuntu with
+
+```
+apt-get install -y make texlive-latex-base texlive-latex-recommended texlive-latex-extra
+```
+
+`make` will then generate the PDF.
 
 `make clean` will remove any generated files.
 
