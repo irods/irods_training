@@ -67,16 +67,16 @@
 
 \begin{center}
 
-\huge{\textbf{BEGINNER TRAINING WITH iRODS 4.2}}
+\huge{\textbf{BEGINNER TRAINING WITH iRODS 4.3}}
 
 %\vspace{10mm}
 %\textbf{Part of the iRODS User Group Meeting}
 
 %\vspace{10mm}
-%\textbf{Utrecht, Netherlands}
+%\textbf{Leuven, Belgium}
 
 %\vspace{10mm}
-%\textbf{June 25, 2019}
+%\textbf{July 5, 2022}
 
 \end{center}
 
@@ -483,13 +483,13 @@ To configure this plugin, the following prerequisites need to be met:
  - permissions for existing user on existing database
 
 Then run the following setup script:
-  sudo python /var/lib/irods/scripts/setup_irods.py
+  sudo python3 /var/lib/irods/scripts/setup_irods.py
 \end{lstlisting}
 
 The final installation step is running the setup script:
 
 \begin{lstlisting}
-$ sudo python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
+$ sudo python3 /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
 \end{lstlisting}
 
 This command uses the defaults in that file that are the same as the table below, to fill in the details in one go rather than manually. 
