@@ -1535,13 +1535,13 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstTrainingRuleBase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2019/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2022/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/2022_pdf_via_docker/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2022/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut} PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
@@ -1568,7 +1568,7 @@ Add a new python rule engine stanza within ``rule\_engines" just before the ``ir
         },
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2019/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
+\href{https://github.com/irods/irods_training/blob/ugm2022/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
@@ -1580,12 +1580,12 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
                 ],
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2019/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
+\href{https://github.com/irods/irods_training/blob/ugm2022/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
 
 Save the file and the new rulebases will be activated!  Let's upload a new file to our home collection:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2019/stickers.jpg
+$ wget https://github.com/irods/irods_training/raw/ugm2022/stickers.jpg
 $ iput stickers.jpg
 \end{lstlisting}
 
