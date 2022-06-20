@@ -458,8 +458,7 @@ iRODS software can be installed via the native operating system's package manage
 To install the RENCI repository that hosts the iRODS software, execute the \textbf{APT} instructions located at \url{https://packages.irods.org}:
 
 \begin{lstlisting}
-$ wget -qO - https://packages.irods.org/irods-signing-key.asc | \
-	sudo apt-key add -
+$ wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add -
 $ echo "deb [arch=amd64] https://packages.irods.org/apt/ \
 	@\char36@(lsb_release -sc) main" | sudo tee \
 	/etc/apt/sources.list.d/renci-irods.list
@@ -550,7 +549,7 @@ Once \texttt{setup\_irods.py} has received all of its input, it will complete th
 
 Confirm that the return code of the setup script is 0 (indicates that no errors occurred):
 \begin{lstlisting}
-$ echo $?
+$ echo @\char36@?
 0
 \end{lstlisting}
 
@@ -846,7 +845,7 @@ Write permissions in iRODS include read permissions; however, you can grant read
 
 Let's make sure that it worked. We'll use \texttt{ils} again to review the permissions:
 
-\begin{lstlisting}
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils -A -r
 /tempZone/home/alice:
        ACL - alice#tempZone:own
@@ -906,7 +905,7 @@ $ ils /tempZone/home/alice/training_jpgs/peanuts.jpg
 
 Now, let's create a Replica (i.e., an identical, physical copy of a data object) using the \texttt{irepl} command. First, let's use ils to take a look at what's inside \texttt{/tempZone/home/alice/training\_jpgs} and we'll use the \texttt{-L} option to determine if there are any replicas already in existence. Using the \texttt{-L} command line option (meaning very long) with \texttt{ils} will show you where data objects are physically stored and if replicas exist.
 
-\begin{lstlisting}[basicstyle=\tiny]
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
  alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
@@ -945,7 +944,7 @@ $ irepl -R newResc training_jpgs/peanuts.jpg
 
 Now, let's verify that the replica was created (now numbered \texttt{1} on \texttt{newResc}):
 
-\begin{lstlisting}[basicstyle=\tiny\rmfamily]
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
  alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
@@ -985,7 +984,7 @@ $ itrim -N 1 -S demoResc training_jpgs/peanuts.jpg
 
 Now let's verify that the replica of \texttt{peanuts.jpg} on \texttt{demoResc} has been successfully trimmed by using \texttt{ils -L} again.
 
-\begin{lstlisting}[basicstyle=\tiny\rmfamily]
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
  alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
@@ -1486,7 +1485,7 @@ A user may manually execute a rule that operates on data that she has access to 
 
 \subsection{Policy Enforcement Points}
 
-Policy Enforcement Points are triggers within the code that call specific rules. Editing these rules lets administrators change their data management policy. Later in this section, we will demonstrate the editing of \texttt{acPostProcForPut}, which is triggered after a newly uploaded data object is registered in the iRODS catalog.
+Policy Enforcement Points are triggers within the code that call specific rules. Editing these rules lets administrators change their data management policy. Later in this section, we will demonstrate the editing of \texttt{pep\_api\_data\_obj\_put\_post}, which is triggered after a newly uploaded data object is registered in the iRODS catalog.
 
 \subsection{The \texttt{delay} Directive}
 
@@ -1514,7 +1513,7 @@ Multiple rule engines can be run concurrently and can call each others' rules.  
 To install the Python rule engine plugin (and a Python EXIF library we'll use):
 
 \begin{lstlisting}
-$ sudo apt-get -y install irods-rule-engine-plugin-python python-exif
+$ sudo apt-get -y install irods-rule-engine-plugin-python python3-exif
 \end{lstlisting}
 
 This rule engine package installs a single compiled library (shared object): \\ \texttt{/usr/lib/irods/plugins/rule\_engines/libirods\_rule\_engine\_plugin-python.so}
@@ -1537,7 +1536,7 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \end{lrbox}
 \href{https://raw.githubusercontent.com/irods/irods_training/ugm2022/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
-An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{acPostProcForPut} PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
+An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{pep\_api\_data\_obj\_put\_post} PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
 There are two ways to insert the new PEP's behavior into iRODS.
 \begin{enumerate}
