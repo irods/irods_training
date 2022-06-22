@@ -1464,7 +1464,9 @@ Without a tool like iRODS, processing large data sets must be done manually and 
 
 \section{Rules}
 
-In iRODS, workflow automation is achieved through rules---scripts written in the iRODS rule language. The iRODS rule language contains its own native syntax, but provides a C-like structure which includes the basic capabilities of a procedural programming language: comments, native types, numeric and string operations, and function definitions. Advanced features such as regular expressions, list operations, dictionaries, and Language Integrated General Query (LIGQ) are supported. A hypothetical rule, \texttt{HelloWorld}, is shown below. This rule would print the text Hello World to the screen.
+In iRODS, workflow automation is achieved through rules---scripts written in one of the supported rule engine languages.
+
+The default language is the iRODS rule language which contains its own native syntax, but provides a C-like structure and includes the basic capabilities of a procedural programming language: comments, native types, numeric and string operations, and function definitions. Advanced features such as regular expressions, list operations, dictionaries, and Language Integrated General Query (LIGQ) are supported. A hypothetical rule, \texttt{HelloWorld}, is shown below. This rule would print the text Hello World to the screen.
 
 \begin{lstlisting}[language=python]
 HelloWorld {
@@ -1536,7 +1538,7 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \end{lrbox}
 \href{https://raw.githubusercontent.com/irods/irods_training/ugm2022/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
-An implementation of the particular PEP we are going to look at already exists in the iRODS Rule Language rulebase that is shipped with iRODS (\texttt{core.re}); however we need the \texttt{pep\_api\_data\_obj\_put\_post} PEP to perform different behavior, so new logic has been written which will supersede the default behavior. This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
+We will be updating the \texttt{pep\_api\_data\_obj\_put\_post} PEP to provide the desired behavior as the default is an empty definition with no effect.  This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
 There are two ways to insert the new PEP's behavior into iRODS.
 \begin{enumerate}
