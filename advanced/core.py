@@ -18,6 +18,9 @@ def pep_api_data_obj_put_post(rule_args, callback, rei):
                              f'DATA_NAME = \'{os.path.basename(obj_path)}\' and ' \
                              f'DATA_RESC_HIER = \'{resc_hier}\''
 
+    # Note: The physical path fetched by the query may not exist on the host executing this
+    # bit of policy. In a real deployment, the policy implementer should consider the hostname
+    # of the resource on which the data resides and consider using the remote() microservice.
     phypath = list(Query(callback, 'DATA_PATH', query_condition_string))[0]
 
     exiflist = []
