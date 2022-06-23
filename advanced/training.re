@@ -96,22 +96,16 @@ pep_resource_resolve_hierarchy_pre(
     }
 }
 
-acPostProcForPut() {
-
-    microservice_example("XXXX - test string", 314, 123.4);
-    if("ufs_cache" == $KVPairs.rescName) {
-
+pep_api_data_obj_put_post(
+    *INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT)
+{
+    *cache_resc_hier = "comp_resc;ufs_cache";
+    *resc_hier = *DATAOBJINP.resc_hier;
+    if("*cache_resc_hier" == "*resc_hier") {
         delay("<PLUSET>1s</PLUSET><EF>1h DOUBLE UNTIL SUCCESS OR 6 TIMES</EF>") {
-
-            *CacheRescName = "comp_resc;ufs_cache";
-
-            msisync_to_archive("*CacheRescName", $filePath, $objPath);
-
+            *unused_param = "";
+            *obj_path = *DATAOBJINP.obj_path;
+            msisync_to_archive("*cache_resc_hier", "*unused_param", "*obj_path");
         }
-
     }
-
 }
-
-
-

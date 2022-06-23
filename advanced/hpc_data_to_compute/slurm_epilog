@@ -10,7 +10,7 @@ if [ -r $FUNCTIONS ]; then
 
 thumbnail_size=$(get_irods_slurm_var "size_string")
 if [ $? -eq 0 ] ; then
-    python /var/lib/irods/compute/common.py reg_repl_trim_output "$thumbnail_size"
+    python3 /var/lib/irods/compute/common.py reg_repl_trim_output "$thumbnail_size"
 fi
 
 ## BEGIN_SECTION -- compute to data --

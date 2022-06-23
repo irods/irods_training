@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import print_function
 from irods.models import DataObject, DataObjectMeta, Collection, Resource
 from irods.column import Criterion, Like
