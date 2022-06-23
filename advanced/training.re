@@ -96,8 +96,7 @@ pep_resource_resolve_hierarchy_pre(
     }
 }
 
-pep_api_data_obj_put_post(
-    *INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT)
+pep_api_data_obj_put_post(*INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT)
 {
     *cache_resc_hier = "comp_resc;ufs_cache";
     *resc_hier = *DATAOBJINP.resc_hier;
