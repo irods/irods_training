@@ -25,6 +25,6 @@ def pep_api_data_obj_put_post(rule_args, callback, rei):
                 exiflist.append(exifpair)
     exifstring = '%'.join(exiflist)
     callback.add_metadata_to_objpath(exifstring, obj_path, '-d')
-    callback.writeLine('serverLog', 'PYTHON - acPostProcForPut() complete')
+    callback.writeLine('serverLog', 'PYTHON - pep_api_data_obj_put_post() complete')
 
 
