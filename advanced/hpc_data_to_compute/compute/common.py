@@ -196,7 +196,8 @@ def trim_all_replicas_from_resource ( obj,
   else:
     for r in repls_to_trim :
       del map_this[r]
-      obj.unlink( replNum = r )
+      options = {'replNum': r, 'copies': 1}
+      obj.trim(**options)
 
   return len(map_this) == 0
  

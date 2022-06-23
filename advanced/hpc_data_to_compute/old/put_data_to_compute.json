@@ -1,7 +1,0 @@
-{
-  "dest_resource" : {
-     "jpg" : "COMPUTE_RESOURCE_ROLE = IMAGE_PROCESSING",
-     "gif" : "COMPUTE_RESOURCE_ROLE = LONG_TERM_STORAGE",
-     "tif" : "demoResc"
-  }
-}
