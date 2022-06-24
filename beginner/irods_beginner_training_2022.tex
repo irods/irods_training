@@ -493,12 +493,10 @@ $ sudo python3 /var/lib/irods/scripts/setup_irods.py \
 < /var/lib/irods/packaging/localhost_setup_postgres.input
 \end{lstlisting}
 
-This command uses the defaults in that file that are the same as the table below, to fill in the details in one go rather than manually. 
+This command uses the defaults in the input file.  The same defaults are shown in the table on the next page.
 
 \newpage
-The \texttt{setup\_irods.py} script will ask for information in five sections.
-
-Default values are shown in grey boxes.  For this installation, we will use the default values.
+The \texttt{setup\_irods.py} script will ask for information in four sections.  Default values are shown in grey.
 
 \newcommand{\ugmbullet}{\hspace{5mm}\textbullet\hspace{2mm}}
 \begin{center}
@@ -522,6 +520,9 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 \hline
 
 \multicolumn{2}{|l|}{3. iRODS Server Options} \\
+\ugmbullet Local Storage & \colorbox{gray!70}{yes} Determines whether this server will host local storage. \\
+\ugmbullet Default Resource & \colorbox{gray!70}{demoResc} The default storage resource configured for this server. \\
+\ugmbullet Vault Directory & \colorbox{gray!70}{/var/lib/irods/Vault} If Local Storage is 'yes', the Vault (i.e., storage) location of the default unixfilesystem resource created during installation. \\
 \ugmbullet Zone Name & \colorbox{gray!70}{tempZone} The name of the iRODS zone. \\
 \ugmbullet Zone Port & \colorbox{gray!70}{1247} The main iRODS port. \\
 \ugmbullet Parallel Port Range (Begin) & \colorbox{gray!70}{20000} The beginning of the port range used when transferring large files. \\
@@ -536,10 +537,6 @@ Default values are shown in grey boxes.  For this installation, we will use the 
 \ugmbullet Negotiation Key & A secret key used in server-to-server communication.  Must be exactly 32 bytes (characters). \\
 \ugmbullet Control Plane Key & A secret key shared by all servers.  Must be exactly 32 bytes (characters).\\
 \makecell[l]{\ugmbullet iRODS Administrator \\ \hspace{8.5mm}Password} & For the purposes of this class, use \texttt{rods}. In the future, however, you will want to use more complex passwords. \\
-\hline
-
-\multicolumn{2}{|l|}{5. Default Vault Information} \\
-\ugmbullet Vault Directory & \colorbox{gray!70}{/var/lib/irods/Vault} The Vault (i.e., storage) location of the default unixfilesystem resource created during installation. \\
 \hline
 
 \end{tabularx}
