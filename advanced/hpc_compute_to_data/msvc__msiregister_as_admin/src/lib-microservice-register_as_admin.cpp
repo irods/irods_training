@@ -48,7 +48,6 @@
 #include "rsStructFileExtAndReg.hpp"
 #include "rsModDataObjMeta.hpp"
 #include "rsStructFileBundle.hpp"
-#include "rsPhyBundleColl.hpp"
   
 /* --------------dwm--------------- */
 

@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
-find_package(IRODS 4.2.8 EXACT REQUIRED CONFIG)
+cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
+
+find_package(IRODS 4.3.0 EXACT REQUIRED CONFIG)
 project(irods_hpc_compute_to_data_example C CXX)
 
 install(
@@ -23,7 +24,6 @@ if (NOT CPACK_PACKAGING_INSTALL_PREFIX)
   set(CPACK_PACKAGING_INSTALL_PREFIX "/" CACHE STRING "Package root path. \"/\" is correct for normal package builds.." FORCE)
   message(STATUS "Setting unspecified CPACK_PACKAGING_INSTALL_PREFIX to '${CPACK_PACKAGING_INSTALL_PREFIX}'. This is the correct setting for normal builds.")
 endif()
-
 
 set(CPACK_PACKAGE_FILE_NAME "irods-hpc-compute-to-data-example${IRODS_PACKAGE_FILE_NAME_SUFFIX}")
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
