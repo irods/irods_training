@@ -325,7 +325,7 @@ def register_replicate_and_trim_thumbnail ( size_string ):
 
   o = sess.data_objects.get(obj_path)
 
-  replicate_object_to_resource ( o, resourceName = 'lts_resc', **checksumOptions() )
+  replicate_object_to_resource ( o, resourceName = 'lts_resc' )
   o = sess.data_objects.get(obj_path)
 
   trim_all_replicas_from_resource ( o, resourceName = 'img_resc',
