@@ -1,6 +1,5 @@
-cmake_minimum_required(VERSION 3.5.0 FATAL_ERROR) #CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME
-
-find_package(IRODS 4.2.10 EXACT REQUIRED)
+cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
+find_package(IRODS 4.3.0 EXACT REQUIRED CONFIG)
 
 set(CMAKE_C_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang)
 set(CMAKE_CXX_COMPILER ${IRODS_EXTERNALS_FULLPATH_CLANG}/bin/clang++)
@@ -35,6 +34,10 @@ add_compile_options(-std=c++14)
 link_libraries(c++abi)
 include_directories(${IRODS_EXTERNALS_FULLPATH_CLANG}/include/c++/v1)
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,defs" )
+
+find_package(nlohmann_json "3.6.1" REQUIRED)
+find_package(OpenSSL REQUIRED COMPONENTS Crypto SSL)
+find_package(Threads REQUIRED)
 
 include(rule_engine_plugin.cmake)
 
