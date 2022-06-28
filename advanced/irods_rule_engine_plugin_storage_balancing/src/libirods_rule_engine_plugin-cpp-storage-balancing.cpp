@@ -1,16 +1,16 @@
-#include "genQuery.h"
-#include "irods_file_object.hpp"
-#include "irods_kvp_string_parser.hpp"
-#include "irods_plugin_context.hpp"
-#include "irods_re_plugin.hpp"
-#include "irods_re_serialization.hpp"
-#include "irods_re_ruleexistshelper.hpp"
+#include <irods/genQuery.h>
+#include <irods/irods_file_object.hpp>
+#include <irods/irods_kvp_string_parser.hpp>
+#include <irods/irods_plugin_context.hpp>
+#include <irods/irods_re_plugin.hpp>
+#include <irods/irods_re_serialization.hpp>
+#include <irods/irods_re_ruleexistshelper.hpp>
 
 #include <map>
 #include <string>
 #include <typeinfo>
 
-#include "boost/coroutine/all.hpp"
+#include <boost/coroutine/all.hpp>
 #include <boost/any.hpp>
 #include <boost/exception/all.hpp>
 #include <boost/lexical_cast.hpp>
