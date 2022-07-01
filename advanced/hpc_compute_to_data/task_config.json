@@ -1,7 +1,7 @@
 {
     "container": {
         "type": "docker",
-        "image": "testimages/jupyter-digital-filter",
+        "image": "jupyter-digital-filter",
         "command": [ "jupyter", "nbconvert", 
                     "--execute", 
                     "--to", "html",
