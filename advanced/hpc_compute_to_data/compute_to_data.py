@@ -38,8 +38,10 @@ def _read_data_object(callback, name):
         size = _get_object_size (callback,name)
         rv = callback.msiDataObjRead ( desc, size, 0 )
         returnbuffer = rv ['arguments'][2]
-
-    return str(returnbuffer.buf)[:int(size)] if returnbuffer else ""
+    if returnbuffer:
+        contents_as_string = bytes(returnbuffer.get_bytes()).decode('utf-8')
+        return contents_as_string[:int(size)]
+    return ""
 
 
 # ------------------------------------------------
@@ -137,11 +139,10 @@ def container_dispatch(rule_args, callback, rei):
     with warnings.catch_warnings():      # - suppress warnings 
         warnings.simplefilter("ignore")  #   when loading ...
         import docker                    #     Python Docker API
-
     config = None
     if type(config_file) is str and config_file:
         config_json = _read_data_object (callback, config_file )
-        config = _map_strings_recursively( json.loads(config_json), _to_bytes('utf8'))
+        config = _map_strings_recursively( json.loads(config_json), _to_unicode('utf8'))
 
     if not (config) or \
        not _vet_acceptable_container_params( docker_cmd, config["container"] , logger) :  return
