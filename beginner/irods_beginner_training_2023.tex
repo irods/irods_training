@@ -74,10 +74,10 @@
 \textbf{Part of the iRODS User Group Meeting}
 
 \vspace{10mm}
-\textbf{Leuven, Belgium}
+\textbf{Chapel Hill, NC}
 
 \vspace{10mm}
-\textbf{July 5, 2022}
+\textbf{June 13, 2023}
 
 \end{center}
 
@@ -125,7 +125,9 @@ In 2008, the DICE group expanded geographically, with some members accepting joi
 
 The iRODS Consortium is a group of organizations formally committed to iRODS' success through support for the development and release of iRODS-based data management and middleware technologies, promoting advances in iRODS, collaboration with iRODS developers and the iRODS open source community, attendance at iRODS events, and of course, membership dues.
 
-The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, contributes decision-making and development time to the project. Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), DataDirect Networks (DDN), Western Digital, Wellcome Sanger Institute, Utrecht University, MSC, University College London, Swedish National Infrastructure for Computing (SNIC), University of Groningen, SURF, Quantum, NetApp, Texas Advanced Computing Center (TACC), Cloudian, Maastricht University, University of Colorado Boulder, SUSE, and Aptiv. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
+The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, contributes decision-making and development time to the project.
+
+Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), DataDirect Networks (DDN), Wellcome Sanger Institute, Utrecht University, University College London, University of Groningen, SURF, Texas Advanced Computing Center (TACC), Maastricht University, KU Leuven, CUBI at Berlin Institute of Health, Bibliothèque et Archives nationales du Québec (BAnQ), CINES, SoftIron, Minnesota Supercomputing Institute at the University of Minnesota, Omnibond, The Council for Scientific and Industrial Research (CSIR), InfiniteTactics, Fujifilm, University of Arizona, IT4Innovations National Supercomputing Center, and three organizations that wish to remain anonymous. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
 
 Consortium members receive a variety of benefits, including prioritized access to support, training, and consulting; and the opportunity to influence the developmental roadmap of future software releases.
 
@@ -772,7 +774,7 @@ $ icd ../alice
 For this training, we will be using a set of images. To prepare your home directory for the following exercises, do the following:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2022/beginner/training_jpgs.zip
+$ wget https://github.com/irods/irods_training/raw/ugm2023/beginner/training_jpgs.zip
 $ sudo apt-get -y install unzip
 $ unzip training_jpgs.zip
 \end{lstlisting}
@@ -906,29 +908,29 @@ Now, let's create a Replica (i.e., an identical, physical copy of a data object)
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
+ alice             0 demoResc      1128069 2023-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2019-04-07.14:16 & coffee.jpg
+ alice             0 demoResc       479299 2023-04-07.14:16 & coffee.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2019-04-07.14:16 & eggs.jpg
+ alice             0 demoResc       912548 2023-04-07.14:16 & eggs.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2019-04-07.14:16 & grapes.jpg
+ alice             0 demoResc       669306 2023-04-07.14:16 & grapes.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2019-04-07.14:16 & lemur.jpg
+ alice             0 demoResc      1312007 2023-04-07.14:16 & lemur.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2019-04-07.14:16 & mouse.jpg
+ alice             0 demoResc       392585 2023-04-07.14:16 & mouse.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             0 demoResc      1413230 2019-04-07.14:16 & peanuts.jpg
+ alice             0 demoResc      1413230 2023-04-07.14:16 & peanuts.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2019-04-07.14:16 & platter.jpg
+ alice             0 demoResc      2555592 2023-04-07.14:16 & platter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2019-04-07.14:16 & scooter.jpg
+ alice             0 demoResc      1822077 2023-04-07.14:16 & scooter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2019-04-07.14:16 & seal.jpg
+ alice             0 demoResc       362833 2023-04-07.14:16 & seal.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2019-04-07.14:16 & sources.txt
+ alice             0 demoResc          371 2023-04-07.14:16 & sources.txt
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
- alice             0 demoResc      1153142 2019-04-07.14:16 & waffle.jpg
+ alice             0 demoResc      1153142 2023-04-07.14:16 & waffle.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
@@ -945,29 +947,29 @@ Now, let's verify that the replica was created (now numbered \texttt{1} on \text
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
+ alice             0 demoResc      1128069 2023-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2019-04-07.14:16 & coffee.jpg
+ alice             0 demoResc       479299 2023-04-07.14:16 & coffee.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2019-04-07.14:16 & eggs.jpg
+ alice             0 demoResc       912548 2023-04-07.14:16 & eggs.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2019-04-07.14:16 & grapes.jpg
+ alice             0 demoResc       669306 2023-04-07.14:16 & grapes.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2019-04-07.14:16 & lemur.jpg
+ alice             0 demoResc      1312007 2023-04-07.14:16 & lemur.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2019-04-07.14:16 & mouse.jpg
+ alice             0 demoResc       392585 2023-04-07.14:16 & mouse.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             0 demoResc      1413230 2019-04-07.14:16 & peanuts.jpg
+ alice             0 demoResc      1413230 2023-04-07.14:16 & peanuts.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
- alice             1 newResc       1413230 2019-04-07.14:37 & peanuts.jpg
+ alice             1 newResc       1413230 2023-04-07.14:37 & peanuts.jpg
        newResc     generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2019-04-07.14:16 & platter.jpg
+ alice             0 demoResc      2555592 2023-04-07.14:16 & platter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2019-04-07.14:16 & scooter.jpg
+ alice             0 demoResc      1822077 2023-04-07.14:16 & scooter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2019-04-07.14:16 & seal.jpg
+ alice             0 demoResc       362833 2023-04-07.14:16 & seal.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2019-04-07.14:16 & sources.txt
+ alice             0 demoResc          371 2023-04-07.14:16 & sources.txt
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
 \end{lstlisting}
 
@@ -985,27 +987,27 @@ Now let's verify that the replica of \texttt{peanuts.jpg} on \texttt{demoResc} h
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2019-04-07.14:16 & beans.jpg
+ alice             0 demoResc      1128069 2023-04-07.14:16 & beans.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2019-04-07.14:16 & coffee.jpg
+ alice             0 demoResc       479299 2023-04-07.14:16 & coffee.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2019-04-07.14:16 & eggs.jpg
+ alice             0 demoResc       912548 2023-04-07.14:16 & eggs.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2019-04-07.14:16 & grapes.jpg
+ alice             0 demoResc       669306 2023-04-07.14:16 & grapes.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2019-04-07.14:16 & lemur.jpg
+ alice             0 demoResc      1312007 2023-04-07.14:16 & lemur.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2019-04-07.14:16 & mouse.jpg
+ alice             0 demoResc       392585 2023-04-07.14:16 & mouse.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             1 newResc       1413230 2019-04-07.14:37 & peanuts.jpg
+ alice             1 newResc       1413230 2023-04-07.14:37 & peanuts.jpg
        newResc     generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2019-04-07.14:16 & platter.jpg
+ alice             0 demoResc      2555592 2023-04-07.14:16 & platter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2019-04-07.14:16 & scooter.jpg
+ alice             0 demoResc      1822077 2023-04-07.14:16 & scooter.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2019-04-07.14:16 & seal.jpg
+ alice             0 demoResc       362833 2023-04-07.14:16 & seal.jpg
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2019-04-07.14:16 & sources.txt
+ alice             0 demoResc          371 2023-04-07.14:16 & sources.txt
        demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
 \end{lstlisting}
 
@@ -1528,13 +1530,13 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstTrainingRuleBase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2022/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2023/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2022/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2023/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 We will be updating the \texttt{pep\_api\_data\_obj\_put\_post} PEP to provide the desired behavior as the default is an empty definition with no effect.  This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
@@ -1561,7 +1563,7 @@ Add a new python rule engine stanza within ``rule\_engines" just before the ``ir
         },
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2022/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
+\href{https://github.com/irods/irods_training/blob/ugm2023/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
@@ -1573,12 +1575,12 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
                 ],
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2022/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
+\href{https://github.com/irods/irods_training/blob/ugm2023/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
 
 Save the file and the new rulebases will be activated!  Let's upload a new file to our home collection:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2022/stickers.jpg
+$ wget https://github.com/irods/irods_training/raw/ugm2023/stickers.jpg
 $ iput stickers.jpg
 \end{lstlisting}
 
