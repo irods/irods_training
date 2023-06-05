@@ -12,7 +12,6 @@ target_link_libraries(
   ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_filesystem.so
   ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_program_options.so
   ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_system.so
-  ${IRODS_EXTERNALS_FULLPATH_JANSSON}/lib/libjansson.so
   ${IRODS_EXTERNALS_FULLPATH_ZMQ}/lib/libzmq.so
   )
 target_include_directories(
