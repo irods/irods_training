@@ -1,6 +1,8 @@
 FROM jupyter/base-notebook
 
-ARG  irods_gid=999
+ARG  irods_uid=997
+ENV  IRODS_UID ${irods_uid}
+ARG  irods_gid=998
 ENV  IRODS_GID ${irods_gid}
 
 USER root
@@ -9,7 +11,7 @@ RUN apt-get update && apt-get install -y vim less
 
 RUN groupadd -g $IRODS_GID irods && usermod -aG irods jovyan 
 
-RUN sed -i "s/jovyan:x:[0-9]*:[0-9]*\(.*\)/jovyan:x:999:999\1/" /etc/passwd
+RUN sed -i "s/jovyan:x:[0-9]*:[0-9]*\(.*\)/jovyan:x:${IRODS_UID}:${IRODS_GID}\1/" /etc/passwd
 
 ADD lpfilter.ipynb /home/jovyan/work/.
 
@@ -21,7 +23,7 @@ COPY mymodule/ /home/jovyan/work/mymodule
 
 RUN chown -R jovyan.users /home/jovyan/work/mymodule
 
-RUN chown -R 999:999 /home/jovyan && chown -R 999:999 /opt/conda
+RUN chown -R ${IRODS_UID}:${IRODS_GID} /home/jovyan && chown -R ${IRODS_UID}:${IRODS_GID} /opt/conda
 
 USER jovyan
 
