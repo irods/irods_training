@@ -221,12 +221,12 @@ def container_dispatch(rule_args, callback, rei):
                     docker_opts ['volumes'][docker_host_output_path] = { 'bind': docker_guest_output_path, 'mode': 'rw' }
 
             # Must run as user 999 (iRODS service account) because iRODS vault uses permission 600
-            docker_opts['user'] = 999
+            docker_opts['user'] = 'jovyan'
             # Remove the container on exit
             docker_opts['remove'] = True
 
             docker_method = _resolve_docker_method (docker.from_env(), docker_cmd  )
- 
+
             # prepare target output directory
             task_output_colln = dst_colln + "/" + task_id
             callback.msiCollCreate (task_output_colln, "1", 0)
