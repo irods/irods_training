@@ -10,7 +10,7 @@ SBATCH_OPTIONS="-o /tmp/slurm-%j.out"
 
 SCRIPT="$1" # assume full path to executable
 
-/usr/local/bin/sbatch $SBATCH_OPTIONS "$SCRIPT" \
+sbatch $SBATCH_OPTIONS "$SCRIPT" \
 	${2+"$2"} \
 	${3+"$3"} \
 	${4+"$4"} \
