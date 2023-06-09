@@ -16,4 +16,4 @@ fi
 # Allow us time to see jobs via SLURM's squeue
 sleep 10
 
-exec /usr/local/bin/srun $SRUN_OPTIONS "$EXECUTABLE" "$@"
+exec srun $SRUN_OPTIONS "$EXECUTABLE" "$@"
