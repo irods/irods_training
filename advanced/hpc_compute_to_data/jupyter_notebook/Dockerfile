@@ -23,7 +23,13 @@ COPY mymodule/ /home/jovyan/work/mymodule
 
 RUN chown -R jovyan.users /home/jovyan/work/mymodule
 
-RUN chown -R ${IRODS_UID}:${IRODS_GID} /home/jovyan && chown -R ${IRODS_UID}:${IRODS_GID} /opt/conda
+RUN chown -R ${IRODS_UID}:${IRODS_GID} /home/jovyan
+
+COPY copy_files_with_new_owner_and_group /
+
+RUN cd /opt && mv conda conda.old && mkdir conda && chown ${IRODS_UID}:${IRODS_GID} conda &&\
+    /copy_files_with_new_owner_and_group -u ${IRODS_UID} -g ${IRODS_GID} conda.old conda &&\
+    rm -fr conda.old
 
 USER jovyan
 
