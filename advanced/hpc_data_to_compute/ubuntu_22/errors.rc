@@ -1,0 +1,34 @@
+# source this file in Bash v >=4
+
+typeset -A errMsgIdx
+erridx=1
+errMsgIdx=()
+errorList=("")
+
+add_error() {
+  local CODE=$1 MSG="$2"
+  errorList+=( "$MSG" )
+  errMsgIdx[$CODE]=$((erridx++))
+}
+
+warn() { # __ $1 = Code , $2 = hint for no-error return code
+  local n=${errMsgIdx[${1:-0}]}
+  local retval=0
+  if [ -z "$n" ] || [ $n -eq 0 ] 
+  then
+    echo "NO_PARTICULAR error" >&2
+    retval=${2:-0}
+  else
+    echo $1": ${errorList[$n]}" >&2
+    retval=$n
+  fi
+  return $retval
+}
+
+die() { # args as with warn, $3 = exit even without error (warn returns 0)
+  local status=0
+  warn $1 $2 ; status=$?
+  [ $status -ne 0 ] && exit $status
+  [ "$3" ] && exit 0
+}
+
