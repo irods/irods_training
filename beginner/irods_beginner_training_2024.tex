@@ -25,6 +25,7 @@
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{codebgcolor}{rgb}{0.95,0.95,0.95}
 
+\newsavebox\exampleDelayRule
 \newsavebox\lstPythonRulebase
 \newsavebox\lstTrainingRuleBase
 \newsavebox\lstServerConfigA
@@ -1493,6 +1494,58 @@ Policy Enforcement Points are triggers within the code that call specific rules.
 
 The \texttt{delay} keyword is used to place rules into the delay execution queue rather than immediately executing the rule. Rules in the delay execution queue are monitored by the iRODS Delay Execution Server and are executed when desired.
 
+\section{Using the Delay Queue}
+
+To demonstrate use of the delay queue, we will create a rule that utilizes \texttt{delay()}, submit it to the delay queue, and verify its output in the system log.
+
+First, create a file named \texttt{example\_delay.r} with the following content:
+
+\begin{lrbox}{\exampleDelayRule}
+\lstinputlisting[basicstyle=\scriptsize\ttfamily]{example_delay.r}
+\end{lrbox}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2024/beginner/example_delay.r}{\usebox{\exampleDelayRule}}
+
+This rule will print the string \texttt{Adding delay rule to queue.} to the server log. After 30 seconds, this rule will print the string \texttt{Hello iRODS World!} to the server log, and then every minute thereafter.
+
+To submit this rule file:
+
+\begin{lstlisting}
+$ irule -r irods_rule_engine_plugin-irods_rule_language-instance -F example_delay.r
+\end{lstlisting}
+
+To verify that the rule has been added to the delay queue:
+
+\begin{lstlisting}
+$ iqstat
+\end{lstlisting}
+
+The output should resemble:
+\begin{lstlisting}
+id     name
+10122  
+                writeLine("serverLog", "Hello iRODS World!");
+\end{lstlisting}
+
+Next, verify that the rule is successfully running by checking the system log. (Please note that the following command may differ depending on your iRODS logging setup.)
+
+\begin{lstlisting}
+$ sudo journalctl -f --no-pager _COMM=irodsServer
+\end{lstlisting}
+
+The first message (\texttt{Adding delay rule to queue.}) should be visible.
+
+After 30 seconds, the next message (\texttt{Hello iRODS World!}) should be visible.
+
+After 1 minute and every minute thereafter, an additional \texttt{Hello iRODS World!} should be visible.
+
+Press \texttt{Control+C} to stop following the system log.
+
+To clear the delay queue:
+
+\begin{lstlisting}
+$ iqdel -a
+\end{lstlisting}
+
 \section{Microservices}
 
 Rules may be extended by calling microservices. A microservice is the invocation of a C++ function which performs an advanced operation, such as accessing external libraries that are not available in the rule language like curl (used to access an HTTP resource), or performing operations that are computationally intensive such as image processing. Examples of microservices may include metadata extraction, image analysis, or the validation and verification of data at rest.
@@ -1504,7 +1557,6 @@ HelloWorld2 {
   msihello_world(*msg);
 }
 \end{lstlisting}
-
 
 \section{Installing the Python Rule Engine}
 
