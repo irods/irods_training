@@ -1,0 +1,28 @@
+from dwmoore/intermediate-notebook
+
+ARG  irods_uid
+ENV  IRODS_UID ${irods_uid}
+ARG  irods_gid
+ENV  IRODS_GID ${irods_gid}
+
+USER root
+
+RUN apt-get update && apt-get install -y vim less
+
+RUN groupadd -g $IRODS_GID irods && usermod -aG irods jovyan 
+
+RUN find / -xdev -user jovyan|egrep -v '^\/opt\/conda' |tr '\n' '\0' >/tmp/jovyan.files
+
+RUN sed -i "s/jovyan:x:[0-9]*:[0-9]*\(.*\)/jovyan:x:${IRODS_UID}:${IRODS_GID}\1/" /etc/passwd
+
+RUN xargs -r0 chown ${IRODS_UID}:${IRODS_GID} </tmp/jovyan.files
+
+COPY copy_files_with_new_owner_and_group /
+
+RUN cd /opt && mv conda conda.old && mkdir conda && chown ${IRODS_UID}:${IRODS_GID} conda &&\
+    /copy_files_with_new_owner_and_group -u ${IRODS_UID} -g ${IRODS_GID} conda.old conda &&\
+    rm -fr conda.old
+
+USER ${IRODS_UID}
+
+CMD [ '/bin/bash' ]
