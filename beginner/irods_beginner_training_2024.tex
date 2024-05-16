@@ -559,6 +559,21 @@ The iRODS server will not be running after setup. Run the following to start the
 $ sudo su irods -c "/var/lib/irods/irodsctl start"
 \end{lstlisting}
 
+Finally, we will activate the delay server on this machine for use later on in this training:
+\begin{lstlisting}
+$ sudo su - irods -c iadmin set_delay_server $(hostname)
+\end{lstlisting}
+
+Verify the delay server is running:
+\begin{lstlisting}
+$ ps aux | grep "^irods.*irodsDelayServer"
+\end{lstlisting}
+
+The output should resemble:
+\begin{lstlisting}
+irods      11519  0.0  0.9 287860 36480 ?        Sl   May15   0:18 irodsDelayServer
+\end{lstlisting}
+
 \chapter{Using iCommands}
 
 iCommands are Unix utilities that give iRODS users a command-line interface to operate on data in the iRODS system. iCommands provide client-side communication with iRODS servers to provide administrative, data management, and metadata management functions. There are over 50 iCommands; and in this course, we will cover most of the basic iCommands.
