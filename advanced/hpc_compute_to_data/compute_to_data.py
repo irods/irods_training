@@ -4,6 +4,8 @@ from genquery import AS_LIST, AS_DICT, row_iterator
 import irods_types
 import warnings
 from textwrap import dedent as _dedent
+import requests
+from subprocess import Popen, PIPE
 
 from bytes_unicode_mapper import( map_strings_recursively as _map_strings_recursively,
                                   to_bytes as _to_bytes,
@@ -11,6 +13,50 @@ from bytes_unicode_mapper import( map_strings_recursively as _map_strings_recurs
 
 from compute_to_data_support import *
 
+def exec_commands_in_container (container, commands_vector, indices_to_allow_nonzero, env):
+    '''
+    container -       a docker container object
+    commands_vector - an iterable of elements conforming to: { 'user': <USERNAME>, 'command': <CMDSPEC>}, where
+                      CMDSPEC a command-line specifier acceptable as the first argument of <CONTAINER>.exec_run(...).
+    env -             a dict of environment variables and their values to set for the container run, as well as for individual
+                      commands to be exec'ed within the container.
+    '''
+    positive_indices_to_allow_nonzero = [i for i in indices_to_allow_nonzero if i>=0]
+    CONTAINER_DONE_STATES = ('removing','exiting','dead')
+    command_returncodes = []
+    container_returncode = None
+    for index, cmd_cfg in enumerate(commands_vector):
+        # Execute a command in the container.
+        user = cmd_cfg['user']
+        cmd = cmd_cfg['command']
+        res = container.exec_run(cmd, environment = env, user = user)
+        command_returncodes.append( res.exit_code )
+        # If stopped, get the container exit code.
+        try:
+            exit_info = container.wait(timeout = 0.01)
+        except requests.exceptions.ConnectionError:
+            # Timeout invoked, so container is not done
+            exit_info = {'StatusCode':'?'} if container.status in CONTAINER_DONE_STATES else None
+        except:
+            # Unknown error. Container may have been (auto-?)removed.
+            exit_info = None
+        if container_returncode is None and exit_info is not None:
+            container_returncode = exit_info.get('StatusCode')
+        if res.exit_code != 0 and index not in positive_indices_to_allow_nonzero:
+            break
+    return command_returncodes, container_returncode
+
+def docker_stop(c):
+    import docker
+    success = False
+    try:
+        c.kill()
+        running = docker.APIClient().inspect_container(c.id)['State']['Running']
+        assert not(running), "Sent SIGKILL to container but it is still running"
+        success = True
+    except:
+        pass
+    return success
 # ------------------------------------------------
 
 def _get_object_size(callback, path):
@@ -120,15 +166,12 @@ def get_first_eligible_input ( callback , input_colln, task_id, sort_key_func = 
     return chosen_input
 
 def container_dispatch(rule_args, callback, rei):
-
     ( docker_cmd,
       config_file,
       resc_for_data,
       output_locator,
       task_id          ) = rule_args
-
 # - can change "stdout" to "serverLog" for less verbose console or when calling from a workflow
-
     logger = make_logger ( callback , "stdout")
 
     if not (resc_for_data != "" and this_host_tied_to_resc(callback, resc_for_data)) :
@@ -136,9 +179,7 @@ def container_dispatch(rule_args, callback, rei):
 
     if not task_id: task_id = str(uuid.uuid1())  # - make a default UUID for this task
 
-    with warnings.catch_warnings():      # - suppress warnings 
-        warnings.simplefilter("ignore")  #   when loading ...
-        import docker                    #     Python Docker API
+    import docker                    #     Python Docker API
     config = None
     if type(config_file) is str and config_file:
         config_json = _read_data_object (callback, config_file )
@@ -153,7 +194,7 @@ def container_dispatch(rule_args, callback, rei):
 
     if docker_cmd == "containers.run":
 
-        docker_opts ['detach'] = False
+        docker_opts ['detach'] = True
         client_user = get_user_name (callback, rei)
 
         src_colln = config["external"]["src_collection"]
@@ -216,25 +257,44 @@ def container_dispatch(rule_args, callback, rei):
             if vault_paths:
                 docker_opts [ 'volumes' ]  = {}
                 if vault_paths.get('input'):
-                    docker_opts ['volumes'][docker_host_input_path] = { 'bind': docker_guest_input_path, 'mode': 'ro' }
+                    docker_opts ['volumes'][docker_host_input_path] = { 'bind': docker_guest_input_path, 'mode': 'rw' } # rw needed for chmod for jovyan access
                 if vault_paths.get ('output'):
                     docker_opts ['volumes'][docker_host_output_path] = { 'bind': docker_guest_output_path, 'mode': 'rw' }
 
-            # Must run as user jovyan, which maps to the iRODS service account on the host. iRODS vault uses permission
-            # 600 by default, so the iRODS user is the only one that can see the files.
-            docker_opts['user'] = 'jovyan'
             # Remove the container on exit
             docker_opts['remove'] = True
 
-            docker_method = _resolve_docker_method (docker.from_env(), docker_cmd  )
+            docker_method = _resolve_docker_method(docker.from_env(), docker_cmd)
 
             # prepare target output directory
             task_output_colln = dst_colln + "/" + task_id
             callback.msiCollCreate (task_output_colln, "1", 0)
 
             # run the container
-            docker_method( config['container']['image'], config['container']['command'], **docker_opts)
+            container = docker_method( config['container']['image'], **docker_opts)
+
+            run_env =  env_for_docker.copy()
+            env_vars = { 'IRODS_GID' : Popen(('id','-g','irods'),stdout=PIPE,stderr=PIPE).communicate()[0].strip().decode(),
+                         'IRODS_UID' : Popen(('id','-u','irods'),stdout=PIPE,stderr=PIPE).communicate()[0].strip().decode()   }
+            run_env.update([(k,v) for k,v in env_vars.items() if run_env.get(k) is None])
+
+            i_allow_nonzero = config['container']['allowable_command_indices_for_nonzero_exit_code']
+            cmd_vec = config['container']['commands']
+            res_tuple, _ = exec_commands_in_container(container,
+                   commands_vector = cmd_vec,
+                   indices_to_allow_nonzero = i_allow_nonzero,
+                   env = run_env)
+
+            complement = lambda omit_allowable_indices, L: \
+                    [j for j in range(L) if j not in {i%L for i in omit_allowable_indices}]
+            any_errors_outside_allowable = lambda rc, i_may_contain_nonzero, _cv = cmd_vec: \
+                    any(val != 0 for idx,val in enumerate(rc) if idx in complement(i_may_contain_nonzero,len(_cv)))
+
+            docker_stop(container)
+
+            if any_errors_outside_allowable(res_tuple, i_allow_nonzero):
+                logger("Error in executing Docker commands.  Exit_codes: {}".format(res_tuple))
+                return
 
             # register the products
             callback.msiregister_as_admin ( task_output_colln, resc_for_data, docker_host_output_path, "collection", 0)
-

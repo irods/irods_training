@@ -1,17 +1,35 @@
 {
     "container": {
         "type": "docker",
-        "image": "testimages/jupyter-digital-filter",
-        "command": [ "jupyter", "nbconvert", 
-                    "--execute", 
-                    "--to", "html",
-                    "--output", "/outputs/lowpass_filter_processing.html", 
-                    "/home/jovyan/work/lpfilter.ipynb"
-         ],
+        "image": "dwmoore/jupyter-digital-filter",
+        "commands": [
+            { "user": "root",
+              "command": [ "sh", "-c", "groupadd -g $IRODS_GID irods && gpasswd -a jovyan irods && chmod g+r \"$INPUT_FILE_PATH\" && chmod g+rwx \"$OUTPUT_DIRECTORY\"" ]
+            },
+            { "user": "root",
+              "command": [ "sh", "-c", "rm -f \"$OUTPUT_FILE_PATH\""]
+            },
+            { "user": "jovyan",
+              "command": [ "jupyter", "nbconvert",
+                           "--execute",
+                           "--to", "html",
+                           "--output", "/outputs/lowpass_filter_processing.html",
+                           "/home/jovyan/work/lpfilter.ipynb"
+                         ]
+            },
+            { "user": "root",
+              "command": [ "sh", "-c", "chown $IRODS_UID:$IRODS_GID \"$OUTPUT_FILE_PATH\"" ]
+            },
+            { "user": "jovyan",
+              "command": [ "sh", "-c", "echo >/tmp/fifo" ]
+            }
+        ],
+	"allowable_command_indices_for_nonzero_exit_code": [-1],
         "environment": {
             "INPUT_FILE_PATH" : "/inputs/%(INPUT_FILE_BASENAME)s",
             "CUTOFF_FREQUENCY_INDEX" : "0",
-            "OUTPUT_FILE_PATH" : "/outputs/lowpass_filtered_%(INPUT_FILE_BASENAME)s"
+            "OUTPUT_FILE_PATH" : "/outputs/lowpass_filtered_%(INPUT_FILE_BASENAME)s",
+            "OUTPUT_DIRECTORY" : "/outputs"
         }
     },
     "external": {
