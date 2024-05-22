@@ -561,7 +561,7 @@ $ sudo su irods -c "/var/lib/irods/irodsctl start"
 
 Finally, we will activate the delay server on this machine for use later on in this training:
 \begin{lstlisting}
-$ sudo su - irods -c iadmin set_delay_server $(hostname)
+$ sudo su - irods -c "iadmin set_delay_server $(hostname)"
 \end{lstlisting}
 
 Verify the delay server is running:
