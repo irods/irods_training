@@ -5,6 +5,7 @@
 #include <irods/irods_re_plugin.hpp>
 #include <irods/irods_re_serialization.hpp>
 #include <irods/irods_re_ruleexistshelper.hpp>
+#include <irods/msParam.h>
 
 #include <map>
 #include <string>
@@ -190,25 +191,30 @@ namespace {
     }
 }
 
+static
 irods::error start(irods::default_re_ctx&, const std::string&) {
     RuleExistsHelper::Instance()->registerRuleRegex( "[^ ]*pep_resource_resolve_hierarchy_pre" );
     return SUCCESS();
 }
 
+static
 irods::error stop(irods::default_re_ctx&, const std::string&) {
     return SUCCESS();
 }
 
+static
 irods::error rule_exists(irods::default_re_ctx&, const std::string& _rule_name, bool& _ret) {
     _ret = _rule_name == "pep_resource_resolve_hierarchy_pre";
     return SUCCESS();
 }
 
+static
 irods::error list_rules( irods::default_re_ctx&, std::vector<std::string>& rule_vec ) {
     rule_vec.push_back("pep_resource_resolve_hierarchy_pre");
     return SUCCESS();
 }
 
+static
 irods::error exec_rule(
     irods::default_re_ctx&,
     const std::string&     _rule_name,
@@ -260,11 +266,13 @@ irods::error exec_rule(
     return SUCCESS();
 }
 
-irods::error exec_rule_text(irods::default_re_ctx&, const std::string& _rule_text, std::list<boost::any>& _rule_arguments, irods::callback _effect_handler) {
+static
+irods::error exec_rule_text(irods::default_re_ctx&, const std::string&, msParamArray_t*, const std::string&, irods::callback) {
     return ERROR(SYS_NOT_SUPPORTED, "not supported");
 }
 
-irods::error exec_rule_expression(irods::default_re_ctx&, const std::string& _rule_text, std::list<boost::any>& _rule_arguments, irods::callback _effect_handler) {
+static
+irods::error exec_rule_expression(irods::default_re_ctx&, const std::string&, msParamArray_t*, irods::callback) {
     return ERROR(SYS_NOT_SUPPORTED, "not supported");
 }
 
@@ -272,26 +280,26 @@ extern "C"
 irods::pluggable_rule_engine<irods::default_re_ctx>* plugin_factory(const std::string& _instance_name,
                                  const std::string& _context) {
     auto re{new irods::pluggable_rule_engine<irods::default_re_ctx>(_instance_name , _context)};
-    re->add_operation<irods::default_re_ctx&, const std::string&>(
+    re->add_operation(
             "start",
             std::function<irods::error(irods::default_re_ctx&, const std::string&)>(start));
-    re->add_operation<irods::default_re_ctx&, const std::string&>(
+    re->add_operation(
             "stop",
             std::function<irods::error(irods::default_re_ctx&, const std::string&)>(stop));
-    re->add_operation<irods::default_re_ctx&, const std::string&, bool&>(
+    re->add_operation(
             "rule_exists",
             std::function<irods::error(irods::default_re_ctx&, const std::string&, bool&)>(rule_exists));
-    re->add_operation<irods::default_re_ctx&, std::vector<std::string>&>(
+    re->add_operation(
             "list_rules",
-            std::function<irods::error(irods::default_re_ctx&,std::vector<std::string>&)>( list_rules ) );
-    re->add_operation<irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback>(
+            std::function<irods::error(irods::default_re_ctx&,std::vector<std::string>&)>(list_rules));
+    re->add_operation(
             "exec_rule",
             std::function<irods::error(irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback)>(exec_rule));
-    re->add_operation<irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback>(
+    re->add_operation(
             "exec_rule_text",
-            std::function<irods::error(irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback)>(exec_rule_text));
-    re->add_operation<irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback>(
+            std::function<irods::error(irods::default_re_ctx&, const std::string&, msParamArray_t*, const std::string&, irods::callback)>(exec_rule_text));
+    re->add_operation(
             "exec_rule_expression",
-            std::function<irods::error(irods::default_re_ctx&, const std::string&, std::list<boost::any>&, irods::callback)>(exec_rule_expression));
+            std::function<irods::error(irods::default_re_ctx&, const std::string&, msParamArray_t*, irods::callback)>(exec_rule_expression));
     return re;
 }
