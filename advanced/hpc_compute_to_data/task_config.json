@@ -1,7 +1,7 @@
 {
     "container": {
         "type": "docker",
-        "image": "dwmoore/jupyter-digital-filter",
+        "image": "irods/irods-training-jupyter-digital-filter",
         "commands": [
             { "user": "root",
               "command": [ "sh", "-c", "groupadd -g $IRODS_GID irods && gpasswd -a jovyan irods && chmod g+r \"$INPUT_FILE_PATH\" && chmod g+rwx \"$OUTPUT_DIRECTORY\"" ]
