@@ -1,4 +1,4 @@
-Copyright (c) 2013-2017, The University of North Carolina at Chapel Hill
+Copyright (c) 2013, The University of North Carolina at Chapel Hill
 
 All rights reserved.
 
