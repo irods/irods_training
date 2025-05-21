@@ -530,15 +530,12 @@ The \texttt{setup\_irods.py} script will ask for information in four sections.  
 \ugmbullet Zone Port & \colorbox{gray!70}{1247} The main iRODS port. \\
 \ugmbullet Parallel Port Range (Begin) & \colorbox{gray!70}{20000} The beginning of the port range used when transferring large files. \\
 \ugmbullet Parallel Port Range (End) & \colorbox{gray!70}{20199} The end of the port range used when transferring large files. \\
-\ugmbullet Control Plane Port & \colorbox{gray!70}{1248} The port used for the control plane. The control plane receives status updates from all servers, and issues commands to servers to pause, resume, shutdown, etc. \\
-\makecell[l]{\ugmbullet Schema Validation \\ \hspace{8.5mm}Base URI} & \colorbox{gray!70}{file:///var/lib/irods/configuration\_schemas} The location of the schema files used to validate the server's configuration files. \\
 \makecell[l]{\ugmbullet iRODS Administrator \\ \hspace{8.5mm}Username} & \colorbox{gray!70}{rods} The name of the iRODS administration account that will be created during setup. \\
 \hline
 
 \multicolumn{2}{|l|}{4. Keys and Passwords} \\
 \ugmbullet Zone Key & A secret key used in server-to-server communication. \\
 \ugmbullet Negotiation Key & A secret key used in server-to-server communication.  Must be exactly 32 bytes (characters). \\
-\ugmbullet Control Plane Key & A secret key shared by all servers.  Must be exactly 32 bytes (characters).\\
 \makecell[l]{\ugmbullet iRODS Administrator \\ \hspace{8.5mm}Password} & For the purposes of this class, use \texttt{rods}. In the future, however, you will want to use more complex passwords. \\
 \hline
 
