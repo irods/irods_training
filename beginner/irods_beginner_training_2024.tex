@@ -1408,12 +1408,13 @@ units: kilobytes
 
 This confirms that the metadata has been added.
 
-Recall that \texttt{imeta} also allows users to search on metadata. You may place conditions on attributes and values by using a comparison operator. For example, using the \texttt{qu} subcommand (meaning query), let's search for an object that has an author of AJones.
+iRODS allows a user to search on metadata via GenQuery, an SQL-inspired query language. You may place conditions on attributes and values by using a comparison operator. For example, using the \texttt{iquest} command, let's search for a data object that has an author of AJones.
 
-\begin{lstlisting}
-$ imeta qu -d author = @\char"0D@AJones@\char"0D@
-collection: /tempZone/home/alice/training_jpgs
-dataObj: seal.jpg
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+$ iquest "SELECT DATA_NAME, COLL_NAME WHERE META_DATA_ATTR_NAME = 'author' AND META_DATA_ATTR_VALUE = 'AJones'"
+DATA_NAME = seal.jpg
+COLL_NAME = /tempZone/home/alice/training_jpgs
+------------------------------------------------------------
 \end{lstlisting}
 
 The data object that has AJones listed as the author is \texttt{seal.jpg} in the \texttt{training\_jpgs} collection.
@@ -1426,25 +1427,26 @@ $ imeta add -d grapes.jpg author AJones
 $ imeta add -d grapes.jpg color_bw color
 \end{lstlisting}
 
-You may also search using wildcards. In iRODS, the percent symbol (\%) is used as the wildcard character. Let's try this out. We'll search for data objects that contain any value for the attribute author, using the \texttt{qu} subcommand and the \texttt{\%} wildcard.
+You may also search using wildcards. In GenQuery, the percent symbol (\%) is used as the wildcard character in LIKE statements. Let's try this out. We'll search for data objects that contain any value for the attribute author, using the \texttt{iquest} command and the \texttt{\%} wildcard.
 
-\begin{lstlisting}
-$ imeta qu -d author like @\char"0D@%@\char"0D@
-
-collection: /tempZone/home/alice/training_jpgs
-dataObj: grapes.jpg
-----
-collection: /tempZone/home/alice/training_jpgs
-dataObj: seal.jpg
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+$ iquest "SELECT DATA_NAME, COLL_NAME WHERE META_DATA_ATTR_NAME = 'author' AND META_DATA_ATTR_VALUE LIKE '%'"
+DATA_NAME = grapes.jpg
+COLL_NAME = /tempZone/home/alice/training_jpgs
+------------------------------------------------------------
+DATA_NAME = seal.jpg
+COLL_NAME = /tempZone/home/alice/training_jpgs
+------------------------------------------------------------
 \end{lstlisting}
 
 From this search, two data objects were returned: \texttt{grapes.jpg} and \texttt{seal.jpg}. Both have an author attribute.
 
-We can also search for collections based on their metadata. Let's search for collections that have an attribute of \texttt{collection\_type}. Remember, for this we need to use the \texttt{-C} option.
+We can also search for collections based on their metadata. Let's search for collections that have an attribute of \texttt{collection\_type}. For this we need to use the \texttt{META\_COLL\_ATTR\_NAME} attribute in \texttt{iquest}.
 
-\begin{lstlisting}
-$ imeta qu -C collection_type like @\char"0D@%@\char"0D@
-collection: /tempZone/home/alice/training_jpgs
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+$ iquest "SELECT COLL_NAME WHERE META_COLL_ATTR_NAME = 'collection_type' AND META_COLL_ATTR_VALUE LIKE '%'"
+COLL_NAME = /tempZone/home/alice/training_jpgs
+------------------------------------------------------------
 \end{lstlisting}
 
 To modify a data object's AVU with \texttt{imeta}, we must specify the object's name, the attribute name, the attribute's associated value, and the desired new value. To change the author attribute from AJones to BSmith for \texttt{grapes.jpg}, we'll use the \texttt{mod} subcommand and the \texttt{v:} prefix for changing the value of author.
