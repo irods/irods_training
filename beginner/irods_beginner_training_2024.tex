@@ -553,7 +553,7 @@ $ echo @\char36@?
 
 The iRODS server will not be running after setup. Run the following to start the server:
 \begin{lstlisting}
-$ sudo su irods -c "/var/lib/irods/irodsctl start"
+$ sudo su - irods -c "irodsServer -d"
 \end{lstlisting}
 
 Finally, we will activate the delay server on this machine for use later on in this training:
@@ -1643,7 +1643,13 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 \end{lrbox}
 \href{https://github.com/irods/irods_training/blob/ugm2024/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
 
-Save the file and the new rulebases will be activated!  Let's upload a new file to our home collection:
+Save the file, then issue the following command.
+
+\begin{lstlisting}
+$ sudo su - irods -c 'kill -HUP $(cat /var/run/irods/irods-server.pid)'
+\end{lstlisting}
+
+The new rulebases will be activated!  Let's upload a new file to our home collection:
 
 \begin{lstlisting}
 $ wget https://github.com/irods/irods_training/raw/ugm2024/stickers.jpg
