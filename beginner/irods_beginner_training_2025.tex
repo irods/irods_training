@@ -75,10 +75,10 @@
 \textbf{Part of the iRODS User Group Meeting}
 
 \vspace{10mm}
-\textbf{Amsterdam, Netherlands}
+\textbf{Durham, North Carolina}
 
 \vspace{10mm}
-\textbf{May 28, 2024}
+\textbf{June 17, 2025}
 
 \end{center}
 
@@ -787,7 +787,7 @@ $ icd ../alice
 For this training, we will be using a set of images. To prepare your home directory for the following exercises, do the following:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2024/beginner/training_jpgs.zip
+$ wget https://github.com/irods/irods_training/raw/ugm2025/beginner/training_jpgs.zip
 $ sudo apt-get -y install unzip
 $ unzip training_jpgs.zip
 \end{lstlisting}
@@ -1517,7 +1517,7 @@ First, create a file named \texttt{example\_delay.r} with the following content:
 \begin{lrbox}{\exampleDelayRule}
 \lstinputlisting[basicstyle=\scriptsize\ttfamily]{example_delay.r}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2024/beginner/example_delay.r}{\usebox{\exampleDelayRule}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/example_delay.r}{\usebox{\exampleDelayRule}}
 
 This rule will print the string \texttt{Adding delay rule to queue.} to the server log. After 30 seconds, this rule will print the string \texttt{Hello iRODS World!} to the server log, and then every minute thereafter.
 
@@ -1596,13 +1596,13 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstTrainingRuleBase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2024/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2024/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 We will be updating the \texttt{pep\_api\_data\_obj\_put\_post} PEP to provide the desired behavior as the default is an empty definition with no effect.  This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
@@ -1629,7 +1629,7 @@ Add a new python rule engine stanza within ``rule\_engines" just before the ``ir
         },
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2024/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
+\href{https://github.com/irods/irods_training/blob/ugm2025/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
@@ -1641,7 +1641,7 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
                 ],
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2024/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
+\href{https://github.com/irods/irods_training/blob/ugm2025/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
 
 Save the file, then issue the following command to reload the server configuration.
 
@@ -1652,7 +1652,7 @@ $ sudo su - irods -c 'kill -HUP $(cat /var/run/irods/irods-server.pid)'
 The new rulebases will be activated!  Let's upload a new file to our home collection:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2024/stickers.jpg
+$ wget https://github.com/irods/irods_training/raw/ugm2025/stickers.jpg
 $ iput stickers.jpg
 \end{lstlisting}
 
