@@ -69,16 +69,16 @@
 \begin{center}
 
 \vspace{20mm}
-\huge{\textbf{BEGINNER TRAINING WITH iRODS 4.3}}
+\huge{\textbf{BEGINNER TRAINING WITH iRODS 5.0}}
 
 \vspace{60mm}
 \textbf{Part of the iRODS User Group Meeting}
 
 \vspace{10mm}
-\textbf{Amsterdam, Netherlands}
+\textbf{Durham, North Carolina}
 
 \vspace{10mm}
-\textbf{May 28, 2024}
+\textbf{June 17, 2025}
 
 \end{center}
 
@@ -128,7 +128,7 @@ The iRODS Consortium is a group of organizations formally committed to iRODS' su
 
 The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, contributes decision-making and development time to the project.
 
-Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), Wellcome Sanger Institute, Utrecht University, University College London, University of Groningen, SURF, Texas Advanced Computing Center (TACC), Maastricht University, KU Leuven, CUBI at Berlin Institute of Health, Bibliothèque et Archives nationales du Québec (BAnQ), CINES, Omnibond, The Council for Scientific and Industrial Research (CSIR), University of Arizona, IT4Innovations National Supercomputing Center, Globus, GRAU DATA, and three organizations that wish to remain anonymous. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
+Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), Wellcome Sanger Institute, Utrecht University, University of Groningen, SURF, Texas Advanced Computing Center (TACC), Maastricht University, KU Leuven, CUBI at Berlin Institute of Health, Bibliothèque et Archives nationales du Québec (BAnQ), CINES, Omnibond, The Council for Scientific and Industrial Research (CSIR), University of Arizona, IT4Innovations National Supercomputing Center, Globus, GRAU DATA, and three organizations that wish to remain anonymous. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
 
 Consortium members receive a variety of benefits, including prioritized access to support, training, and consulting; and the opportunity to influence the developmental roadmap of future software releases.
 
@@ -472,7 +472,7 @@ $ sudo apt-get update
 To download the core server software execute:
 
 \begin{lstlisting}
-$ sudo apt-get -y install irods-server irods-database-plugin-postgres
+$ sudo apt-get -y install irods-server irods-database-plugin-postgres irods-icommands
 \end{lstlisting}
 
 Then you will be presented with, among other things, this set of messages:
@@ -530,15 +530,12 @@ The \texttt{setup\_irods.py} script will ask for information in four sections.  
 \ugmbullet Zone Port & \colorbox{gray!70}{1247} The main iRODS port. \\
 \ugmbullet Parallel Port Range (Begin) & \colorbox{gray!70}{20000} The beginning of the port range used when transferring large files. \\
 \ugmbullet Parallel Port Range (End) & \colorbox{gray!70}{20199} The end of the port range used when transferring large files. \\
-\ugmbullet Control Plane Port & \colorbox{gray!70}{1248} The port used for the control plane. The control plane receives status updates from all servers, and issues commands to servers to pause, resume, shutdown, etc. \\
-\makecell[l]{\ugmbullet Schema Validation \\ \hspace{8.5mm}Base URI} & \colorbox{gray!70}{file:///var/lib/irods/configuration\_schemas} The location of the schema files used to validate the server's configuration files. \\
 \makecell[l]{\ugmbullet iRODS Administrator \\ \hspace{8.5mm}Username} & \colorbox{gray!70}{rods} The name of the iRODS administration account that will be created during setup. \\
 \hline
 
 \multicolumn{2}{|l|}{4. Keys and Passwords} \\
 \ugmbullet Zone Key & A secret key used in server-to-server communication. \\
 \ugmbullet Negotiation Key & A secret key used in server-to-server communication.  Must be exactly 32 bytes (characters). \\
-\ugmbullet Control Plane Key & A secret key shared by all servers.  Must be exactly 32 bytes (characters).\\
 \makecell[l]{\ugmbullet iRODS Administrator \\ \hspace{8.5mm}Password} & For the purposes of this class, use \texttt{rods}. In the future, however, you will want to use more complex passwords. \\
 \hline
 
@@ -556,7 +553,7 @@ $ echo @\char36@?
 
 The iRODS server will not be running after setup. Run the following to start the server:
 \begin{lstlisting}
-$ sudo su irods -c "/var/lib/irods/irodsctl start"
+$ sudo su - irods -c "irodsServer -d"
 \end{lstlisting}
 
 Finally, we will activate the delay server on this machine for use later on in this training:
@@ -582,7 +579,7 @@ All iCommands accept command line options (e.g., -a for all, -e for echo, -h for
 
 To get help on a specific iCommand (such as \texttt{ils} for listing the contents of a collection), you may
 \begin{itemize}
- \item visit this webpage: \url{https://docs.irods.org/4.3.0/icommands/user/}
+ \item visit this webpage: \url{https://docs.irods.org/5.0.0/icommands/user/}
  \item use the -h option with the command (e.g., \texttt{ils -h}), or
  \item use the \texttt{ihelp} command as the argument with the command you'd like to learn more
          about (e.g., \texttt{ihelp ils}).
@@ -670,7 +667,7 @@ Let's create a storage resource so that Alice can try out iCommands in the next 
 
 Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the local host, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen.
 
-\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+\begin{lstlisting}[basicstyle=\ttfamily]
 $ iadmin mkresc newResc unixfilesystem @\`{}@hostname@\`{}@:/var/lib/irods/new_vault
 \end{lstlisting}
 
@@ -790,7 +787,7 @@ $ icd ../alice
 For this training, we will be using a set of images. To prepare your home directory for the following exercises, do the following:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2024/beginner/training_jpgs.zip
+$ wget https://github.com/irods/irods_training/raw/ugm2025/beginner/training_jpgs.zip
 $ sudo apt-get -y install unzip
 $ unzip training_jpgs.zip
 \end{lstlisting}
@@ -1060,7 +1057,7 @@ $ irm -r /tempZone/home/alice/bw_photos
 We have covered several fundamental iCommands, but there are dozens more that cover copying data between collections, moving data between resources, computing checksums, etc.
 
 You can learn more about any iCommand using the \texttt{-h} command line option, or by visiting \\
-\url{https://docs.irods.org/4.3.0/icommands/user/}.
+\url{https://docs.irods.org/5.0.0/icommands/user/}.
 
 \chapter{Virtualization}
 
@@ -1077,10 +1074,10 @@ Through these interfaces, chiefly composable resources, iRODS users can take adv
 \hline
 Interface & Plugins \\
 \hline
-Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM) \\ LDAP via PAM \\Kerberos* \\ Grid Security Infrastructure (GSI)*} \\
-Network & \makecell[l]{Transmission Control Protocol (TCP) \\ Secure Socket Layer (SSL)} \\
-Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MySQL* \\ CockroachDB (unreleased)*} \\
-Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)* \\ Javascript (unreleased)* \\ Go (unreleased)*} \\
+Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM)} \\
+Network & \makecell[l]{Transmission Control Protocol (TCP) \\ Transport Layer Security (TLS)} \\
+Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MariaDB* \\ MySQL*} \\
+Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)*} \\
 API & An avenue through which new functionality can be added to an iRODS deployment. \\
 Microservices & There are over 350 available, covering a variety of functions. \\
 Composable Resources & There are two kinds of Composable Resources in iRODS: Coordinating and Storage. Both are discussed in more detail in the next section. \\
@@ -1411,12 +1408,13 @@ units: kilobytes
 
 This confirms that the metadata has been added.
 
-Recall that \texttt{imeta} also allows users to search on metadata. You may place conditions on attributes and values by using a comparison operator. For example, using the \texttt{qu} subcommand (meaning query), let's search for an object that has an author of AJones.
+iRODS allows a user to search on metadata via GenQuery, an SQL-inspired query language. You may place conditions on attributes and values by using a comparison operator. For example, using the \texttt{iquest} command, let's search for a data object that has an author of AJones.
 
-\begin{lstlisting}
-$ imeta qu -d author = @\char"0D@AJones@\char"0D@
-collection: /tempZone/home/alice/training_jpgs
-dataObj: seal.jpg
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+$ iquest "SELECT COLL_NAME, DATA_NAME WHERE META_DATA_ATTR_NAME = 'author' AND META_DATA_ATTR_VALUE = 'AJones'"
+COLL_NAME = /tempZone/home/alice/training_jpgs
+DATA_NAME = seal.jpg
+------------------------------------------------------------
 \end{lstlisting}
 
 The data object that has AJones listed as the author is \texttt{seal.jpg} in the \texttt{training\_jpgs} collection.
@@ -1429,25 +1427,26 @@ $ imeta add -d grapes.jpg author AJones
 $ imeta add -d grapes.jpg color_bw color
 \end{lstlisting}
 
-You may also search using wildcards. In iRODS, the percent symbol (\%) is used as the wildcard character. Let's try this out. We'll search for data objects that contain any value for the attribute author, using the \texttt{qu} subcommand and the \texttt{\%} wildcard.
+You may also search using wildcards. In GenQuery, the percent symbol (\%) is used as the wildcard character in LIKE statements. Let's try this out. We'll search for data objects that contain any value for the attribute author, using the \texttt{iquest} command and the \texttt{\%} wildcard.
 
-\begin{lstlisting}
-$ imeta qu -d author like @\char"0D@%@\char"0D@
-
-collection: /tempZone/home/alice/training_jpgs
-dataObj: grapes.jpg
-----
-collection: /tempZone/home/alice/training_jpgs
-dataObj: seal.jpg
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+$ iquest "SELECT COLL_NAME, DATA_NAME WHERE META_DATA_ATTR_NAME = 'author' AND META_DATA_ATTR_VALUE LIKE '%'"
+COLL_NAME = /tempZone/home/alice/training_jpgs
+DATA_NAME = grapes.jpg
+------------------------------------------------------------
+COLL_NAME = /tempZone/home/alice/training_jpgs
+DATA_NAME = seal.jpg
+------------------------------------------------------------
 \end{lstlisting}
 
 From this search, two data objects were returned: \texttt{grapes.jpg} and \texttt{seal.jpg}. Both have an author attribute.
 
-We can also search for collections based on their metadata. Let's search for collections that have an attribute of \texttt{collection\_type}. Remember, for this we need to use the \texttt{-C} option.
+We can also search for collections based on their metadata. Let's search for collections that have an attribute of \texttt{collection\_type}. For this we need to use the \texttt{META\_COLL\_ATTR\_NAME} attribute in \texttt{iquest}.
 
-\begin{lstlisting}
-$ imeta qu -C collection_type like @\char"0D@%@\char"0D@
-collection: /tempZone/home/alice/training_jpgs
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+$ iquest "SELECT COLL_NAME WHERE META_COLL_ATTR_NAME = 'collection_type' AND META_COLL_ATTR_VALUE LIKE '%'"
+COLL_NAME = /tempZone/home/alice/training_jpgs
+------------------------------------------------------------
 \end{lstlisting}
 
 To modify a data object's AVU with \texttt{imeta}, we must specify the object's name, the attribute name, the attribute's associated value, and the desired new value. To change the author attribute from AJones to BSmith for \texttt{grapes.jpg}, we'll use the \texttt{mod} subcommand and the \texttt{v:} prefix for changing the value of author.
@@ -1518,7 +1517,7 @@ First, create a file named \texttt{example\_delay.r} with the following content:
 \begin{lrbox}{\exampleDelayRule}
 \lstinputlisting[basicstyle=\scriptsize\ttfamily]{example_delay.r}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2024/beginner/example_delay.r}{\usebox{\exampleDelayRule}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/example_delay.r}{\usebox{\exampleDelayRule}}
 
 This rule will print the string \texttt{Adding delay rule to queue.} to the server log. After 30 seconds, this rule will print the string \texttt{Hello iRODS World!} to the server log, and then every minute thereafter.
 
@@ -1597,13 +1596,13 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstTrainingRuleBase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2024/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2024/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 We will be updating the \texttt{pep\_api\_data\_obj\_put\_post} PEP to provide the desired behavior as the default is an empty definition with no effect.  This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
@@ -1630,7 +1629,7 @@ Add a new python rule engine stanza within ``rule\_engines" just before the ``ir
         },
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2024/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
+\href{https://github.com/irods/irods_training/blob/ugm2025/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
@@ -1642,12 +1641,18 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
                 ],
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2024/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
+\href{https://github.com/irods/irods_training/blob/ugm2025/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
 
-Save the file and the new rulebases will be activated!  Let's upload a new file to our home collection:
+Save the file, then issue the following command to reload the server configuration.
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2024/stickers.jpg
+$ sudo su - irods -c 'kill -HUP $(cat /var/run/irods/irods-server.pid)'
+\end{lstlisting}
+
+The new rulebases will be activated!  Let's upload a new file to our home collection:
+
+\begin{lstlisting}
+$ wget https://github.com/irods/irods_training/raw/ugm2025/stickers.jpg
 $ iput stickers.jpg
 \end{lstlisting}
 
@@ -1745,9 +1750,6 @@ A Collection is the logical representation of physical containers, similar to di
 
 \item [Composable Resources]
 Composable Resources are plugins that allow you to manage storage and retrieval of data on storage devices. There are two types of composable resources: Coordinating and Storage.
-
-\item [Control Plane]
-The control plane receives status updates from all servers, and issues commands to servers to pause, resume, shut down, etc.
 
 \item [Coordinating Resource]
 A Coordinating Resource is a type of Composable Resource that actively makes decisions about which physical storage device will receive or serve up a Data Object.
