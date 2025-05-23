@@ -1643,7 +1643,7 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 \end{lrbox}
 \href{https://github.com/irods/irods_training/blob/ugm2024/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
 
-Save the file, then issue the following command.
+Save the file, then issue the following command to reload the server configuration.
 
 \begin{lstlisting}
 $ sudo su - irods -c 'kill -HUP $(cat /var/run/irods/irods-server.pid)'
