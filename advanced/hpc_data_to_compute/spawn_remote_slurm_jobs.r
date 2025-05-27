@@ -19,7 +19,7 @@ testRule
     {
      *src_phy_path = *x.DATA_PATH
     }
-    remote(*host, "") {
+    remote(*host, "<INST_NAME>irods_rule_engine_plugin-irods_rule_language-instance</INST_NAME>") {
       writeLine("serverLog", "-----> remoteExec on host [*host]:")
       foreach (*size in split (*thumbnail_sizes, ",")) {
         *dst_phy_path = "/tmp/irods/thumbnails/" ++ "*input_file_name" ++ "_thumbnail_" ++ "*size" ++ "*input_file_ext"
