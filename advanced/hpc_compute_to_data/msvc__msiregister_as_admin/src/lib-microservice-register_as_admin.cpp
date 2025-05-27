@@ -1,55 +1,19 @@
-// =-=-=-=-=-=-=-
-// irods includes
-#include "irods_error.hpp"
-#include "irods_ms_plugin.hpp"
+#include <irods/irods_ms_plugin.hpp>
 
-// system library includes
+#include <irods/apiHeaderAll.h>
+#include <irods/irods_error.hpp>
+#include <irods/reDataObjOpr.hpp>
+#include <irods/rsApiHandler.hpp>
+#include <irods/rsPhyPathReg.hpp>
 
-#include <cstring>
 #include <cstdlib>
-#include <string>
 #include <cstring>
 #include <regex.h>
 #include <string>
 #include <vector>
-#include <boost/regex.hpp>
+
 #include <boost/algorithm/string/regex.hpp>
-
-// iRODS includes
-
-#include "reDataObjOpr.hpp"
-#include "apiHeaderAll.h"
-#include "rsApiHandler.hpp"
-#include "collection.hpp"
-#include "rsDataObjCreate.hpp"
-#include "rsDataObjOpen.hpp"
-#include "rsDataObjClose.hpp"
-#include "rsDataObjRead.hpp"
-#include "rsDataObjWrite.hpp"
-#include "rsDataObjUnlink.hpp"
-#include "rsDataObjRepl.hpp"
-#include "rsDataObjCopy.hpp"
-#include "rsDataObjChksum.hpp"
-#include "rsDataObjLseek.hpp"
-#include "rsDataObjPhymv.hpp"
-#include "rsDataObjRename.hpp"
-#include "rsDataObjTrim.hpp"
-#include "rsCollCreate.hpp"
-#include "rsRmColl.hpp"
-#include "rsPhyPathReg.hpp"
-#include "rsObjStat.hpp"
-#include "rsDataObjRsync.hpp"
-#include "rsOpenCollection.hpp"
-#include "rsReadCollection.hpp"
-#include "rsCloseCollection.hpp"
-#include "rsExecCmd.hpp"
-#include "rsCollRepl.hpp"
-#include "rsModDataObjMeta.hpp"
-#include "rsStructFileExtAndReg.hpp"
-#include "rsModDataObjMeta.hpp"
-#include "rsStructFileBundle.hpp"
-  
-/* --------------dwm--------------- */
+#include <boost/regex.hpp>
 
 int
 msiregister_as_admin( msParam_t *inpParam1, msParam_t *inpParam2,
@@ -145,4 +109,3 @@ irods::ms_table_entry* plugin_factory() {
                              ruleExecInfo_t*)>(msiregister_as_admin));
     return msvc;
 }
-
