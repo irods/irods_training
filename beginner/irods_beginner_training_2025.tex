@@ -1549,7 +1549,7 @@ id     name
 Next, verify that the rule is successfully running by checking the system log. (Please note that the following command may differ depending on your iRODS logging setup.)
 
 \begin{lstlisting}
-$ sudo journalctl -f --no-pager _COMM=irodsServer
+$ sudo journalctl -f | grep 'irods[Server|Agent]'
 \end{lstlisting}
 
 The first message (\texttt{Adding delay rule to queue.}) should be visible.
