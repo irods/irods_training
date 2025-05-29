@@ -871,32 +871,32 @@ $ ils -A -r
        Inheritance - Disabled
  C- /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
-       ACL - alice#tempZone:own   bobby#tempZone:modify object
-       Inheritance - Disabled
- beans.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- coffee.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- eggs.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- grapes.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- lemur.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- mouse.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- peanuts.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- platter.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- scooter.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- seal.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- sources.txt
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
- waffle.jpg
-       ACL - bobby#tempZone:modify object   alice#tempZone:own
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+        Inheritance - Disabled
+  beans.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  coffee.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  eggs.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  grapes.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  lemur.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  mouse.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  peanuts.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  platter.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  scooter.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  seal.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  sources.txt
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
+  waffle.jpg
+        ACL - alice#tempZone:own   bobby#tempZone:modify_object
 \end{lstlisting}
 
 If we want to remove a data object from a collection, the \texttt{irm} command will do that. By default, \texttt{irm} moves the data object to a separate trash collection at \texttt{/tempZone/trash}.
@@ -927,30 +927,30 @@ Now, let's create a Replica (i.e., an identical, physical copy of a data object)
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2024-04-07.14:16 & beans.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2024-04-07.14:16 & coffee.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2024-04-07.14:16 & eggs.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2024-04-07.14:16 & grapes.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2024-04-07.14:16 & lemur.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2024-04-07.14:16 & mouse.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             0 demoResc      1413230 2024-04-07.14:16 & peanuts.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2024-04-07.14:16 & platter.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2024-04-07.14:16 & scooter.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2024-04-07.14:16 & seal.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2024-04-07.14:16 & sources.txt
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
- alice             0 demoResc      1153142 2024-04-07.14:16 & waffle.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
+  alice             0 demoResc      1128069 2025-05-29.00:17 & beans.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
+  alice             0 demoResc       479299 2025-05-29.00:17 & coffee.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
+  alice             0 demoResc       912548 2025-05-29.00:17 & eggs.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
+  alice             0 demoResc       669306 2025-05-29.00:17 & grapes.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
+  alice             0 demoResc      1312007 2025-05-29.00:17 & lemur.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
+  alice             0 demoResc       392585 2025-05-29.00:17 & mouse.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
+  alice             0 demoResc      1413230 2025-05-29.00:22 & peanuts.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
+  alice             0 demoResc      2555592 2025-05-29.00:17 & platter.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
+  alice             0 demoResc      1822077 2025-05-29.00:17 & scooter.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
+  alice             0 demoResc       362833 2025-05-29.00:17 & seal.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
+  alice             0 demoResc          370 2025-05-29.00:17 & sources.txt
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
+  alice             0 demoResc      1153142 2025-05-29.00:17 & waffle.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
 We can see that there is a single replica of each data object (they are all on demoResc and are replica zero). Each data object refers to only one replica right now.
@@ -966,30 +966,32 @@ Now, let's verify that the replica was created (now numbered \texttt{1} on \text
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2024-04-07.14:16 & beans.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2024-04-07.14:16 & coffee.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2024-04-07.14:16 & eggs.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2024-04-07.14:16 & grapes.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2024-04-07.14:16 & lemur.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2024-04-07.14:16 & mouse.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             0 demoResc      1413230 2024-04-07.14:16 & peanuts.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
- alice             1 newResc       1413230 2024-04-07.14:37 & peanuts.jpg
-       newResc     generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2024-04-07.14:16 & platter.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2024-04-07.14:16 & scooter.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2024-04-07.14:16 & seal.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2024-04-07.14:16 & sources.txt
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
+  alice             0 demoResc      1128069 2025-05-29.00:17 & beans.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
+  alice             0 demoResc       479299 2025-05-29.00:17 & coffee.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
+  alice             0 demoResc       912548 2025-05-29.00:17 & eggs.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
+  alice             0 demoResc       669306 2025-05-29.00:17 & grapes.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
+  alice             0 demoResc      1312007 2025-05-29.00:17 & lemur.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
+  alice             0 demoResc       392585 2025-05-29.00:17 & mouse.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
+  alice             0 demoResc      1413230 2025-05-29.00:22 & peanuts.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
+  alice             1 newResc      1413230 2025-05-29.00:24 & peanuts.jpg
+        generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
+  alice             0 demoResc      2555592 2025-05-29.00:17 & platter.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
+  alice             0 demoResc      1822077 2025-05-29.00:17 & scooter.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
+  alice             0 demoResc       362833 2025-05-29.00:17 & seal.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
+  alice             0 demoResc          370 2025-05-29.00:17 & sources.txt
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
+  alice             0 demoResc      1153142 2025-05-29.00:17 & waffle.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
 Suppose you wish to remove a replica. The \texttt{itrim} command is suited to the job. Let's remove the replica of \texttt{peanuts.jpg} from \texttt{demoResc}. If we add the \texttt{-N} command line option, we can specify the number of replicas to keep. To keep only 1 replica, follow \texttt{-N} with number 1. To keep 3, follow it with 3, and so on. If you do not specify a number, iRODS will trim replicas down to 2 by default.
@@ -1006,28 +1008,30 @@ Now let's verify that the replica of \texttt{peanuts.jpg} on \texttt{demoResc} h
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
- alice             0 demoResc      1128069 2024-04-07.14:16 & beans.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
- alice             0 demoResc       479299 2024-04-07.14:16 & coffee.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
- alice             0 demoResc       912548 2024-04-07.14:16 & eggs.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
- alice             0 demoResc       669306 2024-04-07.14:16 & grapes.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
- alice             0 demoResc      1312007 2024-04-07.14:16 & lemur.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
- alice             0 demoResc       392585 2024-04-07.14:16 & mouse.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
- alice             1 newResc       1413230 2024-04-07.14:37 & peanuts.jpg
-       newResc     generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
- alice             0 demoResc      2555592 2024-04-07.14:16 & platter.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
- alice             0 demoResc      1822077 2024-04-07.14:16 & scooter.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
- alice             0 demoResc       362833 2024-04-07.14:16 & seal.jpg
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
- alice             0 demoResc          371 2024-04-07.14:16 & sources.txt
-       demoResc    generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
+  alice             0 demoResc      1128069 2025-05-29.00:17 & beans.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
+  alice             0 demoResc       479299 2025-05-29.00:17 & coffee.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
+  alice             0 demoResc       912548 2025-05-29.00:17 & eggs.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
+  alice             0 demoResc       669306 2025-05-29.00:17 & grapes.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
+  alice             0 demoResc      1312007 2025-05-29.00:17 & lemur.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
+  alice             0 demoResc       392585 2025-05-29.00:17 & mouse.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
+  alice             1 newResc      1413230 2025-05-29.00:24 & peanuts.jpg
+        generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
+  alice             0 demoResc      2555592 2025-05-29.00:17 & platter.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
+  alice             0 demoResc      1822077 2025-05-29.00:17 & scooter.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
+  alice             0 demoResc       362833 2025-05-29.00:17 & seal.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
+  alice             0 demoResc          370 2025-05-29.00:17 & sources.txt
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
+  alice             0 demoResc      1153142 2025-05-29.00:17 & waffle.jpg
+        generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
 We have trimmed the replica only from \texttt{demoResc}. The data object \texttt{peanuts.jpg} now only appears on \texttt{newResc}.
