@@ -564,7 +564,7 @@ $ sudo su - irods -c "irodsServer -d"
 
 Finally, we will activate the delay server on this machine for use later on in this training:
 \begin{lstlisting}
-$ sudo su - irods -c "iadmin set_delay_server $(hostname)"
+$ sudo su - irods -c "iadmin set_delay_server $(hostname -f)"
 \end{lstlisting}
 
 Verify the delay server is running:
@@ -674,7 +674,7 @@ Let's create a storage resource so that Alice can try out iCommands in the next 
 Let's use iadmin to create a second resource, \texttt{newResc}, of the type unixfilesystem, on the local host, and mounted at \texttt{/var/lib/irods/new\_vault}. This will be a single line of text on your screen.
 
 \begin{lstlisting}[basicstyle=\ttfamily]
-$ iadmin mkresc newResc unixfilesystem $(hostname):/var/lib/irods/new_vault
+$ iadmin mkresc newResc unixfilesystem $(hostname -f):/var/lib/irods/new_vault
 \end{lstlisting}
 
 The iadmin command can also be used to remove a user (using rmuser as the argument) or remove a resource (using rmresc as the argument). Use iadmin -h to learn more.
@@ -1199,8 +1199,8 @@ Enter your current iRODS password:
 Now we are ready to create some resources. First, we need to create \texttt{storageResc1} and \texttt{storageResc2}, which will also be unixfilesystem resources.
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-$ iadmin mkresc storageResc1 unixfilesystem $(hostname):/var/lib/irods/storageVault1
-$ iadmin mkresc storageResc2 unixfilesystem $(hostname):/var/lib/irods/storageVault2
+$ iadmin mkresc storageResc1 unixfilesystem $(hostname -f):/var/lib/irods/storageVault1
+$ iadmin mkresc storageResc2 unixfilesystem $(hostname -f):/var/lib/irods/storageVault2
 \end{lstlisting}
 
 Now we will create a replication coordinating resource named \texttt{replResc}.
