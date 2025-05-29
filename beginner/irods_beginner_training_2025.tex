@@ -1417,7 +1417,7 @@ This confirms that the metadata has been added.
 iRODS allows a user to search on metadata via GenQuery, an SQL-inspired query language. You may place conditions on attributes and values by using a comparison operator. For example, using the \texttt{iquest} command, let's search for a data object that has an author of AJones.
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-$ iquest "SELECT COLL_NAME, DATA_NAME WHERE META_DATA_ATTR_NAME = 'author' AND META_DATA_ATTR_VALUE = 'AJones'"
+$ iquest "SELECT COLL_NAME, DATA_NAME WHERE META_DATA_ATTR_NAME = @\char"0D@author@\char"0D@ AND META_DATA_ATTR_VALUE = @\char"0D@AJones@\char"0D@"
 COLL_NAME = /tempZone/home/alice/training_jpgs
 DATA_NAME = seal.jpg
 ------------------------------------------------------------
@@ -1436,7 +1436,7 @@ $ imeta add -d grapes.jpg color_bw color
 You may also search using wildcards. In GenQuery, the percent symbol (\%) is used as the wildcard character in LIKE statements. Let's try this out. We'll search for data objects that contain any value for the attribute author, using the \texttt{iquest} command and the \texttt{\%} wildcard.
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-$ iquest "SELECT COLL_NAME, DATA_NAME WHERE META_DATA_ATTR_NAME = 'author' AND META_DATA_ATTR_VALUE LIKE '%'"
+$ iquest "SELECT COLL_NAME, DATA_NAME WHERE META_DATA_ATTR_NAME = @\char"0D@author@\char"0D@ AND META_DATA_ATTR_VALUE LIKE @\char"0D@%@\char"0D@"
 COLL_NAME = /tempZone/home/alice/training_jpgs
 DATA_NAME = grapes.jpg
 ------------------------------------------------------------
@@ -1450,7 +1450,7 @@ From this search, two data objects were returned: \texttt{grapes.jpg} and \textt
 We can also search for collections based on their metadata. Let's search for collections that have an attribute of \texttt{collection\_type}. For this we need to use the \texttt{META\_COLL\_ATTR\_NAME} attribute in \texttt{iquest}.
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-$ iquest "SELECT COLL_NAME WHERE META_COLL_ATTR_NAME = 'collection_type' AND META_COLL_ATTR_VALUE LIKE '%'"
+$ iquest "SELECT COLL_NAME WHERE META_COLL_ATTR_NAME = @\char"0D@collection_type@\char"0D@ AND META_COLL_ATTR_VALUE LIKE @\char"0D@%@\char"0D@"
 COLL_NAME = /tempZone/home/alice/training_jpgs
 ------------------------------------------------------------
 \end{lstlisting}
@@ -1549,7 +1549,7 @@ id     name
 Next, verify that the rule is successfully running by checking the system log. (Please note that the following command may differ depending on your iRODS logging setup.)
 
 \begin{lstlisting}
-$ sudo journalctl -f | grep 'irods[Server|Agent]'
+$ sudo journalctl -f | grep "irods[Server|Agent]"
 \end{lstlisting}
 
 The first message (\texttt{Adding delay rule to queue.}) should be visible.
@@ -1652,7 +1652,7 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 Save the file, then issue the following command to reload the server configuration.
 
 \begin{lstlisting}
-$ sudo su - irods -c 'kill -HUP $(cat /var/run/irods/irods-server.pid)'
+$ sudo su - irods -c @\char"0D@kill -HUP $(cat /var/run/irods/irods-server.pid)@\char"0D@
 \end{lstlisting}
 
 The new rulebases will be activated!  Let's upload a new file to our home collection:
