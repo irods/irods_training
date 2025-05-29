@@ -682,7 +682,7 @@ The iadmin command can also be used to remove a user (using rmuser as the argume
 Now that we're done with administrative commands, let's log out of iRODS.
 
 \begin{lstlisting}
-$ iexit full
+$ iexit
 \end{lstlisting}
 
 To log in as Alice in the next section, we'll need to throw away the environment file for \texttt{rods}. To do this, execute:
@@ -1143,10 +1143,10 @@ For example, the Replication Coordinating Resource selects the storage resource 
 
 Recall that we created a unixfilesystem storage resource called \texttt{newResc} for Alice to play with. Now we're going to set up automatic replication between \texttt{newResc} and two other resources, which will be named \texttt{storageResc1} and \texttt{storageResc2}.
 
-To set up automatic replication, we will need to use the \texttt{iadmin} command, so we will need to \texttt{iexit full} out of Alice's account and log in as \texttt{rods}, the administrator account.
+To set up automatic replication, we will need to use the \texttt{iadmin} command, so we will need to \texttt{iexit} out of Alice's account and log in as \texttt{rods}, the administrator account.
 
 \begin{lstlisting}
-$ iexit full
+$ iexit
 \end{lstlisting}
 
 To log in as rods, we'll need to throw away Alice's environment file. To do this, execute:
@@ -1360,7 +1360,7 @@ zoo & St. Louis Zoo & Missouri \\
 In many metadata schemes, metadata attributes are defined by name-value pairs, similar to key-value pairs. As you can see from the user-defined example, an attribute-value pair is possible. Units are not required and can be empty strings. Units can also be used for some other descriptor, such as Missouri above.
 
 \section{The \texttt{imeta} Command}
-In iRODS, the main command line utility for handling metadata is \texttt{imeta}. It is used to determine, modify, list, search by, and delete iRODS metadata. Let's use \texttt{imeta} with Alice's account, because she needs to add metadata to her photos. So \texttt{iexit full} from the \texttt{rods} account, delete the rods environment file, and \texttt{iinit} for Alice. Do you remember how to do this on your own? Give it a try. If you get stuck, take a look at \hyperref[sec:logging_in_with_alice]{Logging In with Alice in Chapter 5: Using iCommands}.
+In iRODS, the main command line utility for handling metadata is \texttt{imeta}. It is used to determine, modify, list, search by, and delete iRODS metadata. Let's use \texttt{imeta} with Alice's account, because she needs to add metadata to her photos. So \texttt{iexit} from the \texttt{rods} account, delete the rods environment file, and \texttt{iinit} for Alice. Do you remember how to do this on your own? Give it a try. If you get stuck, take a look at \hyperref[sec:logging_in_with_alice]{Logging In with Alice in Chapter 5: Using iCommands}.
 
 Let's add an AVU to the collection \texttt{training\_jpgs} that we created earlier with a recursive put. To create metadata for this collection we'll use the add subcommand and the \texttt{-C} option, which signifies that we are adding metadata to a collection. (The \texttt{-d} option is used for adding metadata to a data object, \texttt{-R} for resources, and \texttt{-u} for users.)
 
