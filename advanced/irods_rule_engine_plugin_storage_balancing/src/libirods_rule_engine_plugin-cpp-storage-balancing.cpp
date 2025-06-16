@@ -192,6 +192,16 @@ namespace {
 }
 
 static
+irods::error setup(irods::default_re_ctx&, const std::string&) {
+    return SUCCESS();
+}
+
+static
+irods::error teardown(irods::default_re_ctx&, const std::string&) {
+    return SUCCESS();
+}
+
+static
 irods::error start(irods::default_re_ctx&, const std::string&) {
     RuleExistsHelper::Instance()->registerRuleRegex( "[^ ]*pep_resource_resolve_hierarchy_pre" );
     return SUCCESS();
@@ -280,6 +290,12 @@ extern "C"
 irods::pluggable_rule_engine<irods::default_re_ctx>* plugin_factory(const std::string& _instance_name,
                                  const std::string& _context) {
     auto re{new irods::pluggable_rule_engine<irods::default_re_ctx>(_instance_name , _context)};
+    re->add_operation(
+            "setup",
+            std::function<irods::error(irods::default_re_ctx&, const std::string&)>(setup));
+    re->add_operation(
+            "teardown",
+            std::function<irods::error(irods::default_re_ctx&, const std::string&)>(teardown));
     re->add_operation(
             "start",
             std::function<irods::error(irods::default_re_ctx&, const std::string&)>(start));
