@@ -465,13 +465,22 @@ iRODS is split into a series of packages that declare dependencies on one anothe
 
 iRODS software can be installed via the native operating system's package manager.
 
+\newpage
 To install the RENCI repository that hosts the iRODS software, execute the \textbf{APT} instructions located at \url{https://packages.irods.org}:
 
 \begin{lstlisting}
-$ wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add -
-$ echo "deb [arch=amd64] https://packages.irods.org/apt/ \
-	@\char36@(lsb_release -sc) main" | sudo tee \
-	/etc/apt/sources.list.d/renci-irods.list
+$ wget -qO - https://packages.irods.org/irods-signing-key.asc | \
+  sudo gpg \
+    --no-options \
+    --no-default-keyring \
+    --no-auto-check-trustdb \
+    --homedir /dev/null \
+    --no-keyring \
+    --import-options import-export \
+    --output /etc/apt/keyrings/renci-irods-archive-keyring.pgp \
+    --import
+$ echo "deb [signed-by=/etc/apt/keyrings/renci-irods-archive-keyring.pgp arch=amd64] https://packages.irods.org/apt/ @\char36@(lsb_release -sc) main" | \
+  sudo tee /etc/apt/sources.list.d/renci-irods.list
 $ sudo apt-get update
 \end{lstlisting}
 
