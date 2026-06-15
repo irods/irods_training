@@ -75,10 +75,10 @@
 \textbf{Part of the iRODS User Group Meeting}
 
 \vspace{10mm}
-\textbf{Durham, North Carolina}
+\textbf{Barcelona, Spain}
 
 \vspace{10mm}
-\textbf{June 17, 2025}
+\textbf{June 29, 2026}
 
 \end{center}
 
@@ -128,7 +128,7 @@ The iRODS Consortium is a group of organizations formally committed to iRODS' su
 
 The iRODS Consortium is operated at the University of North Carolina at Chapel Hill (UNC) by RENCI (Renaissance Computing Institute), a research institute of UNC. Consortium governance is provided through an Executive Board and Planning Committee. A Technology Working Group, composed of Consortium staff and satellite teams, contributes decision-making and development time to the project.
 
-Current Consortium members include RENCI, Bayer, The National Institute of Environmental Health Sciences (NIEHS), Wellcome Sanger Institute, Utrecht University, University of Groningen, SURF, Texas Advanced Computing Center (TACC), Maastricht University, KU Leuven, CUBI at Berlin Institute of Health, Bibliothèque et Archives nationales du Québec (BAnQ), CINES, Omnibond, The Council for Scientific and Industrial Research (CSIR), University of Arizona, IT4Innovations National Supercomputing Center, Globus, Wageningen University and Research (WUR), The Netherlands Cancer Institute (NKI), and three organizations that wish to remain anonymous. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
+Current Consortium members include RENCI, The National Institute of Environmental Health Sciences (NIEHS), Wellcome Sanger Institute, Utrecht University, University of Groningen, SURF, Maastricht University, KU Leuven, CUBI at Berlin Institute of Health, Bibliothèque et Archives nationales du Québec (BAnQ), The Council for Scientific and Industrial Research (CSIR), University of Arizona, IT4Innovations National Supercomputing Center, Globus, The George Washington University, Wageningen University and Research (WUR), The Netherlands Cancer Institute (NKI), the National Center for High-Performance Computing (NCHC), IBM, Leiden University, Scripps Research, and two organizations that wish to remain anonymous. Membership is open to anyone interested in sustaining iRODS' success and participating in the iRODS community.
 
 Consortium members receive a variety of benefits, including prioritized access to support, training, and consulting; and the opportunity to influence the developmental roadmap of future software releases.
 
@@ -239,7 +239,7 @@ Each iRODS deployment---or Zone---is composed of an iRODS Metadata Catalog datab
  \item user information.
  \end{itemize}
 
-Currently, PostgreSQL, MySQL, and Oracle are the officially supported database technologies that may be used to implement an iRODS Catalog database.
+Currently, PostgreSQL and MySQL/MariaDB are the officially supported database technologies that may be used to implement an iRODS Catalog database.
 
 All iRODS servers in a Zone run the same core code and are peers. Each server may have its own set of policies, rules, and plugins. However, the Catalog Provider holds the connection to and communicates with the iRODS Catalog database. Consumer servers must communicate with the database by connecting through the Catalog Provider. A zone may have as many Consumer servers as needed. Using multiple Consumer servers can enhance the performance, security, and resilience of a Zone by providing redundancy, both within a single location and distributed geographically.
 
@@ -262,7 +262,7 @@ With iRODS, organizations can share data, or federate, by simply adding a few bi
 
 Your organization may have defined, formally or informally, policies and procedures for access control, backup, data migration, data preparation, metadata extraction, and more. These organizational policies can be implemented in iRODS through the use of rules, which can help you customize and automate related data management tasks.
 
-Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages if a rule engine plugin exists for that language.  As of the time of publication, there are released rule engine plugins for the iRODS Rule Language, C++, and Python.  There are experimental rule engine plugins for Javascript and Go.
+Rules can be written in the iRODS' rule language, which uses many familiar programming constructs (e.g., loops, conditional statements), making it easy for your organization's developers to construct rules to satisfy your data needs.  Rules can also be written in other supported languages if a rule engine plugin exists for that language.  As of the time of publication, there are released rule engine plugins for the iRODS Rule Language, C++, and Python.
 
 Rules are executed based on conditions or, in iRODS parlance, Policy Enforcement Points (PEPs). Consider, for example, a rule to transfer ownership of data objects to the project manager when a user is deleted; the trigger---or PEP---is the deletion of the user. Similarly, rules could be written to extract metadata or pre-process data whenever a file is uploaded to a storage device. Or, upon access to particular data objects, a rule can create a log of the event, send an email notification to the project manager, or perform some other task you need to occur as a result of the data's access.
 
@@ -479,7 +479,8 @@ $ wget -qO - https://packages.irods.org/irods-signing-key.asc | \
     --import-options import-export \
     --output /etc/apt/keyrings/renci-irods-archive-keyring.pgp \
     --import
-$ echo "deb [signed-by=/etc/apt/keyrings/renci-irods-archive-keyring.pgp arch=amd64] https://packages.irods.org/apt/ @\char36@(lsb_release -sc) main" | \
+$ echo "deb [signed-by=/etc/apt/keyrings/renci-irods-archive-keyring.pgp arch=amd64] \
+  https://packages.irods.org/apt/ @\char36@(lsb_release -sc) main" | \
   sudo tee /etc/apt/sources.list.d/renci-irods.list
 $ sudo apt-get update
 \end{lstlisting}
@@ -487,7 +488,7 @@ $ sudo apt-get update
 To download the core server software execute:
 
 \begin{lstlisting}
-$ sudo apt-get -y install irods-server irods-database-plugin-postgres irods-icommands
+$ sudo apt-get -y install irods-server irods-database-plugin-postgres
 \end{lstlisting}
 
 Then you will be presented with, among other things, this set of messages:
@@ -594,7 +595,7 @@ All iCommands accept command line options (e.g., -a for all, -e for echo, -h for
 
 To get help on a specific iCommand (such as \texttt{ils} for listing the contents of a collection), you may
 \begin{itemize}
- \item visit this webpage: \url{https://docs.irods.org/5.0.0/icommands/user/}
+ \item visit this webpage: \url{https://docs.irods.org/5.0.2/icommands/user/}
  \item use the -h option with the command (e.g., \texttt{ils -h}), or
  \item use the \texttt{ihelp} command as the argument with the command you'd like to learn more
          about (e.g., \texttt{ihelp ils}).
@@ -802,7 +803,7 @@ $ icd ../alice
 For this training, we will be using a set of images. To prepare your home directory for the following exercises, do the following:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2025/beginner/training_jpgs.zip
+$ wget https://github.com/irods/irods_training/raw/ugm2026/beginner/training_jpgs.zip
 $ sudo apt-get -y install unzip
 $ unzip training_jpgs.zip
 \end{lstlisting}
@@ -936,29 +937,29 @@ Now, let's create a Replica (i.e., an identical, physical copy of a data object)
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L /tempZone/home/alice/training_jpgs
 /tempZone/home/alice/training_jpgs:
-  alice             0 demoResc      1128069 2025-05-29.00:17 & beans.jpg
+  alice             0 demoResc      1128069 2026-05-29.00:17 & beans.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
-  alice             0 demoResc       479299 2025-05-29.00:17 & coffee.jpg
+  alice             0 demoResc       479299 2026-05-29.00:17 & coffee.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
-  alice             0 demoResc       912548 2025-05-29.00:17 & eggs.jpg
+  alice             0 demoResc       912548 2026-05-29.00:17 & eggs.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
-  alice             0 demoResc       669306 2025-05-29.00:17 & grapes.jpg
+  alice             0 demoResc       669306 2026-05-29.00:17 & grapes.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
-  alice             0 demoResc      1312007 2025-05-29.00:17 & lemur.jpg
+  alice             0 demoResc      1312007 2026-05-29.00:17 & lemur.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
-  alice             0 demoResc       392585 2025-05-29.00:17 & mouse.jpg
+  alice             0 demoResc       392585 2026-05-29.00:17 & mouse.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
-  alice             0 demoResc      1413230 2025-05-29.00:22 & peanuts.jpg
+  alice             0 demoResc      1413230 2026-05-29.00:22 & peanuts.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
-  alice             0 demoResc      2555592 2025-05-29.00:17 & platter.jpg
+  alice             0 demoResc      2555592 2026-05-29.00:17 & platter.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
-  alice             0 demoResc      1822077 2025-05-29.00:17 & scooter.jpg
+  alice             0 demoResc      1822077 2026-05-29.00:17 & scooter.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
-  alice             0 demoResc       362833 2025-05-29.00:17 & seal.jpg
+  alice             0 demoResc       362833 2026-05-29.00:17 & seal.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
-  alice             0 demoResc          370 2025-05-29.00:17 & sources.txt
+  alice             0 demoResc          370 2026-05-29.00:17 & sources.txt
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
-  alice             0 demoResc      1153142 2025-05-29.00:17 & waffle.jpg
+  alice             0 demoResc      1153142 2026-05-29.00:17 & waffle.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
@@ -975,31 +976,31 @@ Now, let's verify that the replica was created (now numbered \texttt{1} on \text
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
-  alice             0 demoResc      1128069 2025-05-29.00:17 & beans.jpg
+  alice             0 demoResc      1128069 2026-05-29.00:17 & beans.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
-  alice             0 demoResc       479299 2025-05-29.00:17 & coffee.jpg
+  alice             0 demoResc       479299 2026-05-29.00:17 & coffee.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
-  alice             0 demoResc       912548 2025-05-29.00:17 & eggs.jpg
+  alice             0 demoResc       912548 2026-05-29.00:17 & eggs.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
-  alice             0 demoResc       669306 2025-05-29.00:17 & grapes.jpg
+  alice             0 demoResc       669306 2026-05-29.00:17 & grapes.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
-  alice             0 demoResc      1312007 2025-05-29.00:17 & lemur.jpg
+  alice             0 demoResc      1312007 2026-05-29.00:17 & lemur.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
-  alice             0 demoResc       392585 2025-05-29.00:17 & mouse.jpg
+  alice             0 demoResc       392585 2026-05-29.00:17 & mouse.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
-  alice             0 demoResc      1413230 2025-05-29.00:22 & peanuts.jpg
+  alice             0 demoResc      1413230 2026-05-29.00:22 & peanuts.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/peanuts.jpg
-  alice             1 newResc      1413230 2025-05-29.00:24 & peanuts.jpg
+  alice             1 newResc      1413230 2026-05-29.00:24 & peanuts.jpg
         generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
-  alice             0 demoResc      2555592 2025-05-29.00:17 & platter.jpg
+  alice             0 demoResc      2555592 2026-05-29.00:17 & platter.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
-  alice             0 demoResc      1822077 2025-05-29.00:17 & scooter.jpg
+  alice             0 demoResc      1822077 2026-05-29.00:17 & scooter.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
-  alice             0 demoResc       362833 2025-05-29.00:17 & seal.jpg
+  alice             0 demoResc       362833 2026-05-29.00:17 & seal.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
-  alice             0 demoResc          370 2025-05-29.00:17 & sources.txt
+  alice             0 demoResc          370 2026-05-29.00:17 & sources.txt
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
-  alice             0 demoResc      1153142 2025-05-29.00:17 & waffle.jpg
+  alice             0 demoResc      1153142 2026-05-29.00:17 & waffle.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
@@ -1017,29 +1018,29 @@ Now let's verify that the replica of \texttt{peanuts.jpg} on \texttt{demoResc} h
 \begin{lstlisting}[basicstyle=\tiny\ttfamily]
 $ ils @\char45@L training_jpgs
 /tempZone/home/alice/training_jpgs:
-  alice             0 demoResc      1128069 2025-05-29.00:17 & beans.jpg
+  alice             0 demoResc      1128069 2026-05-29.00:17 & beans.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/beans.jpg
-  alice             0 demoResc       479299 2025-05-29.00:17 & coffee.jpg
+  alice             0 demoResc       479299 2026-05-29.00:17 & coffee.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/coffee.jpg
-  alice             0 demoResc       912548 2025-05-29.00:17 & eggs.jpg
+  alice             0 demoResc       912548 2026-05-29.00:17 & eggs.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/eggs.jpg
-  alice             0 demoResc       669306 2025-05-29.00:17 & grapes.jpg
+  alice             0 demoResc       669306 2026-05-29.00:17 & grapes.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/grapes.jpg
-  alice             0 demoResc      1312007 2025-05-29.00:17 & lemur.jpg
+  alice             0 demoResc      1312007 2026-05-29.00:17 & lemur.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/lemur.jpg
-  alice             0 demoResc       392585 2025-05-29.00:17 & mouse.jpg
+  alice             0 demoResc       392585 2026-05-29.00:17 & mouse.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/mouse.jpg
-  alice             1 newResc      1413230 2025-05-29.00:24 & peanuts.jpg
+  alice             1 newResc      1413230 2026-05-29.00:24 & peanuts.jpg
         generic    /var/lib/irods/new_vault/home/alice/training_jpgs/peanuts.jpg
-  alice             0 demoResc      2555592 2025-05-29.00:17 & platter.jpg
+  alice             0 demoResc      2555592 2026-05-29.00:17 & platter.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/platter.jpg
-  alice             0 demoResc      1822077 2025-05-29.00:17 & scooter.jpg
+  alice             0 demoResc      1822077 2026-05-29.00:17 & scooter.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/scooter.jpg
-  alice             0 demoResc       362833 2025-05-29.00:17 & seal.jpg
+  alice             0 demoResc       362833 2026-05-29.00:17 & seal.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/seal.jpg
-  alice             0 demoResc          370 2025-05-29.00:17 & sources.txt
+  alice             0 demoResc          370 2026-05-29.00:17 & sources.txt
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/sources.txt
-  alice             0 demoResc      1153142 2025-05-29.00:17 & waffle.jpg
+  alice             0 demoResc      1153142 2026-05-29.00:17 & waffle.jpg
         generic    /var/lib/irods/Vault/home/alice/training_jpgs/waffle.jpg
 \end{lstlisting}
 
@@ -1076,7 +1077,7 @@ $ irm -r /tempZone/home/alice/bw_photos
 We have covered several fundamental iCommands, but there are dozens more that cover copying data between collections, moving data between resources, computing checksums, etc.
 
 You can learn more about any iCommand using the \texttt{-h} command line option, or by visiting \\
-\url{https://docs.irods.org/5.0.0/icommands/user/}.
+\url{https://docs.irods.org/5.0.2/icommands/user/}.
 
 \chapter{Virtualization}
 
@@ -1084,7 +1085,7 @@ In computer science, virtualization is the process of providing one abstract int
 
 iRODS has a modular architecture with 7 pluggable interfaces that allow different services (i.e., iRODS plugins) to communicate with iRODS core code. Because these plugins are separate from core code, new functionality can be added without having to edit or recompile core code.
 
-Through these interfaces, chiefly composable resources, iRODS users can take advantage of storage virtualization. iRODS users are provided with a uniform interface that supports the implementation of consistent data management policies and practices regardless of different types or numbers of storage. For example, data could be stored on Amazon S3, a Unix file system, and Web Object Scaler (DataDirect Network's block storage appliance), yet data retrieval, sharing, and replication could be handled in the same way regardless of device differences.
+Through these interfaces, chiefly composable resources, iRODS users can take advantage of storage virtualization. iRODS users are provided with a uniform interface that supports the implementation of consistent data management policies and practices regardless of different types or numbers of storage. For example, data could be stored on Amazon S3, a Unix file system, and a tape system, yet data retrieval, sharing, and replication could be handled in the same way regardless of device differences.
 
 \vspace{-5mm}
 \begin{center}
@@ -1093,9 +1094,9 @@ Through these interfaces, chiefly composable resources, iRODS users can take adv
 \hline
 Interface & Plugins \\
 \hline
-Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM)} \\
+Authentication & \vspace{-6mm}\makecell[l]{Native (iRODS password) \\ Pluggable Authentication Module (PAM)*} \\
 Network & \makecell[l]{Transmission Control Protocol (TCP) \\ Transport Layer Security (TLS)} \\
-Database & \makecell[l]{Oracle* \\ PostgreSQL* \\ MariaDB* \\ MySQL*} \\
+Database & \makecell[l]{PostgreSQL* \\ MariaDB* \\ MySQL*} \\
 Rule Engine & \vspace{-3mm}\makecell[l]{iRODS Rule Language \\ Python* \\ C++ (various)*} \\
 API & An avenue through which new functionality can be added to an iRODS deployment. \\
 Microservices & There are over 350 available, covering a variety of functions. \\
@@ -1138,7 +1139,7 @@ Storage Resources are the logical representations of---or pointers to---physical
 \begin{tabular}{ |l|p{10cm}| }
 \hline
 Unix File System & This type of storage resource communicates with a storage device through the standard POSIX interface \\
-S3* & Amazon's or any other S3-compatible storage service \\
+S3* & Amazon or other S3-compatible storage service \\
 Universal Mass Storage & For use with Compound resources, such as tape-based archives \\
 \hline
 \end{tabular}
@@ -1536,7 +1537,7 @@ First, create a file named \texttt{example\_delay.r} with the following content:
 \begin{lrbox}{\exampleDelayRule}
 \lstinputlisting[basicstyle=\scriptsize\ttfamily]{example_delay.r}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/example_delay.r}{\usebox{\exampleDelayRule}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2026/beginner/example_delay.r}{\usebox{\exampleDelayRule}}
 
 This rule will print the string \texttt{Adding delay rule to queue.} to the server log. After 30 seconds, this rule will print the string \texttt{Hello iRODS World!} to the server log, and then every minute thereafter.
 
@@ -1615,13 +1616,13 @@ The example rulebases below (\texttt{training.re} and \texttt{core.py}) work tog
 \begin{lrbox}{\lstTrainingRuleBase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{training.re}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2026/beginner/training.re}{\usebox{\lstTrainingRuleBase}}
 
 \vspace{5mm}
 \begin{lrbox}{\lstPythonRulebase}
 \lstinputlisting[language=Python,basicstyle=\scriptsize\ttfamily]{core.py}
 \end{lrbox}
-\href{https://raw.githubusercontent.com/irods/irods_training/ugm2025/beginner/core.py}{\usebox{\lstPythonRulebase}}
+\href{https://raw.githubusercontent.com/irods/irods_training/ugm2026/beginner/core.py}{\usebox{\lstPythonRulebase}}
 
 We will be updating the \texttt{pep\_api\_data\_obj\_put\_post} PEP to provide the desired behavior as the default is an empty definition with no effect.  This PEP is triggered after a data object is at rest (i.e., when all the bits have been uploaded and the data object is registered in iRODS), and this suits our purposes because after StockPhotoSite (SPS) data objects have been uploaded to iRODS, we will want the metadata to be harvested and applied to data objects for later discovery by SPS users.
 
@@ -1648,7 +1649,7 @@ Add a new python rule engine stanza within ``rule\_engines" just before the ``ir
         },
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2025/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
+\href{https://github.com/irods/irods_training/blob/ugm2026/beginner/server_config.json#L41-L45}{\usebox{\lstServerConfigA}}
 
 And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
 
@@ -1660,7 +1661,7 @@ And add the new \texttt{training.re} rulebase to ``re\_rulebase\_set":
                 ],
 \end{lstlisting}
 \end{lrbox}
-\href{https://github.com/irods/irods_training/blob/ugm2025/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
+\href{https://github.com/irods/irods_training/blob/ugm2026/beginner/server_config.json#L56-L59}{\usebox{\lstServerConfigB}}
 
 Save the file, then issue the following command to reload the server configuration.
 
@@ -1671,7 +1672,7 @@ $ sudo su - irods -c @\char"0D@kill -HUP $(cat /var/run/irods/irods-server.pid)@
 The new rulebases will be activated!  Let's upload a new file to our home collection:
 
 \begin{lstlisting}
-$ wget https://github.com/irods/irods_training/raw/ugm2025/stickers.jpg
+$ wget https://github.com/irods/irods_training/raw/ugm2026/stickers.jpg
 $ iput stickers.jpg
 \end{lstlisting}
 
@@ -1785,7 +1786,7 @@ The hardware, operating system, and other machinery that support a Zone.
 iCommands are Unix utilities that give users a command-line interface to operate on data in iRODS.
 
 \item [iRODS Catalog]
-The iRODS Metadata Catalog is a database (e.g. PostgreSQL, MySQL, Oracle) that stores metadata about the Data Objects, Collections, Users, and Groups in an iRODS Zone. There is one iRODS Catalog per iRODS Zone.
+The iRODS Metadata Catalog is a database (e.g. PostgreSQL, MySQL/MariaDB) that stores metadata about the Data Objects, Collections, Users, and Groups in an iRODS Zone. There is one iRODS Catalog per iRODS Zone.
 
 \item [Microservice]
 A microservice is a small, well-defined procedure that performs a server-side task and is either compiled into the iRODS server code or packaged independently as a shared object. Rules invoke Microservices to implement data management policies.
