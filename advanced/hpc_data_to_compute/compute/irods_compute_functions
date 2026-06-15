@@ -1,5 +1,9 @@
 
-MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+_SLURM_CLUSTER=${SLURM_CLUSTER_NAME}
+if [ -z "$_SLURM_CLUSTER" ] || [ "$_SLURM_CLUSTER" = "(null)" ]; then
+  _SLURM_CLUSTER=$(grep '^ClusterName=' "${SLURM_CONF:-/etc/slurm/slurm.conf}" | cut -d= -f2)
+fi
+MUTX=${_SLURM_CLUSTER}_slurmjob_${SLURM_JOB_ID}.txt
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 #
@@ -22,7 +26,7 @@ create_irods_slurm_desc ()
     UUID=$(uuidgen -t)
   fi
 
-  local MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+  local MUTX=${_SLURM_CLUSTER}_slurmjob_${SLURM_JOB_ID}.txt
   touch /tmp/$MUTX
 
   if iput /tmp/$MUTX >/dev/null 2>&1 
@@ -43,7 +47,7 @@ test_irods_slurm_desc ()
  local result=""
  local UUID=${1:-$(get_irods_slurm_var uuid)}
 
- local MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+ local MUTX=${_SLURM_CLUSTER}_slurmjob_${SLURM_JOB_ID}.txt
 
  [ -f /tmp/$UUID -a -f /tmp/$MUTX ] && \
  [ "$(stat -c%i "/tmp/$UUID")" = "$(stat -c%i "/tmp/$MUTX")" ]
@@ -51,7 +55,7 @@ test_irods_slurm_desc ()
 
 destroy_irods_slurm_desc () 
 {
-  local MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+  local MUTX=${_SLURM_CLUSTER}_slurmjob_${SLURM_JOB_ID}.txt
   if [ -f /tmp/"$MUTX" ];  then
     local UUID=$(get_irods_slurm_var uuid)
     rm -f /tmp/"$MUTX"
@@ -63,7 +67,7 @@ destroy_irods_slurm_desc ()
 
 get_irods_slurm_desc ()
 {
-  local MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+  local MUTX=${_SLURM_CLUSTER}_slurmjob_${SLURM_JOB_ID}.txt
   echo -n "$MUTX"
 }
 
@@ -73,7 +77,7 @@ get_irods_slurm_desc ()
 
 set_irods_slurm_var ()
 {
-  local MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+  local MUTX=${_SLURM_CLUSTER}_slurmjob_${SLURM_JOB_ID}.txt
   imeta set -d "$MUTX" "$1" "$2" ${3+"$3"}
 }
 
@@ -83,7 +87,7 @@ get_irods_slurm_var ()
 {
   local status=0
 
-  local MUTX=${SLURM_CLUSTER_NAME}_slurmjob_${SLURM_JOB_ID}.txt
+  local MUTX=${_SLURM_CLUSTER}_slurmjob_${SLURM_JOB_ID}.txt
   local result=$(iquest '%s' \
    "select META_DATA_ATTR_VALUE where \
     DATA_NAME = '$MUTX'  and \
